@@ -363,7 +363,20 @@ $(document).ready(function() {
     $('.modern-dropdown').select2({
         placeholder: 'Pilih...',
         allowClear: false, // Hilangkan tombol clear (remove all)
-        width: '100%'
+        width: '100%',
+        // Pastikan teks sejajar dalam dropdown dan yang keluar dari pilihan
+        templateResult: function(data) {
+            if (!data.id) { return data.text; }
+            // Bungkus teks dalam span untuk kontrol styling yang lebih baik
+            var $span = $('<span>' + data.text + '</span>');
+            return $span;
+        },
+        templateSelection: function(data) {
+            if (!data.id) { return data.text; }
+            // Bungkus teks dalam span untuk kontrol styling yang lebih baik
+            var $span = $('<span>' + data.text + '</span>');
+            return $span;
+        }
     });
 
     // Pastikan event change tetap bekerja pada Select2

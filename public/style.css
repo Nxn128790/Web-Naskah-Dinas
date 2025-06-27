@@ -17,19 +17,30 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Mencegah copy text */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard */
+    /* Mencegah drag teks */
+    -webkit-user-drag: none; /* Safari */
+    /* Mencegah menu konteks (klik kanan) pada iOS Safari */
+    -webkit-touch-callout: none;
 }
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-dark);
-    line-height: 1.6;
+    line-height: 1.6; /* Pastikan line-height konsisten */
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
     padding: 40px 20px;
     font-size: 16px;
+    /* Mencegah zoom pada website (khususnya mobile) */
+    touch-action: manipulation;
 }
 
 .container {
@@ -121,6 +132,8 @@ select {
     color: var(--text-dark);
     background-color: #fff;
     transition: all 0.3s ease;
+    line-height: 1.6; /* Pastikan line-height konsisten dengan body */
+    vertical-align: middle; /* Membantu penjajaran vertikal */
 }
 
 input[type="text"]::placeholder,
@@ -157,6 +170,7 @@ button {
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px var(--shadow-light);
+    line-height: 1.6; /* Pastikan line-height konsisten */
 }
 
 .add-button {
@@ -202,6 +216,7 @@ button {
     border-bottom: 1px dashed var(--border-color);
     font-size: 0.95em;
     color: var(--text-dark);
+    line-height: 1.6; /* Pastikan line-height konsisten */
 }
 
 .item-list div:last-child {
@@ -217,6 +232,7 @@ button {
     font-weight: 600;
     transition: background-color 0.3s ease;
     box-shadow: none; /* Hilangkan shadow default button */
+    line-height: 1.6; /* Pastikan line-height konsisten */
 }
 
 .list-remove-btn:hover {
@@ -254,7 +270,7 @@ button {
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 43px !important; /* Adjust line-height */
+    line-height: 1.6 !important; /* Pastikan line-height konsisten dengan body dan input */
     color: var(--text-dark);
     padding-left: 15px;
     padding-right: 45px; /* Space for arrow */
@@ -266,6 +282,9 @@ button {
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+    white-space: nowrap; /* Mencegah teks melompat baris */
+    overflow: hidden; /* Sembunyikan teks yang meluap */
+    text-overflow: ellipsis; /* Tambahkan elipsis (...) untuk teks yang meluap */
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -298,6 +317,8 @@ button {
 .select2-results__option {
     padding: 12px 15px;
     font-size: 1em;
+    line-height: 1.6; /* Pastikan line-height konsisten */
+    vertical-align: middle; /* Membantu penjajaran vertikal */
 }
 
 .select2-results__option--highlighted.select2-results__option--selectable {
@@ -352,7 +373,7 @@ button {
         font-size: 0.95em;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 40px !important;
+        line-height: 1.6 !important; /* Pastikan line-height konsisten */
         padding-left: 12px;
         padding-right: 40px;
         font-size: 0.95em;
@@ -413,7 +434,7 @@ button {
         font-size: 0.9em;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 38px !important;
+        line-height: 1.6 !important; /* Pastikan line-height konsisten */
         padding-left: 10px;
         padding-right: 35px;
         font-size: 0.9em;

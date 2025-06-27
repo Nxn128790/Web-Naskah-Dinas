@@ -138,15 +138,41 @@ button:hover {
 }
 
 #pegawai-list div, #pengikut-list div {
-    margin: 4px 0;
+    margin: 6px 0;
     font-size: 0.98em;
     color: #555;
     border-bottom: 1px solid #eaeaea;
     padding-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px; /* sama dengan dropdown dan tombol */
 }
 
 #pegawai-list div:last-child, #pengikut-list div:last-child {
     border-bottom: none;
+}
+
+.list-remove-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    min-width: 80px;
+    height: 40px;
+    margin-left: auto;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.98em;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+}
+
+.list-remove-btn:hover {
+    background-color: #c0392b;
 }
 
 .form-group select,
@@ -159,6 +185,175 @@ button:hover {
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
+}
+
+/* Select2 Modern Dropdown Customization */
+.select2-container--default .select2-selection--single {
+    height: 40px;
+    border: 1px solid #dcdcdc;
+    border-radius: 7px;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 0.97em;
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px !important;
+    color: #333;
+    padding-left: 12px;
+    padding-right: 32px;
+    font-size: 0.97em;
+    text-align: left;
+    text-indent: 0;
+    margin-right: 0;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+    right: 8px;
+    top: 1px;
+    left: auto;
+    margin: 0;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.13);
+}
+
+.select2-dropdown {
+    border: 1px solid #007bff;
+    border-radius: 7px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    font-size: 0.97em;
+}
+
+.select2-search input {
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+    font-size: 0.97em;
+}
+
+.select2-results__option {
+    padding: 10px 12px;
+    font-size: 0.97em;
+}
+
+.select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-results__option--selected {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+/* Make sure all select2 dropdowns are 100% width */
+.select2-container {
+    width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+#naskah.select2-hidden-accessible + .select2-container {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-width: 0;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+#naskah.select2-hidden-accessible + .select2-container .select2-selection--single {
+    height: 40px;
+    border-radius: 7px;
+    border: 1px solid #dcdcdc;
+    background: #fcfcfc;
+    font-size: 0.97em;
+    display: flex;
+    align-items: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#naskah.select2-hidden-accessible + .select2-container .select2-selection__rendered {
+    line-height: 38px !important;
+    color: #333;
+    padding-left: 12px;
+    padding-right: 32px;
+    font-size: 0.97em;
+    text-align: left;
+    text-indent: 0;
+    margin-right: 0;
+}
+
+#naskah.select2-hidden-accessible + .select2-container .select2-selection__arrow {
+    height: 38px;
+    right: 8px;
+    top: 1px;
+    left: auto;
+    margin: 0;
+}
+
+#naskah.select2-hidden-accessible + .select2-container.select2-container--focus .select2-selection--single {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.13);
+}
+
+#naskah.select2-hidden-accessible + .select2-container .select2-selection__clear {
+    display: none !important;
+}
+
+.form-group.flex-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    margin-bottom: 16px;
+}
+
+.flex-row label {
+    /* Hapus aturan ini agar label tidak terpengaruh flex */
+    margin-bottom: 0;
+    align-self: unset;
+}
+
+/* Perbaikan agar tombol TAMBAH selalu di kanan dropdown pada layar >500px */
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: stretch;
+}
+.flex-row .modern-dropdown {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+}
+.flex-row button {
+    flex: 0 0 auto;
+    min-width: 80px;
+    height: 40px;
+    margin: 0;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 500px) {
+    .flex-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .flex-row .modern-dropdown,
+    .flex-row button {
+        width: 100%;
+        min-width: 0;
+        height: 40px;
+    }
 }
 
 @media (max-width: 700px) {
@@ -180,5 +375,17 @@ button:hover {
     button {
         font-size: 0.96em;
         padding: 9px 12px;
+    }
+    #naskah.select2-hidden-accessible + .select2-container .select2-selection--single {
+        height: 36px;
+        font-size: 0.95em;
+    }
+    #naskah.select2-hidden-accessible + .select2-container .select2-selection__rendered {
+        line-height: 34px !important;
+        font-size: 0.95em;
+    }
+    .flex-row .modern-dropdown, .flex-row button {
+        height: 36px;
+        font-size: 0.95em;
     }
 }

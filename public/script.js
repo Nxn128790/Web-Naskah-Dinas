@@ -225,6 +225,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pegawaiListDiv = document.querySelector("#pegawai-list");
                 const pegawaiItem = document.createElement("div");
                 pegawaiItem.textContent = selectedPegawai.textContent;
+                // Tambahkan tombol hapus
+                const removeBtn = document.createElement("button");
+                removeBtn.textContent = "HAPUS";
+                removeBtn.className = "list-remove-btn";
+                removeBtn.onclick = function() {
+                    pegawaiList = pegawaiList.filter(val => val !== selectedPegawai.value);
+                    pegawaiItem.remove();
+                };
+                pegawaiItem.appendChild(removeBtn);
                 pegawaiListDiv.appendChild(pegawaiItem);
                 console.log("Pegawai ditambahkan:", pegawaiList);
             } else {
@@ -246,6 +255,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pengikutListDiv = document.querySelector("#pengikut-list");
                 const pengikutItem = document.createElement("div");
                 pengikutItem.textContent = selectedPengikut.textContent;
+                // Tambahkan tombol hapus
+                const removeBtn = document.createElement("button");
+                removeBtn.textContent = "HAPUS";
+                removeBtn.className = "list-remove-btn";
+                removeBtn.onclick = function() {
+                    pengikutList = pengikutList.filter(val => val !== selectedPengikut.value);
+                    pengikutItem.remove();
+                };
+                pengikutItem.appendChild(removeBtn);
                 pengikutListDiv.appendChild(pengikutItem);
                 console.log("Pengikut ditambahkan:", pengikutList);
             } else {
@@ -324,4 +342,29 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         console.error("Elemen #submit-btn tidak ditemukan");
     }
+});
+
+$(document).ready(function() {
+    // Inisialisasi Select2 untuk semua dropdown modern
+    $('.modern-dropdown').select2({
+        placeholder: 'Pilih...',
+        allowClear: true,
+        width: '100%'
+    });
+
+    // Pastikan event change tetap bekerja pada Select2
+    $('#naskah').on('change', function(e) {
+        const sptForm = document.querySelector("#spt-form");
+        const sppdForm = document.querySelector("#sppd-form");
+        if (this.value === "SPT") {
+            sptForm.style.display = "block";
+            sppdForm.style.display = "none";
+        } else if (this.value === "SPPD") {
+            sptForm.style.display = "none";
+            sppdForm.style.display = "block";
+        } else {
+            sptForm.style.display = "none";
+            sppdForm.style.display = "none";
+        }
+    });
 });

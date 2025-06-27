@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Naskah Dinas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Generator Naskah Dinas</h1>
+    <label for="naskah">Jenis Naskah:</label>
+    <select id="naskah">
+        <option value="">Pilih Jenis Naskah</option>
+        <option value="SPT">SPT</option>
+        <option value="SPPD">SPPD</option>
+    </select>
+
+    <div id="spt-form" style="display: none;">
+        <h2>Form SPT</h2>
+        <label for="pengawasan">Jenis Pengawasan:</label>
+        <input type="text" id="pengawasan" placeholder="Masukkan jenis pengawasan"><br>
+        <label for="opd">OPD:</label>
+        <select id="opd">
+            <option value="">Pilih OPD</option>
+        </select><br>
+        <label for="tahun">Tahun Anggaran:</label>
+        <input type="text" id="tahun" placeholder="Masukkan tahun"><br>
+        <label for="mulai">Tanggal Mulai:</label>
+        <input type="date" id="mulai"><br>
+        <label for="berakhir">Tanggal Berakhir:</label>
+        <input type="date" id="berakhir"><br>
+        <label for="bulanttd">Bulan TTD:</label>
+        <input type="text" id="bulanttd" placeholder="Masukkan bulan TTD"><br>
+        <label for="pejabat">Pejabat:</label>
+        <select id="pejabat">
+            <option value="">Pilih Pejabat</option>
+        </select><br>
+        <label for="pegawai">Pegawai:</label>
+        <select id="pegawai">
+            <option value="">Pilih Pegawai</option>
+        </select>
+        <button type="button" id="add-pegawai">Tambah Pegawai</button><br>
+        <div id="pegawai-list"></div>
+    </div>
+
+    <div id="sppd-form" style="display: none;">
+        <h2>Form SPPD</h2>
+        <label for="pengawasan">Jenis Pengawasan:</label>
+        <input type="text" id="pengawasan" placeholder="Masukkan jenis pengawasan"><br>
+        <label for="opd">OPD:</label>
+        <select id="opd">
+            <option value="">Pilih OPD</option>
+        </select><br>
+        <label for="tahun">Tahun Anggaran:</label>
+        <input type="text" id="tahun" placeholder="Masukkan tahun"><br>
+        <label for="mulai">Tanggal Mulai:</label>
+        <input type="date" id="mulai"><br>
+        <label for="berakhir">Tanggal Berakhir:</label>
+        <input type="date" id="berakhir"><br>
+        <label for="pegawai-utama">Pegawai Utama:</label>
+        <select id="pegawai-utama">
+            <option value="">Pilih Pegawai Utama</option>
+        </select><br>
+        <label for="pengikut">Pengikut:</label>
+        <select id="pengikut">
+            <option value="">Pilih Pengikut</option>
+        </select>
+        <button type="button" id="add-pengikut">Tambah Pengikut</button><br>
+        <div id="pengikut-list"></div>
+        <label for="alat-angkut">Alat Angkut:</label>
+        <select id="alat-angkut">
+            <option value="">Pilih Alat Angkut</option>
+        </select><br>
+        <label for="pptk">PPTK:</label>
+        <select id="pptk">
+            <option value="">Pilih PPTK</option>
+        </select><br>
+    </div>
+
+    <button id="submit-btn">Buat dan Unduh Surat (.docx)</button>
+
+    <script src="script.js"></script>
+</body>
+</html>

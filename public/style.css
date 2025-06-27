@@ -1,0 +1,117 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+#spt-form, #sppd-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    display: inline-block;
+    width: 180px;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: calc(100% - 190px);
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,10"/></svg>') no-repeat right 10px center;
+    background-size: 10px;
+    padding-right: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#submit-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    font-size: 16px;
+}
+
+#pegawai-list, #pengikut-list {
+    margin-left: 190px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#pegawai-list div, #pengikut-list div {
+    margin: 5px 0;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+        width: 100%;
+    }
+
+    #pegawai-list, #pengikut-list {
+        margin-left: 0;
+    }
+}

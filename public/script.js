@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM loaded, inisialisasi aplikasi");
-    const backendUrl = "http://localhost:3000";
+    const backendUrl = "/.netlify/functions"; // <-- PERUBAHAN DI SINI
     let pegawaiList = [];
     let pengikutList = [];
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Ambil data dari backend
-    fetch(`${backendUrl}/data`)
+    fetch(`${backendUrl}/data`) // <-- URL berubah secara otomatis
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Gagal mengambil data dari backend: ${response.status} ${response.statusText}`);
@@ -251,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 tglberakhir: document.querySelector("#berakhir")?.value || "",
             };
 
+            // URL endpoint akan berubah secara otomatis
             const endpoint = naskah === "SPT" ? `${backendUrl}/generate-spt` : `${backendUrl}/generate-sppd`;
 
             if (naskah === "SPT") {

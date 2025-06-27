@@ -362,7 +362,7 @@ $(document).ready(function() {
     // Inisialisasi Select2 untuk semua dropdown modern
     $('.modern-dropdown').select2({
         placeholder: 'Pilih...',
-        allowClear: true,
+        allowClear: false, // Hilangkan tombol clear (remove all)
         width: '100%'
     });
 
@@ -379,6 +379,14 @@ $(document).ready(function() {
         } else {
             sptForm.style.display = "none";
             sppdForm.style.display = "none";
+        }
+        // Reset hanya dropdown yang ada di form yang tidak aktif
+        if (this.value === "SPT") {
+            $('#sppd-form .modern-dropdown').val('').trigger('change');
+        } else if (this.value === "SPPD") {
+            $('#spt-form .modern-dropdown').val('').trigger('change');
+        } else {
+            $('.modern-dropdown').val('').trigger('change');
         }
     });
 });

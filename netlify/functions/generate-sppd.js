@@ -169,7 +169,9 @@ exports.handler = async (event, context) => {
             nip: pegawaiUtama.nip || "Tidak Diketahui",
             jabatan: pegawaiUtama.jabatan || "Tidak Diketahui",
             tingkat_biaya: tingkat_biaya || "Tidak Diketahui",
-            tanggal_lahir: formatTanggalIndonesia(tanggal_lahir) || "Tidak Diketahui",
+            tanggal_lahir: formatTanggalIndonesia(
+    tanggal_lahir || ambilTanggalLahirDariNip(pegawaiUtama.nip)
+) || "Tidak Diketahui",
             lama_perjalanan: lama_perjalanan_teks || "Tidak Diketahui",
             jabatanpptk: pptk.jabatan || "Tidak Diketahui",
             namapejabatpptk: pptk.nama || "Tidak Diketahui",

@@ -20,29 +20,33 @@ $(document).ready(function() {
         dropdownAutoWidth: false,
         dropdownParent: $('body'),
         templateResult: function(data) {
-            if (!data.id) { return data.text; }
-            var $span = $('<span>' + data.text + '</span>');
-            return $span;
+            if (!data.id) return data.text;
+            return $('<span>' + data.text + '</span>');
         },
         templateSelection: function(data) {
-            if (!data.id) { return data.text; }
-            var $span = $('<span>' + data.text + '</span>');
-            return $span;
+            if (!data.id) return data.text;
+            return $('<span>' + data.text + '</span>');
         }
     });
 
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
+
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     };
-    const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+    const monthNames = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
     const currentMonth = monthNames[today.getMonth()];
     const currentYear = today.getFullYear();
+
     $("#spt-mulai").val(formatDate(today));
     $("#spt-berakhir").val(formatDate(tomorrow));
     $("#spt-tahun").val(currentYear);
@@ -50,6 +54,7 @@ $(document).ready(function() {
     $("#sppd-berakhir").val(formatDate(tomorrow));
     $("#sppd-tahun").val(currentYear);
     $("#bulanttd").val(currentMonth);
+
     ["#spt-mulai", "#spt-berakhir", "#sppd-mulai", "#sppd-berakhir"].forEach(id => {
         $(id).attr("placeholder", "dd/mm/yyyy");
     });
@@ -57,27 +62,42 @@ $(document).ready(function() {
     const backendUrl = "/.netlify/functions";
     $.getJSON(`${backendUrl}/data`, function(data) {
         window.dataPegawai = data.pegawai;
+
         data.opd.forEach(opd => {
-            $('#spt-opd, #sppd-opd').append(`<option value="${opd.value}">${opd.nama}</option>`);
+            $('#spt-opd, #sppd-opd').append(
+                `<option value="${opd.value}">${opd.nama}</option>`
+            );
         });
+
         data.pegawai.forEach((pegawai, index) => {
-            $('#pegawai, #pegawai-utama, #pengikut').append(`<option value="${index}">${pegawai.nama}</option>`);
+            $('#pegawai, #pegawai-utama, #pengikut').append(
+                `<option value="${index}">${pegawai.nama}</option>`
+            );
         });
+
         data.pejabat.forEach((pejabat, index) => {
-            $('#pejabat, #pptk').append(`<option value="${index}">${pejabat.nama}</option>`);
+            $('#pejabat, #pptk').append(
+                `<option value="${index}">${pejabat.nama}</option>`
+            );
         });
+
         data.alatAngkut.forEach(alat => {
-            $('#alat-angkut').append(`<option value="${alat.value}">${alat.nama}</option>`);
+            $('#alat-angkut').append(
+                `<option value="${alat.value}">${alat.nama}</option>`
+            );
         });
     });
 
     ["A", "B", "C"].forEach(tb => {
-        $('#tingkat-biaya').append(`<option value="${tb}">${tb}</option>`);
+        $('#tingkat-biaya').append(
+            `<option value="${tb}">${tb}</option>`
+        );
     });
 
     $('#naskah').on('change', function() {
         const sptForm = document.querySelector('#spt-form');
         const sppdForm = document.querySelector('#sppd-form');
+
         if (this.value === 'SPT') {
             sptForm.style.display = 'block';
             sppdForm.style.display = 'none';
@@ -90,17 +110,6 @@ $(document).ready(function() {
             sptForm.style.display = 'none';
             sppdForm.style.display = 'none';
             $('.modern-dropdown').val('').trigger('change');
-        }
-    });
-
-    $('#pegawai-utama').on('change', function() {
-        const index = $(this).val();
-        const selectedPegawai = window.dataPegawai?.[index];
-        if (selectedPegawai) {
-            const tglLahir = ambilTanggalLahirDariNip(selectedPegawai.nip);
-            sessionStorage.setItem("pegawai_utama_tgl_lahir", tglLahir);
-        } else {
-            sessionStorage.removeItem("pegawai_utama_tgl_lahir");
         }
     });
 
@@ -163,13 +172,17 @@ $(document).ready(function() {
     const submitBtn = document.querySelector("#submit-btn");
     if (submitBtn) {
         submitBtn.addEventListener("click", async () => {
-            const naskah = document.querySelector("#naskah")?.value || "";
+            const naskah = $("#naskah").val() || "";
             if (!naskah) {
                 alert("Pilih jenis naskah terlebih dahulu");
                 return;
             }
+
             const formData = {};
-            const endpoint = naskah === "SPT" ? `${backendUrl}/generate-spt` : `${backendUrl}/generate-sppd`;
+            const endpoint = naskah === "SPT"
+                ? `${backendUrl}/generate-spt`
+                : `${backendUrl}/generate-sppd`;
+
             if (naskah === "SPT") {
                 formData.jenis_pengawasan = $("#spt-pengawasan").val() || "";
                 formData.opd = $("#spt-opd").val() || "";
@@ -190,9 +203,22 @@ $(document).ready(function() {
                 formData.alat_angkut = $("#alat-angkut").val() || "";
                 formData.tingkat_biaya = $("#tingkat-biaya").val() || "";
                 formData.pptk_index = $("#pptk").val() || "";
-                formData.tanggal_lahir = sessionStorage.getItem("pegawai_utama_tgl_lahir") || "";
-            }
 
+                // AMBIL TANGGAL LAHIR LANGSUNG DARI NIP
+                const index = $("#pegawai-utama").val();
+                if (index !== "") {
+                    const selectedPegawai = window.dataPegawai?.[index];
+                    if (selectedPegawai) {
+                        const tglLahir = ambilTanggalLahirDariNip(selectedPegawai.nip);
+                        formData.tanggal_lahir = tglLahir;
+                        console.log("Tanggal lahir pegawai utama diambil langsung:", tglLahir);
+                    } else {
+                        formData.tanggal_lahir = "";
+                    }
+                } else {
+                    formData.tanggal_lahir = "";
+                }
+            }
 
             console.log("Mengirim data ke", endpoint, formData);
 
@@ -202,15 +228,19 @@ $(document).ready(function() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
                 });
+
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || "Gagal menghasilkan dokumen");
                 }
+
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = naskah === "SPT" ? "SPT_Generated.docx" : "SPPD_Generated.docx";
+                a.download = naskah === "SPT"
+                    ? "SPT_Generated.docx"
+                    : "SPPD_Generated.docx";
                 document.body.appendChild(a);
                 a.click();
                 a.remove();

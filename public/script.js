@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let pengikutList = []; // Menyimpan indeks pengikut yang dipilih untuk SPPD
 
     // --- Helper Functions ---
-    // Set tanggal default berdasarkan tanggal saat ini
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
@@ -24,50 +23,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentMonth = monthNames[today.getMonth()];
     const currentYear = today.getFullYear();
 
+    // Fungsi untuk mengaktifkan/menonaktifkan elemen form
+    const toggleFormElements = (formElement, enable) => {
+        const inputs = formElement.querySelectorAll('input, select, button:not(#submit-btn)');
+        inputs.forEach(input => {
+            input.disabled = !enable;
+            // Handle Select2 instances
+            if ($(input).hasClass('modern-dropdown')) {
+                if (enable) {
+                    $(input).next('.select2-container').removeClass('select2-container--disabled');
+                    $(input).attr('tabindex', null); // Enable tabbing
+                } else {
+                    $(input).next('.select2-container').addClass('select2-container--disabled');
+                    $(input).attr('tabindex', '-1'); // Disable tabbing
+                }
+            }
+        });
+        // Tambahkan class 'disabled' untuk styling opacity
+        if (enable) {
+            formElement.classList.remove('disabled');
+        } else {
+            formElement.classList.add('disabled');
+        }
+    };
+
+
     // --- Inisialisasi Tanggal & Tahun untuk kedua form (SPT & SPPD) ---
-    // SPT Form
     const sptMulaiInput = document.querySelector("#spt-mulai");
-    if (sptMulaiInput) {
-        sptMulaiInput.value = formatDate(today);
-        console.log("Tanggal Mulai SPT diatur ke:", sptMulaiInput.value);
-    } else { console.error("Elemen #spt-mulai tidak ditemukan"); }
-
+    if (sptMulaiInput) sptMulaiInput.value = formatDate(today); else console.error("Elemen #spt-mulai tidak ditemukan");
     const sptBerakhirInput = document.querySelector("#spt-berakhir");
-    if (sptBerakhirInput) {
-        sptBerakhirInput.value = formatDate(tomorrow);
-        console.log("Tanggal Berakhir SPT diatur ke:", sptBerakhirInput.value);
-    } else { console.error("Elemen #spt-berakhir tidak ditemukan"); }
-
+    if (sptBerakhirInput) sptBerakhirInput.value = formatDate(tomorrow); else console.error("Elemen #spt-berakhir tidak ditemukan");
     const sptTahunInput = document.querySelector("#spt-tahun");
-    if (sptTahunInput) {
-        sptTahunInput.value = currentYear;
-        console.log("Tahun Anggaran SPT diatur ke:", sptTahunInput.value);
-    } else { console.error("Elemen #spt-tahun tidak ditemukan"); }
-
+    if (sptTahunInput) sptTahunInput.value = currentYear; else console.error("Elemen #spt-tahun tidak ditemukan");
     const bulanttdInput = document.querySelector("#bulanttd");
-    if (bulanttdInput) {
-        bulanttdInput.value = currentMonth;
-        console.log("Bulan TTD diatur ke:", bulanttdInput.value);
-    } else { console.error("Elemen #bulanttd tidak ditemukan"); }
+    if (bulanttdInput) bulanttdInput.value = currentMonth; else console.error("Elemen #bulanttd tidak ditemukan");
 
-    // SPPD Form
     const sppdMulaiInput = document.querySelector("#sppd-mulai");
-    if (sppdMulaiInput) {
-        sppdMulaiInput.value = formatDate(today);
-        console.log("Tanggal Mulai SPPD diatur ke:", sppdMulaiInput.value);
-    } else { console.error("Elemen #sppd-mulai tidak ditemukan"); }
-
+    if (sppdMulaiInput) sppdMulaiInput.value = formatDate(today); else console.error("Elemen #sppd-mulai tidak ditemukan");
     const sppdBerakhirInput = document.querySelector("#sppd-berakhir");
-    if (sppdBerakhirInput) {
-        sppdBerakhirInput.value = formatDate(tomorrow);
-        console.log("Tanggal Berakhir SPPD diatur ke:", sppdBerakhirInput.value);
-    } else { console.error("Elemen #sppd-berakhir tidak ditemukan"); }
-
+    if (sppdBerakhirInput) sppdBerakhirInput.value = formatDate(tomorrow); else console.error("Elemen #sppd-berakhir tidak ditemukan");
     const sppdTahunInput = document.querySelector("#sppd-tahun");
-    if (sppdTahunInput) {
-        sppdTahunInput.value = currentYear;
-        console.log("Tahun Anggaran SPPD diatur ke:", sppdTahunInput.value);
-    } else { console.error("Elemen #sppd-tahun tidak ditemukan"); }
+    if (sppdTahunInput) sppdTahunInput.value = currentYear; else console.error("Elemen #sppd-tahun tidak ditemukan");
 
 
     // --- Ambil data dari backend dan Isi Dropdown ---
@@ -81,11 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             console.log("Data diterima dari backend:", data);
 
-            // Fungsi helper untuk mengisi dropdown
             const populateDropdown = (selectElement, items, textKey, valueKey = 'index') => {
                 if (selectElement) {
-                    selectElement.innerHTML = '<option value="">Pilih...</option>'; // Kosongkan opsi lama
-                    
+                    selectElement.innerHTML = '<option value="">Pilih...</option>';
                     items.forEach((item, index) => {
                         const option = document.createElement("option");
                         option.value = (valueKey === 'index') ? index : item[valueKey];
@@ -98,51 +92,72 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             };
 
-            // Isi dropdown OPD (untuk SPT dan SPPD)
-            const sptOpdSelect = document.querySelector("#spt-opd");
-            populateDropdown(sptOpdSelect, data.opd, 'nama', 'value');
-
-            const sppdOpdSelect = document.querySelector("#sppd-opd");
-            populateDropdown(sppdOpdSelect, data.opd, 'nama', 'value');
-
-            // Isi dropdown Pegawai untuk SPT
-            const pegawaiSelect = document.querySelector("#pegawai");
-            populateDropdown(pegawaiSelect, data.pegawai, 'nama');
-
-            // Isi dropdown Pegawai Utama untuk SPPD
-            const pegawaiUtamaSelect = document.querySelector("#pegawai-utama");
-            populateDropdown(pegawaiUtamaSelect, data.pegawai, 'nama');
-
-            // Isi dropdown Pengikut untuk SPPD
-            const pengikutSelect = document.querySelector("#pengikut");
-            populateDropdown(pengikutSelect, data.pegawai, 'nama');
-
-            // Isi dropdown Pejabat (untuk SPT)
-            const pejabatSelect = document.querySelector("#pejabat");
-            populateDropdown(pejabatSelect, data.pejabat, 'nama');
-
-            // Isi dropdown PPTK untuk SPPD
-            const pptkSelect = document.querySelector("#pptk");
-            populateDropdown(pptkSelect, data.pejabat, 'nama');
-
-            // Isi dropdown Alat Angkut untuk SPPD
-            const alatAngkutSelect = document.querySelector("#alat-angkut");
-            populateDropdown(alatAngkutSelect, data.alatAngkut, 'nama', 'value');
-
+            populateDropdown(document.querySelector("#spt-opd"), data.opd, 'nama', 'value');
+            populateDropdown(document.querySelector("#sppd-opd"), data.opd, 'nama', 'value');
+            populateDropdown(document.querySelector("#pegawai"), data.pegawai, 'nama');
+            populateDropdown(document.querySelector("#pegawai-utama"), data.pegawai, 'nama');
+            populateDropdown(document.querySelector("#pengikut"), data.pegawai, 'nama');
+            populateDropdown(document.querySelector("#pejabat"), data.pejabat, 'nama');
+            populateDropdown(document.querySelector("#pptk"), data.pejabat, 'nama');
+            populateDropdown(document.querySelector("#alat-angkut"), data.alatAngkut, 'nama', 'value');
 
             // --- INISIALISASI SELECT2 SETELAH SEMUA DROPDOWN DIISI ---
-            // Inisialisasi semua dropdown dengan class 'modern-dropdown'
             $('.modern-dropdown').select2({
                 placeholder: 'Pilih...',
-                allowClear: true // Opsi untuk memungkinkan pilihan dikosongkan
+                allowClear: true
             });
-
-            // Khusus untuk dropdown #naskah, mungkin tidak perlu kotak pencarian
             $('#naskah').select2({
-                minimumResultsForSearch: -1, // Menyembunyikan kotak pencarian
+                minimumResultsForSearch: -1,
                 placeholder: 'Pilih Jenis Naskah',
                 allowClear: true
             });
+
+            // --- Awal Aplikasi: Freeze semua form kecuali dropdown naskah ---
+            // Ambil referensi form
+            const sptForm = document.querySelector("#spt-form");
+            const sppdForm = document.querySelector("#sppd-form");
+            const submitBtn = document.querySelector("#submit-btn");
+
+            // Pastikan kedua form disabled saat pertama kali dimuat
+            if (sptForm) toggleFormElements(sptForm, false);
+            if (sppdForm) toggleFormElements(sppdForm, false);
+            if (submitBtn) submitBtn.disabled = true;
+
+            // --- Toggle Form Berdasarkan Jenis Naskah ---
+            const naskahSelect = document.querySelector("#naskah");
+            if (naskahSelect) {
+                naskahSelect.addEventListener("change", (e) => {
+                    const selectedNaskah = e.target.value;
+                    
+                    // Reset list pegawai/pengikut saat jenis naskah berubah
+                    pegawaiList = [];
+                    pengikutList = [];
+                    if (document.querySelector("#pegawai-list")) {
+                        document.querySelector("#pegawai-list").innerHTML = "";
+                    }
+                    if (document.querySelector("#pengikut-list")) {
+                        document.querySelector("#pengikut-list").innerHTML = "";
+                    }
+
+                    // Reset Select2 pilihan yang ada saat form disembunyikan / dinonaktifkan
+                    $('.modern-dropdown').val(null).trigger('change');
+
+                    if (selectedNaskah === "SPT") {
+                        if (sptForm) toggleFormElements(sptForm, true); // Aktifkan SPT
+                        if (sppdForm) toggleFormElements(sppdForm, false); // Nonaktifkan SPPD
+                        if (submitBtn) submitBtn.disabled = false;
+                    } else if (selectedNaskah === "SPPD") {
+                        if (sptForm) toggleFormElements(sptForm, false); // Nonaktifkan SPT
+                        if (sppdForm) toggleFormElements(sppdForm, true); // Aktifkan SPPD
+                        if (submitBtn) submitBtn.disabled = false;
+                    } else { // Jika tidak ada naskah yang dipilih
+                        if (sptForm) toggleFormElements(sptForm, false);
+                        if (sppdForm) toggleFormElements(sppdForm, false);
+                        if (submitBtn) submitBtn.disabled = true;
+                    }
+                    console.log("Jenis naskah dipilih:", selectedNaskah);
+                });
+            } else { console.error("Elemen #naskah tidak ditemukan"); }
 
         })
         .catch(error => {
@@ -150,55 +165,12 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Gagal mengambil data untuk dropdown: " + error.message);
         });
 
-    // --- Toggle Form Berdasarkan Jenis Naskah ---
-    const naskahSelect = document.querySelector("#naskah");
-    const submitBtn = document.querySelector("#submit-btn"); // Ambil referensi tombol submit
-
-    // PERUBAHAN: Sembunyikan kedua form saat halaman dimuat
-    const sptForm = document.querySelector("#spt-form");
-    const sppdForm = document.querySelector("#sppd-form");
-    if (sptForm) sptForm.style.display = "none";
-    if (sppdForm) sppdForm.style.display = "none";
-    if (submitBtn) submitBtn.disabled = true; // Nonaktifkan tombol submit secara default
-
-    if (naskahSelect) {
-        naskahSelect.addEventListener("change", (e) => {
-            // Reset list pegawai/pengikut saat jenis naskah berubah
-            pegawaiList = [];
-            pengikutList = [];
-            if (document.querySelector("#pegawai-list")) {
-                document.querySelector("#pegawai-list").innerHTML = "";
-            }
-            if (document.querySelector("#pengikut-list")) {
-                document.querySelector("#pengikut-list").innerHTML = "";
-            }
-
-            // Reset Select2 pilihan yang ada saat form disembunyikan
-            $('.modern-dropdown').val(null).trigger('change');
-            
-            if (e.target.value === "SPT") {
-                if (sptForm) sptForm.style.display = "block"; // Tampilkan form SPT
-                if (sppdForm) sppdForm.style.display = "none"; // Sembunyikan form SPPD
-                if (submitBtn) submitBtn.disabled = false; // Aktifkan tombol submit
-            } else if (e.target.value === "SPPD") {
-                if (sptForm) sptForm.style.display = "none"; // Sembunyikan form SPT
-                if (sppdForm) sppdForm.style.display = "block"; // Tampilkan form SPPD
-                if (submitBtn) submitBtn.disabled = false; // Aktifkan tombol submit
-            } else {
-                if (sptForm) sptForm.style.display = "none";
-                if (sppdForm) sppdForm.style.display = "none";
-                if (submitBtn) submitBtn.disabled = true; // Nonaktifkan tombol submit jika tidak ada naskah terpilih
-            }
-            console.log("Jenis naskah dipilih:", e.target.value);
-        });
-    } else { console.error("Elemen #naskah tidak ditemukan"); }
 
     // --- Tambah Pegawai ke Daftar SPT ---
     const addPegawaiBtn = document.querySelector("#add-pegawai");
     if (addPegawaiBtn) {
         addPegawaiBtn.addEventListener("click", () => {
             const pegawaiSelect = document.querySelector("#pegawai");
-            // Mengambil nilai dari Select2
             const selectedValue = $(pegawaiSelect).val();
             const selectedText = $(pegawaiSelect).find('option:selected').text();
 
@@ -209,8 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 pegawaiItem.textContent = selectedText;
                 pegawaiListDiv.appendChild(pegawaiItem);
                 console.log("Pegawai ditambahkan:", pegawaiList);
-                // Opsional: Reset Select2 setelah ditambahkan
-                // $(pegawaiSelect).val(null).trigger('change'); // Ini akan mengosongkan pilihan
             } else {
                 console.warn("Pegawai tidak valid atau sudah ditambahkan (SPT)");
             }
@@ -222,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addPengikutBtn) {
         addPengikutBtn.addEventListener("click", () => {
             const pengikutSelect = document.querySelector("#pengikut");
-            // Mengambil nilai dari Select2
             const selectedValue = $(pengikutSelect).val();
             const selectedText = $(pengikutSelect).find('option:selected').text();
 
@@ -230,11 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 pengikutList.push(selectedValue);
                 const pengikutListDiv = document.querySelector("#pengikut-list");
                 const pengikutItem = document.createElement("div");
-                pengikutItem.textContent = selectedText; // Koreksi: gunakan pengikutItem
+                pengikutItem.textContent = selectedText;
                 pengikutListDiv.appendChild(pengikutItem);
                 console.log("Pengikut ditambahkan:", pengikutList);
-                // Opsional: Reset Select2 setelah ditambahkan
-                // $(pengikutSelect).val(null).trigger('change');
             } else {
                 console.warn("Pengikut tidak valid atau sudah ditambahkan (SPPD)");
             }
@@ -242,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else { console.error("Elemen #add-pengikut tidak ditemukan"); }
 
     // --- Submit Form dan Unduh Dokumen ---
-    // Referensi ke submitBtn sudah diambil di awal saat toggle form
+    const submitBtn = document.querySelector("#submit-btn"); // Definisi ulang di sini agar yakin di scope yang benar
     if (submitBtn) {
         submitBtn.addEventListener("click", async () => {
             const naskah = document.querySelector("#naskah")?.value || "";

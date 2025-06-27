@@ -6,30 +6,30 @@
 }
 
 body {
-    font-family: 'Open Sans', sans-serif; /* Menggunakan Google Font */
+    font-family: 'Open Sans', sans-serif;
     margin: 0;
-    background-color: #f0f2f5; /* Warna latar belakang yang lebih halus */
+    background-color: #f0f2f5;
     color: #333;
     line-height: 1.6;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Mengatur item ke atas */
-    min-height: 100vh; /* Minimum tinggi viewport */
-    padding: 20px; /* Padding di sekitar body */
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .container {
     max-width: 800px;
     width: 100%;
-    margin: 20px auto; /* Margin atas/bawah otomatis untuk responsif */
+    margin: 20px auto;
     padding: 30px;
     background-color: #ffffff;
-    border-radius: 12px; /* Sudut lebih membulat */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Bayangan lebih halus */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 h1 {
-    font-family: 'Montserrat', sans-serif; /* Menggunakan Google Font untuk judul */
+    font-family: 'Montserrat', sans-serif;
     text-align: center;
     margin-bottom: 30px;
     color: #2c3e50;
@@ -49,16 +49,25 @@ h2 {
 
 .naskah-form {
     padding-top: 10px;
+    /* Tambahkan transisi untuk efek disabled */
+    transition: opacity 0.3s ease;
 }
 
+/* Gaya untuk form yang disabled (tidak bisa diinput) */
+.naskah-form.disabled {
+    opacity: 0.6; /* Membuat form terlihat sedikit buram */
+    pointer-events: none; /* Mencegah interaksi mouse */
+}
+
+
 .form-group {
-    margin-bottom: 18px; /* Ruang antar grup form */
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
     margin-bottom: 8px;
-    font-weight: 600; /* Lebih tebal */
+    font-weight: 600;
     color: #555;
     font-size: 0.95em;
 }
@@ -68,12 +77,21 @@ input[type="date"],
 select {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #dcdcdc; /* Border lebih terang */
+    border: 1px solid #dcdcdc;
     border-radius: 6px;
     font-size: 1em;
     color: #333;
     background-color: #fcfcfc;
     transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Gaya untuk input/select yang disabled */
+input[type="text"]:disabled,
+input[type="date"]:disabled,
+select:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.8;
 }
 
 input[type="text"]:focus,
@@ -86,15 +104,21 @@ select:focus {
 
 /* Styling untuk Select2 (Dropdown Modern) */
 .select2-container--default .select2-selection--single {
-    height: 40px; /* Tinggi disesuaikan dengan input */
+    height: 40px;
     border: 1px solid #dcdcdc;
     border-radius: 6px;
     background-color: #fcfcfc;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+.select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px !important; /* Menyesuaikan teks di tengah */
+    line-height: 38px !important;
     color: #333;
     padding-left: 12px;
 }
@@ -102,7 +126,7 @@ select:focus {
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 38px;
     right: 5px;
-    top: 1px; /* Penyesuaian posisi panah */
+    top: 1px;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--single {
@@ -149,8 +173,21 @@ button {
     font-size: 1em;
     margin-top: 10px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    display: inline-block; /* Untuk tombol Tambah */
+    display: inline-block;
 }
+
+/* Gaya untuk button yang disabled */
+button:disabled {
+    background-color: #ced4da; /* Warna abu-abu */
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none; /* Hapus efek hover/active */
+}
+
+button:disabled:hover {
+    background-color: #ced4da; /* Tetap abu-abu saat hover */
+}
+
 
 button:hover {
     background-color: #0056b3;
@@ -162,10 +199,10 @@ button:active {
 }
 
 .add-button {
-    margin-left: 10px; /* Spasi antara select dan tombol tambah */
+    margin-left: 10px;
     padding: 8px 15px;
     font-size: 0.9em;
-    background-color: #28a745; /* Warna hijau untuk tombol tambah */
+    background-color: #28a745;
 }
 
 .add-button:hover {
@@ -178,7 +215,7 @@ button:active {
     margin-top: 30px;
     padding: 15px;
     font-size: 1.2em;
-    background-color: #6c757d; /* Warna abu-abu untuk tombol utama */
+    background-color: #6c757d;
 }
 
 #submit-btn:hover {

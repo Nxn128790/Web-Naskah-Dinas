@@ -114,8 +114,11 @@ exports.handler = async (event, context) => {
             pegawai_utama_index,
             pengikut_indices = [],
             alat_angkut,
-            pptk_index
-        } = JSON.parse(event.body); // Parse body dari event
+            pptk_index,
+            tingkat_biaya,
+            tanggal_lahir
+        } = JSON.parse(event.body);
+
 
         // Validasi data
         if (!pegawai_utama_index || !pptk_index) {
@@ -165,8 +168,8 @@ exports.handler = async (event, context) => {
             pangkat: pegawaiUtama.pangkat || "Tidak Diketahui",
             nip: pegawaiUtama.nip || "Tidak Diketahui",
             jabatan: pegawaiUtama.jabatan || "Tidak Diketahui",
-            tingkat_biaya: pegawaiUtama.tingkat_biaya || "Tidak Diketahui",
-            tanggal_lahir: formatTanggalIndonesia(pegawaiUtama.tanggal_lahir) || "Tidak Diketahui",
+            tingkat_biaya: tingkat_biaya || "Tidak Diketahui",
+            tanggal_lahir: formatTanggalIndonesia(tanggal_lahir) || "Tidak Diketahui",
             lama_perjalanan: lama_perjalanan_teks || "Tidak Diketahui",
             jabatanpptk: pptk.jabatan || "Tidak Diketahui",
             namapejabatpptk: pptk.nama || "Tidak Diketahui",

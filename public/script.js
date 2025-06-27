@@ -190,8 +190,9 @@ $(document).ready(function() {
                 formData.alat_angkut = $("#alat-angkut").val() || "";
                 formData.tingkat_biaya = $("#tingkat-biaya").val() || "";
                 formData.pptk_index = $("#pptk").val() || "";
-                formData.pegawai_utama_tgl_lahir = sessionStorage.getItem("pegawai_utama_tgl_lahir") || "";
+                formData.tanggal_lahir = sessionStorage.getItem("pegawai_utama_tgl_lahir") || "";
             }
+
 
             console.log("Mengirim data ke", endpoint, formData);
 

@@ -84,8 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Fungsi helper untuk mengisi dropdown
             const populateDropdown = (selectElement, items, textKey, valueKey = 'index') => {
                 if (selectElement) {
-                    // Kosongkan opsi lama terlebih dahulu (kecuali opsi placeholder)
-                    selectElement.innerHTML = '<option value="">Pilih...</option>';
+                    selectElement.innerHTML = '<option value="">Pilih...</option>'; // Kosongkan opsi lama
                     
                     items.forEach((item, index) => {
                         const option = document.createElement("option");
@@ -108,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Isi dropdown Pegawai untuk SPT
             const pegawaiSelect = document.querySelector("#pegawai");
-            populateDropdown(pegawaiSelect, data.pegawai, 'nama'); // valueKey default ke 'index'
+            populateDropdown(pegawaiSelect, data.pegawai, 'nama');
 
             // Isi dropdown Pegawai Utama untuk SPPD
             const pegawaiUtamaSelect = document.querySelector("#pegawai-utama");
@@ -155,11 +154,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const naskahSelect = document.querySelector("#naskah");
     const submitBtn = document.querySelector("#submit-btn"); // Ambil referensi tombol submit
 
+    // PERUBAHAN: Sembunyikan kedua form saat halaman dimuat
+    const sptForm = document.querySelector("#spt-form");
+    const sppdForm = document.querySelector("#sppd-form");
+    if (sptForm) sptForm.style.display = "none";
+    if (sppdForm) sppdForm.style.display = "none";
+    if (submitBtn) submitBtn.disabled = true; // Nonaktifkan tombol submit secara default
+
     if (naskahSelect) {
         naskahSelect.addEventListener("change", (e) => {
-            const sptForm = document.querySelector("#spt-form");
-            const sppdForm = document.querySelector("#sppd-form");
-            
             // Reset list pegawai/pengikut saat jenis naskah berubah
             pegawaiList = [];
             pengikutList = [];
@@ -171,21 +174,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Reset Select2 pilihan yang ada saat form disembunyikan
-            // Ini akan memastikan pilihan yang tersimpan di Select2 direset
             $('.modern-dropdown').val(null).trigger('change');
             
             if (e.target.value === "SPT") {
-                sptForm.style.display = "block";
-                sppdForm.style.display = "none";
-                submitBtn.disabled = false; // Aktifkan tombol submit
+                if (sptForm) sptForm.style.display = "block"; // Tampilkan form SPT
+                if (sppdForm) sppdForm.style.display = "none"; // Sembunyikan form SPPD
+                if (submitBtn) submitBtn.disabled = false; // Aktifkan tombol submit
             } else if (e.target.value === "SPPD") {
-                sptForm.style.display = "none";
-                sppdForm.style.display = "block";
-                submitBtn.disabled = false; // Aktifkan tombol submit
+                if (sptForm) sptForm.style.display = "none"; // Sembunyikan form SPT
+                if (sppdForm) sppdForm.style.display = "block"; // Tampilkan form SPPD
+                if (submitBtn) submitBtn.disabled = false; // Aktifkan tombol submit
             } else {
-                sptForm.style.display = "none";
-                sppdForm.style.display = "none";
-                submitBtn.disabled = true; // Nonaktifkan tombol submit jika tidak ada naskah terpilih
+                if (sptForm) sptForm.style.display = "none";
+                if (sppdForm) sppdForm.style.display = "none";
+                if (submitBtn) submitBtn.disabled = true; // Nonaktifkan tombol submit jika tidak ada naskah terpilih
             }
             console.log("Jenis naskah dipilih:", e.target.value);
         });
@@ -196,11 +198,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addPegawaiBtn) {
         addPegawaiBtn.addEventListener("click", () => {
             const pegawaiSelect = document.querySelector("#pegawai");
-            const selectedOption = pegawaiSelect.options[pegawaiSelect.selectedIndex];
-            const selectedValue = selectedOption ? selectedOption.value : null;
-            const selectedText = selectedOption ? selectedOption.textContent : null;
+            // Mengambil nilai dari Select2
+            const selectedValue = $(pegawaiSelect).val();
+            const selectedText = $(pegawaiSelect).find('option:selected').text();
 
-            if (selectedValue && selectedValue !== "" && !pegawaiList.includes(selectedValue)) { // Pastikan value tidak kosong
+            if (selectedValue && selectedValue !== "" && !pegawaiList.includes(selectedValue)) {
                 pegawaiList.push(selectedValue);
                 const pegawaiListDiv = document.querySelector("#pegawai-list");
                 const pegawaiItem = document.createElement("div");
@@ -208,7 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pegawaiListDiv.appendChild(pegawaiItem);
                 console.log("Pegawai ditambahkan:", pegawaiList);
                 // Opsional: Reset Select2 setelah ditambahkan
-                // $(pegawaiSelect).val(null).trigger('change');
+                // $(pegawaiSelect).val(null).trigger('change'); // Ini akan mengosongkan pilihan
             } else {
                 console.warn("Pegawai tidak valid atau sudah ditambahkan (SPT)");
             }
@@ -220,15 +222,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addPengikutBtn) {
         addPengikutBtn.addEventListener("click", () => {
             const pengikutSelect = document.querySelector("#pengikut");
-            const selectedOption = pengikutSelect.options[pengikutSelect.selectedIndex];
-            const selectedValue = selectedOption ? selectedOption.value : null;
-            const selectedText = selectedOption ? selectedOption.textContent : null;
+            // Mengambil nilai dari Select2
+            const selectedValue = $(pengikutSelect).val();
+            const selectedText = $(pengikutSelect).find('option:selected').text();
 
-            if (selectedValue && selectedValue !== "" && !pengikutList.includes(selectedValue)) { // Pastikan value tidak kosong
+            if (selectedValue && selectedValue !== "" && !pengikutList.includes(selectedValue)) {
                 pengikutList.push(selectedValue);
                 const pengikutListDiv = document.querySelector("#pengikut-list");
                 const pengikutItem = document.createElement("div");
-                pegawaiItem.textContent = selectedText; // <-- Koreksi di sini, harusnya pengikutItem
+                pengikutItem.textContent = selectedText; // Koreksi: gunakan pengikutItem
                 pengikutListDiv.appendChild(pengikutItem);
                 console.log("Pengikut ditambahkan:", pengikutList);
                 // Opsional: Reset Select2 setelah ditambahkan

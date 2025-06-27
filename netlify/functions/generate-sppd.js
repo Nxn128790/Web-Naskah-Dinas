@@ -8,7 +8,9 @@ const path = require("path");
 const data = {
     pegawai: [
         { nama: "Budi Santoso", pangkat: "Penata Muda/IIIa", nip: "198001012006041001", jabatan: "Auditor", tingkat_biaya: "A", tanggal_lahir: "1980-01-01" },
-        { nama: "Ani Lestari", pangkat: "Penata/IIIc", nip: "198502022008042002", jabatan: "Kepala Seksi", tingkat_biaya: "B", tanggal_lahir: "1985-02-02" }
+        { nama: "Ani Lestari", pangkat: "Penata/IIIc", nip: "198502022008042002", jabatan: "Kepala Seksi", tingkat_biaya: "B", tanggal_lahir: "1985-02-02" },
+        { nama: "Cahyo Pratama", pangkat: "Pengatur/IIc", nip: "199003032010041003", jabatan: "Staf", tingkat_biaya: "C", tanggal_lahir: "1990-03-03" } // <-- TAMBAHKAN KEMBALI PEGAWAI KETIGA INI
+        // Tambahkan pegawai lain di sini jika ada lebih dari 3 yang digunakan di frontend
     ],
     pejabat: [
         { nama: "Dr. H. Ahmad Zainuddin, M.Si", pangkat: "Pembina Utama Madya/IVd", nip: "196504041990031001", jabatan: "Inspektur", tingkat_biaya: "A", tanggal_lahir: "1965-04-04" },
@@ -21,6 +23,8 @@ const data = {
         { nama: "Mobil Dinas", value: "Mobil Dinas" }
     ]
 };
+
+// ... (sisanya kode tetap sama, tidak ada perubahan di sini) ...
 
 // Fungsi untuk memformat tanggal ke format Indonesia (DD MMMMYYYY)
 function formatTanggalIndonesia(tanggal) {

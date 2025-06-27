@@ -25,25 +25,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fungsi untuk mengaktifkan/menonaktifkan elemen form
     const toggleFormElements = (formElement, enable) => {
+        if (!formElement) return; // Pastikan elemen form ada
+
         const inputs = formElement.querySelectorAll('input, select, button:not(#submit-btn)');
         inputs.forEach(input => {
             input.disabled = !enable;
             // Handle Select2 instances
             if ($(input).hasClass('modern-dropdown')) {
+                // Select2 membutuhkan inisialisasi ulang jika disabled status berubah
                 if (enable) {
+                    $(input).select2('enable'); // Aktifkan Select2
                     $(input).next('.select2-container').removeClass('select2-container--disabled');
-                    $(input).attr('tabindex', null); // Enable tabbing
                 } else {
+                    $(input).select2('disable'); // Nonaktifkan Select2
                     $(input).next('.select2-container').addClass('select2-container--disabled');
-                    $(input).attr('tabindex', '-1'); // Disable tabbing
                 }
             }
         });
         // Tambahkan class 'disabled' untuk styling opacity
         if (enable) {
             formElement.classList.remove('disabled');
+            console.log(`Form ${formElement.id} diaktifkan.`);
         } else {
             formElement.classList.add('disabled');
+            console.log(`Form ${formElement.id} dinonaktifkan.`);
         }
     };
 
@@ -102,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
             populateDropdown(document.querySelector("#alat-angkut"), data.alatAngkut, 'nama', 'value');
 
             // --- INISIALISASI SELECT2 SETELAH SEMUA DROPDOWN DIISI ---
+            // Inisialisasi semua dropdown dengan class 'modern-dropdown'
             $('.modern-dropdown').select2({
                 placeholder: 'Pilih...',
                 allowClear: true
@@ -139,9 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         document.querySelector("#pengikut-list").innerHTML = "";
                     }
 
-                    // Reset Select2 pilihan yang ada saat form disembunyikan / dinonaktifkan
+                    // Reset Select2 pilihan yang ada di kedua form
                     $('.modern-dropdown').val(null).trigger('change');
-
+                    
                     if (selectedNaskah === "SPT") {
                         if (sptForm) toggleFormElements(sptForm, true); // Aktifkan SPT
                         if (sppdForm) toggleFormElements(sppdForm, false); // Nonaktifkan SPPD

@@ -66,8 +66,6 @@ const data = {
     ]
 };
 
-// ... (sisanya kode tetap sama, tidak ada perubahan di sini) ...
-
 // Fungsi untuk memformat tanggal ke format Indonesia (DD MMMMYYYY)
 function formatTanggalIndonesia(tanggal) {
     if (!tanggal || tanggal === "Tidak Diketahui") return "Tidak Diketahui";
@@ -93,6 +91,18 @@ function angkaKeTeks(angka) {
         return teksAngka[angka];
     }
     return angka.toString();
+}
+
+// Fungsi untuk mengambil tanggal lahir dari NIP (8 digit pertama)
+function ambilTanggalLahirDariNip(nip) {
+    if (!nip) return "";
+    // Ambil hanya digit (hilangkan spasi)
+    const nipClean = nip.replace(/\D/g, "");
+    if (nipClean.length < 8) return "";
+    const thn = nipClean.substring(0, 4);
+    const bln = nipClean.substring(4, 6);
+    const tgl = nipClean.substring(6, 8);
+    return `${thn}-${bln}-${tgl}`;
 }
 
 exports.handler = async (event, context) => {
@@ -135,13 +145,15 @@ exports.handler = async (event, context) => {
             if (!pegawai) {
                 throw new Error(`Pengikut dengan indeks ${index} tidak ditemukan`);
             }
+            // Ambil tanggal lahir dari field atau dari NIP
+            const tglLahir = pegawai.tanggal_lahir || ambilTanggalLahirDariNip(pegawai.nip);
             return {
                 nama: pegawai.nama || "Tidak Diketahui",
                 pangkat: pegawai.pangkat || "Tidak Diketahui",
                 nip: pegawai.nip || "Tidak Diketahui",
                 jabatan: pegawai.jabatan || "Tidak Diketahui",
                 tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
-                tanggal_lahir: formatTanggalIndonesia(pegawai.tanggal_lahir) || "Tidak Diketahui"
+                tanggal_lahir: formatTanggalIndonesia(tglLahir) || "Tidak Diketahui"
             };
         });
         const pptk = data.pejabat[parseInt(pptk_index)];
@@ -170,8 +182,8 @@ exports.handler = async (event, context) => {
             jabatan: pegawaiUtama.jabatan || "Tidak Diketahui",
             tingkat_biaya: tingkat_biaya || "Tidak Diketahui",
             tanggal_lahir: formatTanggalIndonesia(
-    tanggal_lahir || ambilTanggalLahirDariNip(pegawaiUtama.nip)
-) || "Tidak Diketahui",
+                tanggal_lahir || ambilTanggalLahirDariNip(pegawaiUtama.nip)
+            ) || "Tidak Diketahui",
             lama_perjalanan: lama_perjalanan_teks || "Tidak Diketahui",
             jabatanpptk: pptk.jabatan || "Tidak Diketahui",
             namapejabatpptk: pptk.nama || "Tidak Diketahui",

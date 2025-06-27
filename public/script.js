@@ -375,7 +375,10 @@ $(document).ready(function() {
     $('.modern-dropdown').select2({
         placeholder: 'Pilih...',
         allowClear: false, // Hilangkan tombol clear (remove all)
-        width: '100%',
+        width: '100%', // Paksa lebar dropdown sama persis dengan input
+        dropdownAutoWidth: false, // Jangan auto width, biar selalu sama
+        dropdownParent: $('body'), // Pastikan dropdown ditempatkan di body
+        // minimumResultsForSearch: Infinity, // Opsional: Jika tidak ingin kotak pencarian muncul
         // Pastikan teks sejajar dalam dropdown dan yang keluar dari pilihan
         templateResult: function(data) {
             if (!data.id) { return data.text; }
@@ -399,7 +402,7 @@ $(document).ready(function() {
             sptForm.style.display = "block";
             sppdForm.style.display = "none";
         } else if (this.value === "SPPD") {
-            sptForm.style.display = "none";
+            sppdForm.style.display = "none";
             sppdForm.style.display = "block";
         } else {
             sptForm.style.display = "none";

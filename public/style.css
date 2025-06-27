@@ -28,6 +28,13 @@
     -webkit-touch-callout: none;
 }
 
+html, body {
+    overflow-x: hidden; /* Paksa sembunyikan scrollbar horizontal */
+    overflow-y: auto;   /* Biarkan scrollbar vertikal muncul jika diperlukan */
+    /* Atau jika ingin selalu ada scrollbar vertikal: */
+    /* overflow-y: scroll; */
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-light);
@@ -311,41 +318,77 @@ button {
     display: none !important; /* Hide clear button as per original script */
 }
 
+.select2-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+}
+
 .select2-dropdown {
+    width: 100%; /* Ini yang paling penting untuk lebar */
+    max-width: 100vw; /* Tambahan: Pastikan dropdown tidak melebihi lebar viewport */
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
     border: 1px solid var(--primary-color);
     border-radius: var(--radius-small);
     box-shadow: 0 5px 15px var(--shadow-medium);
-    font-size: 1em;
-}
-
-.select2-search input {
-    border: 1px solid var(--border-color) !important;
-    border-radius: var(--radius-small) !important;
-    padding: 10px !important;
-    font-size: 1em;
+    font-size: 0.93em; /* Ukuran font dropdown lebih kecil */
+    max-height: 260px;
+    overflow-y: auto;
+    margin-top: 6px; /* Tambahkan jarak antara input dan dropdown */
 }
 
 .select2-results__option {
     padding: 12px 15px;
+    font-size: 0.93em; /* Ukuran font isi dropdown lebih kecil */
+    line-height: 1.6;
+    vertical-align: middle;
+}
+
+/* Hapus aturan yang mengganggu layout dropdown */
+.select2-container--open .select2-dropdown {
+    /* Hanya atur visual, jangan paksa width/height/left/padding/margin */
+    box-shadow: 0 5px 15px var(--shadow-medium);
+    border-width: 1px;
+    border-radius: var(--radius-small);
+    outline: none;
+    /* Tambahan: Pastikan z-index tinggi agar selalu di atas */
+    z-index: 9999;
+}
+
+/* Samakan border, font, dan padding dropdown dengan selection */
+.select2-dropdown,
+.select2-container--default .select2-selection--single {
+    border-width: 1px;
+    border-radius: var(--radius-small);
     font-size: 1em;
-    line-height: 1.6; /* Pastikan line-height konsisten */
-    vertical-align: middle; /* Membantu penjajaran vertikal */
-}
-
-.select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: var(--primary-color) !important;
-    color: white !important;
-}
-
-.select2-container--default .select2-results__option--selected {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-}
-
-.select2-container {
-    width: 100% !important;
-    min-width: 0;
     box-sizing: border-box;
+}
+
+/* Pastikan tidak ada perubahan tinggi pada selection dan dropdown */
+.select2-container--default .select2-selection--single {
+    height: 45px;
+    min-height: 45px;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive: samakan tinggi pada mobile juga */
+@media (max-width: 768px) {
+    .select2-container--default .select2-selection--single {
+        height: 42px;
+        min-height: 42px;
+    }
+}
+@media (max-width: 500px) {
+    .select2-container--default .select2-selection--single {
+        height: 40px;
+        min-height: 40px;
+    }
 }
 
 /* Responsive Adjustments */

@@ -6,100 +6,220 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
+    font-family: 'Open Sans', sans-serif; /* Menggunakan Google Font */
+    margin: 0;
+    background-color: #f0f2f5; /* Warna latar belakang yang lebih halus */
     color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Mengatur item ke atas */
+    min-height: 100vh; /* Minimum tinggi viewport */
+    padding: 20px; /* Padding di sekitar body */
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto; /* Margin atas/bawah otomatis untuk responsif */
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Sudut lebih membulat */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Bayangan lebih halus */
 }
 
 h1 {
+    font-family: 'Montserrat', sans-serif; /* Menggunakan Google Font untuk judul */
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #2c3e50;
+    font-size: 2.2em;
+    font-weight: 600;
 }
 
 h2 {
-    margin-top: 20px;
-    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 25px;
+    margin-bottom: 20px;
     color: #34495e;
+    font-size: 1.6em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
 }
 
-#spt-form, #sppd-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+.naskah-form {
+    padding-top: 10px;
+}
+
+.form-group {
+    margin-bottom: 18px; /* Ruang antar grup form */
 }
 
 label {
-    display: inline-block;
-    width: 180px;
-    margin: 10px 0 5px;
-    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600; /* Lebih tebal */
+    color: #555;
+    font-size: 0.95em;
 }
 
 input[type="text"],
 input[type="date"],
 select {
-    width: calc(100% - 190px);
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc; /* Border lebih terang */
+    border-radius: 6px;
+    font-size: 1em;
+    color: #333;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,10"/></svg>') no-repeat right 10px center;
-    background-size: 10px;
-    padding-right: 20px;
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
 }
 
+/* Styling untuk Select2 (Dropdown Modern) */
+.select2-container--default .select2-selection--single {
+    height: 40px; /* Tinggi disesuaikan dengan input */
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px !important; /* Menyesuaikan teks di tengah */
+    color: #333;
+    padding-left: 12px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+    right: 5px;
+    top: 1px; /* Penyesuaian posisi panah */
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.select2-dropdown {
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.select2-search input {
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+}
+
+.select2-results__option {
+    padding: 10px 12px;
+    font-size: 1em;
+}
+
+.select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-results__option--selected {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+
+/* Buttons */
 button {
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
-    margin: 10px 0;
-    transition: background-color 0.3s;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block; /* Untuk tombol Tambah */
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.add-button {
+    margin-left: 10px; /* Spasi antara select dan tombol tambah */
+    padding: 8px 15px;
+    font-size: 0.9em;
+    background-color: #28a745; /* Warna hijau untuk tombol tambah */
+}
+
+.add-button:hover {
+    background-color: #218838;
 }
 
 #submit-btn {
     display: block;
-    margin: 20px auto;
-    padding: 12px 30px;
-    font-size: 16px;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+    font-size: 1.2em;
+    background-color: #6c757d; /* Warna abu-abu untuk tombol utama */
 }
 
-#pegawai-list, #pengikut-list {
-    margin-left: 190px;
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+#submit-btn:hover {
+    background-color: #5a6268;
 }
 
-#pegawai-list div, #pengikut-list div {
-    margin: 5px 0;
+.added-list {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px dashed #ced4da;
+    border-radius: 6px;
+    min-height: 50px;
+}
+
+.added-list div {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.added-list div:last-child {
+    border-bottom: none;
 }
 
 /* Responsive design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .container {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+
     label {
         width: 100%;
         margin-bottom: 5px;
@@ -107,11 +227,15 @@ button:hover {
 
     input[type="text"],
     input[type="date"],
-    select {
+    select,
+    .select2-container {
         width: 100%;
+        margin-right: 0;
     }
 
-    #pegawai-list, #pengikut-list {
+    .form-group button {
+        width: 100%;
         margin-left: 0;
+        margin-top: 10px;
     }
 }

@@ -271,9 +271,14 @@ button {
 }
 
 .flex-row button {
-    flex-shrink: 0; /* Prevent button from shrinking */
-    height: auto; /* Allow button height to adjust */
-    align-self: stretch; /* Make button fill height */
+    flex-shrink: 0;
+    height: 39px; /* Samakan tinggi tombol dengan dropdown/input */
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* Select2 Customization */

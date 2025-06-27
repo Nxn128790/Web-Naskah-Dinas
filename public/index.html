@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +25,7 @@
                 </select>
             </div>
 
+            <!-- FORM SPT -->
             <div id="spt-form" class="form-card" style="display: none;">
                 <h2 class="form-title">Formulir Surat Perintah Tugas (SPT)</h2>
                 <div class="form-group">
@@ -73,6 +74,7 @@
                 </div>
             </div>
 
+            <!-- FORM SPPD -->
             <div id="sppd-form" class="form-card" style="display: none;">
                 <h2 class="form-title">Formulir Surat Perintah Perjalanan Dinas (SPPD)</h2>
                 <div class="form-group">
@@ -104,6 +106,7 @@
                     <select id="pegawai-utama" class="modern-dropdown">
                         <option value="">Pilih Pegawai Utama</option>
                     </select>
+                    <input type="text" id="pegawai-utama-tanggal-lahir" placeholder="Tanggal Lahir (otomatis)" readonly />
                 </div>
                 <div class="form-group">
                     <label for="pengikut">Pengikut:</label>
@@ -119,6 +122,12 @@
                     <label for="alat-angkut">Alat Angkut:</label>
                     <select id="alat-angkut" class="modern-dropdown">
                         <option value="">Pilih Alat Angkut</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tingkat-biaya">Tingkat Biaya:</label>
+                    <select id="tingkat-biaya" class="modern-dropdown">
+                        <option value="">Pilih Tingkat Biaya</option>
                     </select>
                 </div>
                 <div class="form-group">

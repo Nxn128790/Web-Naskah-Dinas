@@ -4,123 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Naskah Dinas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Generator Naskah Dinas</h1>
-        <div class="form-group">
-            <label for="naskah">Jenis Naskah:</label>
-            <select id="naskah" class="modern-dropdown">
-                <option value="">Pilih Jenis Naskah</option>
-                <option value="SPT">SPT</option>
-                <option value="SPPD">SPPD</option>
-            </select>
-        </div>
+        <header class="app-header">
+            <h1>Generator Naskah Dinas</h1>
+            <p class="tagline">Buat surat dinas dengan cepat dan mudah</p>
+        </header>
 
-        <div id="spt-form" style="display: none;">
-            <h2>Form SPT</h2>
-            <div class="form-group">
-                <label for="spt-pengawasan">Jenis Pengawasan:</label>
-                <input type="text" id="spt-pengawasan" placeholder="Masukkan jenis pengawasan">
-            </div>
-            <div class="form-group">
-                <label for="spt-opd">OPD:</label>
-                <select id="spt-opd" class="modern-dropdown">
-                    <option value="">Pilih OPD</option>
+        <div class="main-content">
+            <div class="form-section">
+                <label for="naskah" class="section-label">Pilih Jenis Naskah:</label>
+                <select id="naskah" class="modern-dropdown">
+                    <option value="">Pilih Jenis Naskah</option>
+                    <option value="SPT">Surat Perintah Tugas (SPT)</option>
+                    <option value="SPPD">Surat Perintah Perjalanan Dinas (SPPD)</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="spt-tahun">Tahun Anggaran:</label>
-                <input type="text" id="spt-tahun" placeholder="Masukkan tahun">
-            </div>
-            <div class="form-group">
-                <label for="spt-mulai">Tanggal Mulai:</label>
-                <input type="date" id="spt-mulai" placeholder="dd/mm/yyyy">
-            </div>
-            <div class="form-group">
-                <label for="spt-berakhir">Tanggal Berakhir:</label>
-                <input type="date" id="spt-berakhir" placeholder="dd/mm/yyyy">
-            </div>
-            <div class="form-group">
-                <label for="bulanttd">Bulan TTD:</label>
-                <input type="text" id="bulanttd" placeholder="Masukkan bulan TTD">
-            </div>
-            <div class="form-group">
-                <label for="pejabat">Pejabat:</label>
-                <select id="pejabat" class="modern-dropdown">
-                    <option value="">Pilih Pejabat</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="pegawai">Pegawai:</label>
-                <div class="flex-row">
-                    <select id="pegawai" class="modern-dropdown">
-                        <option value="">Pilih Pegawai</option>
+
+            <div id="spt-form" class="form-card" style="display: none;">
+                <h2 class="form-title">Formulir Surat Perintah Tugas (SPT)</h2>
+                <div class="form-group">
+                    <label for="spt-pengawasan">Jenis Pengawasan:</label>
+                    <input type="text" id="spt-pengawasan" placeholder="Contoh: Pengawasan Internal">
+                </div>
+                <div class="form-group">
+                    <label for="spt-opd">OPD:</label>
+                    <select id="spt-opd" class="modern-dropdown">
+                        <option value="">Pilih OPD</option>
                     </select>
-                    <button type="button" id="add-pegawai">TAMBAH</button>
+                </div>
+                <div class="form-group">
+                    <label for="spt-tahun">Tahun Anggaran:</label>
+                    <input type="text" id="spt-tahun" placeholder="Contoh: 2024">
+                </div>
+                <div class="form-group date-range">
+                    <div class="date-input-group">
+                        <label for="spt-mulai">Tanggal Mulai:</label>
+                        <input type="date" id="spt-mulai" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="date-input-group">
+                        <label for="spt-berakhir">Tanggal Berakhir:</label>
+                        <input type="date" id="spt-berakhir" placeholder="dd/mm/yyyy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bulanttd">Bulan TTD:</label>
+                    <input type="text" id="bulanttd" placeholder="Contoh: Januari">
+                </div>
+                <div class="form-group">
+                    <label for="pejabat">Pejabat Penandatangan:</label>
+                    <select id="pejabat" class="modern-dropdown">
+                        <option value="">Pilih Pejabat</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pegawai">Daftar Pegawai:</label>
+                    <div class="flex-row">
+                        <select id="pegawai" class="modern-dropdown">
+                            <option value="">Pilih Pegawai</option>
+                        </select>
+                        <button type="button" id="add-pegawai" class="add-button">TAMBAH</button>
+                    </div>
+                    <div id="pegawai-list" class="item-list"></div>
                 </div>
             </div>
-            <div id="pegawai-list"></div>
-        </div>
 
-        <div id="sppd-form" style="display: none;">
-            <h2>Form SPPD</h2>
-            <div class="form-group">
-                <label for="sppd-pengawasan">Jenis Pengawasan:</label>
-                <input type="text" id="sppd-pengawasan" placeholder="Masukkan jenis pengawasan">
-            </div>
-            <div class="form-group">
-                <label for="sppd-opd">OPD:</label>
-                <select id="sppd-opd" class="modern-dropdown">
-                    <option value="">Pilih OPD</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="sppd-tahun">Tahun Anggaran:</label>
-                <input type="text" id="sppd-tahun" placeholder="Masukkan tahun">
-            </div>
-            <div class="form-group">
-                <label for="sppd-mulai">Tanggal Mulai:</label>
-                <input type="date" id="sppd-mulai" placeholder="dd/mm/yyyy">
-            </div>
-            <div class="form-group">
-                <label for="sppd-berakhir">Tanggal Berakhir:</label>
-                <input type="date" id="sppd-berakhir" placeholder="dd/mm/yyyy">
-            </div>
-            <div class="form-group">
-                <label for="pegawai-utama">Pegawai Utama:</label>
-                <select id="pegawai-utama" class="modern-dropdown">
-                    <option value="">Pilih Pegawai Utama</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="pengikut">Pengikut:</label>
-                <div class="flex-row">
-                    <select id="pengikut" class="modern-dropdown">
-                        <option value="">Pilih Pengikut</option>
+            <div id="sppd-form" class="form-card" style="display: none;">
+                <h2 class="form-title">Formulir Surat Perintah Perjalanan Dinas (SPPD)</h2>
+                <div class="form-group">
+                    <label for="sppd-pengawasan">Jenis Pengawasan:</label>
+                    <input type="text" id="sppd-pengawasan" placeholder="Contoh: Pengawasan Lapangan">
+                </div>
+                <div class="form-group">
+                    <label for="sppd-opd">OPD:</label>
+                    <select id="sppd-opd" class="modern-dropdown">
+                        <option value="">Pilih OPD</option>
                     </select>
-                    <button type="button" id="add-pengikut">TAMBAH</button>
+                </div>
+                <div class="form-group">
+                    <label for="sppd-tahun">Tahun Anggaran:</label>
+                    <input type="text" id="sppd-tahun" placeholder="Contoh: 2024">
+                </div>
+                <div class="form-group date-range">
+                    <div class="date-input-group">
+                        <label for="sppd-mulai">Tanggal Mulai:</label>
+                        <input type="date" id="sppd-mulai" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="date-input-group">
+                        <label for="sppd-berakhir">Tanggal Berakhir:</label>
+                        <input type="date" id="sppd-berakhir" placeholder="dd/mm/yyyy">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pegawai-utama">Pegawai Utama:</label>
+                    <select id="pegawai-utama" class="modern-dropdown">
+                        <option value="">Pilih Pegawai Utama</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pengikut">Pengikut:</label>
+                    <div class="flex-row">
+                        <select id="pengikut" class="modern-dropdown">
+                            <option value="">Pilih Pengikut</option>
+                        </select>
+                        <button type="button" id="add-pengikut" class="add-button">TAMBAH</button>
+                    </div>
+                    <div id="pengikut-list" class="item-list"></div>
+                </div>
+                <div class="form-group">
+                    <label for="alat-angkut">Alat Angkut:</label>
+                    <select id="alat-angkut" class="modern-dropdown">
+                        <option value="">Pilih Alat Angkut</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pptk">PPTK:</label>
+                    <select id="pptk" class="modern-dropdown">
+                        <option value="">Pilih PPTK</option>
+                    </select>
                 </div>
             </div>
-            <div id="pengikut-list"></div>
-            <div class="form-group">
-                <label for="alat-angkut">Alat Angkut:</label>
-                <select id="alat-angkut" class="modern-dropdown">
-                    <option value="">Pilih Alat Angkut</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="pptk">PPTK:</label>
-                <select id="pptk" class="modern-dropdown">
-                    <option value="">Pilih PPTK</option>
-                </select>
-            </div>
         </div>
 
-        <button id="submit-btn">Buat dan Unduh Surat (.docx)</button>
+        <button id="submit-btn" class="primary-button">Buat dan Unduh Surat (.docx)</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>

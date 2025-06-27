@@ -238,7 +238,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pegawaiList.push(selectedPegawai.value);
                 const pegawaiListDiv = document.querySelector("#pegawai-list");
                 const pegawaiItem = document.createElement("div");
-                pegawaiItem.textContent = selectedPegawai.textContent;
+
+                // --- START PERUBAHAN UNTUK PEGAWAI ---
+                const pegawaiNameSpan = document.createElement("span"); // Buat elemen span
+                pegawaiNameSpan.textContent = selectedPegawai.textContent; // Masukkan teks ke span
+                pegawaiItem.appendChild(pegawaiNameSpan); // Tambahkan span ke div item
+                // --- END PERUBAHAN UNTUK PEGAWAI ---
+
                 // Tambahkan tombol hapus
                 const removeBtn = document.createElement("button");
                 removeBtn.textContent = "HAPUS";
@@ -268,7 +274,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pengikutList.push(selectedPengikut.value);
                 const pengikutListDiv = document.querySelector("#pengikut-list");
                 const pengikutItem = document.createElement("div");
-                pengikutItem.textContent = selectedPengikut.textContent;
+
+                // --- START PERUBAHAN UNTUK PENGIKUT ---
+                const pengikutNameSpan = document.createElement("span"); // Buat elemen span
+                pengikutNameSpan.textContent = selectedPengikut.textContent; // Masukkan teks ke span
+                pengikutItem.appendChild(pengikutNameSpan); // Tambahkan span ke div item
+                // --- END PERUBAHAN UNTUK PENGIKUT ---
+
                 // Tambahkan tombol hapus
                 const removeBtn = document.createElement("button");
                 removeBtn.textContent = "HAPUS";

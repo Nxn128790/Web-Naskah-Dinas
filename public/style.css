@@ -211,16 +211,26 @@ button {
 .item-list div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */ /* Hapus atau komentari baris ini */
     padding: 10px 0;
+    padding-left: 15px; /* Tambahkan baris ini */
     border-bottom: 1px dashed var(--border-color);
     font-size: 0.95em;
     color: var(--text-dark);
     line-height: 1.6; /* Pastikan line-height konsisten */
+    gap: 15px; /* Tambahkan baris ini untuk jarak antara teks dan tombol */
 }
 
 .item-list div:last-child {
     border-bottom: none;
+}
+
+/* Tambahkan aturan CSS baru ini */
+.item-list div span {
+    flex-grow: 1; /* Biarkan teks nama mengambil ruang sebanyak mungkin */
+    white-space: nowrap; /* Mencegah teks melompat baris */
+    overflow: hidden; /* Sembunyikan teks yang meluap */
+    text-overflow: ellipsis; /* Tambahkan elipsis (...) untuk teks yang meluap */
 }
 
 .list-remove-btn {
@@ -233,6 +243,7 @@ button {
     transition: background-color 0.3s ease;
     box-shadow: none; /* Hilangkan shadow default button */
     line-height: 1.6; /* Pastikan line-height konsisten */
+    flex-shrink: 0; /* Tambahkan baris ini: Pastikan tombol tidak menyusut */
 }
 
 .list-remove-btn:hover {
@@ -393,6 +404,7 @@ button {
     }
     .item-list div {
         padding: 8px 0;
+        padding-left: 12px; /* Sesuaikan padding-left untuk responsif */
         font-size: 0.9em;
     }
     .list-remove-btn {

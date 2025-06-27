@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM loaded, inisialisasi aplikasi");
-    const backendUrl = "/.netlify/functions"; // <-- PERUBAHAN DI SINI
+    const backendUrl = "/.netlify/functions";
     let pegawaiList = [];
     let pengikutList = [];
 
@@ -23,41 +23,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentMonth = monthNames[today.getMonth()];
     const currentYear = today.getFullYear();
 
-    // Set nilai default untuk field tanggal
-    const mulaiInput = document.querySelector("#mulai");
-    if (mulaiInput) {
-        mulaiInput.value = formatDate(today); // Default: 2025-06-27
-        console.log("Tanggal Mulai diatur ke:", mulaiInput.value);
-    } else {
-        console.error("Elemen #mulai tidak ditemukan");
+    // Set nilai default untuk field tanggal (pastikan ini menargetkan kedua form jika IDnya unik)
+    // Untuk SPT
+    const sptMulaiInput = document.querySelector("#spt-mulai");
+    if (sptMulaiInput) {
+        sptMulaiInput.value = formatDate(today);
+        console.log("Tanggal Mulai SPT diatur ke:", sptMulaiInput.value);
+    }
+    const sptBerakhirInput = document.querySelector("#spt-berakhir");
+    if (sptBerakhirInput) {
+        sptBerakhirInput.value = formatDate(tomorrow);
+        console.log("Tanggal Berakhir SPT diatur ke:", sptBerakhirInput.value);
+    }
+    const sptTahunInput = document.querySelector("#spt-tahun");
+    if (sptTahunInput) {
+        sptTahunInput.value = currentYear;
+        console.log("Tahun Anggaran SPT diatur ke:", sptTahunInput.value);
     }
 
-    const berakhirInput = document.querySelector("#berakhir");
-    if (berakhirInput) {
-        berakhirInput.value = formatDate(tomorrow); // Default: 2025-06-28
-        console.log("Tanggal Berakhir diatur ke:", berakhirInput.value);
-    } else {
-        console.error("Elemen #berakhir tidak ditemukan");
+    // Untuk SPPD
+    const sppdMulaiInput = document.querySelector("#sppd-mulai");
+    if (sppdMulaiInput) {
+        sppdMulaiInput.value = formatDate(today);
+        console.log("Tanggal Mulai SPPD diatur ke:", sppdMulaiInput.value);
+    }
+    const sppdBerakhirInput = document.querySelector("#sppd-berakhir");
+    if (sppdBerakhirInput) {
+        sppdBerakhirInput.value = formatDate(tomorrow);
+        console.log("Tanggal Berakhir SPPD diatur ke:", sppdBerakhirInput.value);
+    }
+    const sppdTahunInput = document.querySelector("#sppd-tahun");
+    if (sppdTahunInput) {
+        sppdTahunInput.value = currentYear;
+        console.log("Tahun Anggaran SPPD diatur ke:", sppdTahunInput.value);
     }
 
-    const tahunInput = document.querySelector("#tahun");
-    if (tahunInput) {
-        tahunInput.value = currentYear; // Default: 2025
-        console.log("Tahun Anggaran diatur ke:", tahunInput.value);
-    } else {
-        console.error("Elemen #tahun tidak ditemukan");
-    }
-
-    const bulanttdInput = document.querySelector("#bulanttd");
+    const bulanttdInput = document.querySelector("#bulanttd"); // Ini hanya di SPT
     if (bulanttdInput) {
-        bulanttdInput.value = currentMonth; // Default: Juni
+        bulanttdInput.value = currentMonth;
         console.log("Bulan TTD diatur ke:", bulanttdInput.value);
-    } else {
-        console.error("Elemen #bulanttd tidak ditemukan");
     }
 
     // Ambil data dari backend
-    fetch(`${backendUrl}/data`) // <-- URL berubah secara otomatis
+    fetch(`${backendUrl}/data`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Gagal mengambil data dari backend: ${response.status} ${response.statusText}`);
@@ -67,19 +75,33 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             console.log("Data diterima dari backend:", data);
 
-            // Isi dropdown OPD
-            const opdSelect = document.querySelector("#opd");
-            if (opdSelect) {
+            // Isi dropdown OPD (untuk SPT dan SPPD)
+            const sptOpdSelect = document.querySelector("#spt-opd"); // <-- Perubahan ID
+            if (sptOpdSelect) {
                 data.opd.forEach(opd => {
                     const option = document.createElement("option");
                     option.value = opd.value;
                     option.textContent = opd.nama;
-                    opdSelect.appendChild(option);
+                    sptOpdSelect.appendChild(option);
                 });
-                console.log("Dropdown OPD diisi dengan", data.opd.length, "opsi");
+                console.log("Dropdown OPD SPT diisi dengan", data.opd.length, "opsi");
             } else {
-                console.error("Elemen #opd tidak ditemukan");
+                console.error("Elemen #spt-opd tidak ditemukan");
             }
+
+            const sppdOpdSelect = document.querySelector("#sppd-opd"); // <-- Perubahan ID
+            if (sppdOpdSelect) {
+                data.opd.forEach(opd => {
+                    const option = document.createElement("option");
+                    option.value = opd.value;
+                    option.textContent = opd.nama;
+                    sppdOpdSelect.appendChild(option);
+                });
+                console.log("Dropdown OPD SPPD diisi dengan", data.opd.length, "opsi");
+            } else {
+                console.error("Elemen #sppd-opd tidak ditemukan");
+            }
+
 
             // Isi dropdown Pegawai untuk SPT
             const pegawaiSelect = document.querySelector("#pegawai");
@@ -90,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     option.textContent = pegawai.nama;
                     pegawaiSelect.appendChild(option);
                 });
-                console.log("Dropdown Pegawai diisi dengan", data.pegawai.length, "opsi");
+                console.log("Dropdown Pegawai SPT diisi dengan", data.pegawai.length, "opsi");
             } else {
                 console.error("Elemen #pegawai tidak ditemukan");
             }
@@ -123,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Elemen #pengikut tidak ditemukan");
             }
 
-            // Isi dropdown Pejabat
+            // Isi dropdown Pejabat (untuk SPT)
             const pejabatSelect = document.querySelector("#pejabat");
             if (pejabatSelect) {
                 data.pejabat.forEach((pejabat, index) => {
@@ -132,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     option.textContent = pejabat.nama;
                     pejabatSelect.appendChild(option);
                 });
-                console.log("Dropdown Pejabat diisi dengan", data.pejabat.length, "opsi");
+                console.log("Dropdown Pejabat SPT diisi dengan", data.pejabat.length, "opsi");
             } else {
                 console.error("Elemen #pejabat tidak ditemukan");
             }
@@ -243,22 +265,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Pilih jenis naskah terlebih dahulu");
                 return;
             }
-            const formData = {
-                jenis_pengawasan: document.querySelector("#pengawasan")?.value || "",
-                opd: document.querySelector("#opd")?.value || "",
-                tahun: document.querySelector("#tahun")?.value || "",
-                tglmulai: document.querySelector("#mulai")?.value || "",
-                tglberakhir: document.querySelector("#berakhir")?.value || "",
-            };
+            const formData = {}; // Inisialisasi kosong, akan diisi sesuai naskah
 
             // URL endpoint akan berubah secara otomatis
             const endpoint = naskah === "SPT" ? `${backendUrl}/generate-spt` : `${backendUrl}/generate-sppd`;
 
             if (naskah === "SPT") {
+                formData.jenis_pengawasan = document.querySelector("#spt-pengawasan")?.value || "";
+                formData.opd = document.querySelector("#spt-opd")?.value || "";
+                formData.tahun = document.querySelector("#spt-tahun")?.value || "";
+                formData.tglmulai = document.querySelector("#spt-mulai")?.value || "";
+                formData.tglberakhir = document.querySelector("#spt-berakhir")?.value || "";
                 formData.selected_pegawai_indices = pegawaiList;
                 formData.pejabat_index = document.querySelector("#pejabat")?.value || "";
                 formData.bulanttd = document.querySelector("#bulanttd")?.value || "";
             } else if (naskah === "SPPD") {
+                formData.jenis_pengawasan = document.querySelector("#sppd-pengawasan")?.value || ""; // <-- Perubahan ID
+                formData.opd = document.querySelector("#sppd-opd")?.value || ""; // <-- Perubahan ID
+                formData.tahun = document.querySelector("#sppd-tahun")?.value || ""; // <-- Perubahan ID
+                formData.tglmulai = document.querySelector("#sppd-mulai")?.value || ""; // <-- Perubahan ID
+                formData.tglberakhir = document.querySelector("#sppd-berakhir")?.value || ""; // <-- Perubahan ID
                 formData.pegawai_utama_index = document.querySelector("#pegawai-utama")?.value || "";
                 formData.pengikut_indices = pengikutList;
                 formData.alat_angkut = document.querySelector("#alat-angkut")?.value || "";

@@ -1,3 +1,9 @@
+# netlify.toml
 [build]
   publish = "public"
-  functions = "netlify/functions" # <-- TAMBAHKAN BARIS INI
+  functions = "netlify/functions"
+
+[functions]
+  # Direktori tempat Netlify Functions akan mencari file tambahan
+  # Ini adalah path relatif dari root proyekmu
+  included_files = ["./templates/**"] # <-- TAMBAHKAN INI

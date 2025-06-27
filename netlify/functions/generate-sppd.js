@@ -114,8 +114,11 @@ exports.handler = async (event, context) => {
             pegawai_utama_index,
             pengikut_indices = [],
             alat_angkut,
-            pptk_index
-        } = JSON.parse(event.body); // Parse body dari event
+            pptk_index,
+            tingkat_biaya,
+            tanggal_lahir
+        } = JSON.parse(event.body);
+
 
         // Validasi data
         if (!pegawai_utama_index || !pptk_index) {

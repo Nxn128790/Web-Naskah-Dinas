@@ -16,6 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${year}-${month}-${day}`;
     };
 
+    // Tambahkan fungsi formatDateDMY
+    function formatDateDMY(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${day}/${month}/${year}`;
+    }
+
     const monthNames = [
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",
         "Juli", "Agustus", "September", "Oktober", "November", "Desember"
@@ -27,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Untuk SPT
     const sptMulaiInput = document.querySelector("#spt-mulai");
     if (sptMulaiInput) {
-        sptMulaiInput.value = formatDate(today);
+        sptMulaiInput.value = formatDate(today); // yyyy-mm-dd untuk input type date
         console.log("Tanggal Mulai SPT diatur ke:", sptMulaiInput.value);
     }
     const sptBerakhirInput = document.querySelector("#spt-berakhir");
@@ -63,6 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
         bulanttdInput.value = currentMonth;
         console.log("Bulan TTD diatur ke:", bulanttdInput.value);
     }
+
+    // Ubah placeholder input date menjadi dd/mm/yyyy
+    ["#spt-mulai", "#spt-berakhir", "#sppd-mulai", "#sppd-berakhir"].forEach(id => {
+        const el = document.querySelector(id);
+        if (el) el.setAttribute("placeholder", "dd/mm/yyyy");
+    });
 
     // Ambil data dari backend
     fetch(`${backendUrl}/data`)

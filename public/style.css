@@ -6,112 +6,179 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
+    font-family: 'Open Sans', Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 0;
+    font-size: 15px;
+}
+
+.container {
+    max-width: 700px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 28px 18px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 32px rgba(44, 62, 80, 0.10);
 }
 
 h1 {
+    font-family: 'Montserrat', Arial, sans-serif;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
     color: #2c3e50;
+    font-size: 1.45em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 h2 {
+    font-family: 'Montserrat', Arial, sans-serif;
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     color: #34495e;
+    font-size: 1.08em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 6px;
 }
 
 #spt-form, #sppd-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    background-color: #f9fafb;
+    padding: 24px 18px 18px 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+    margin-bottom: 24px;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
 
+.form-group {
+    margin-bottom: 16px;
+    padding: 0 0 0 0;
+}
+
 label {
-    display: inline-block;
-    width: 180px;
-    margin: 10px 0 5px;
-    font-weight: bold;
+    display: block;
+    margin: 0 0 6px 0;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.98em;
 }
 
 input[type="text"],
 input[type="date"],
 select {
-    width: calc(100% - 190px);
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid #dcdcdc;
+    border-radius: 7px;
+    font-size: 0.97em;
+    color: #333;
+    background-color: #fcfcfc;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 0;
+    margin-top: 0;
+    box-sizing: border-box;
 }
 
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,10"/></svg>') no-repeat right 10px center;
-    background-size: 10px;
-    padding-right: 20px;
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.13);
+    outline: none;
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 10px 22px;
+    border-radius: 7px;
     cursor: pointer;
-    font-size: 14px;
-    margin: 10px 0;
-    transition: background-color 0.3s;
+    font-size: 0.98em;
+    margin: 10px 0 0 0;
+    transition: background-color 0.3s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
 #submit-btn {
     display: block;
-    margin: 20px auto;
-    padding: 12px 30px;
-    font-size: 16px;
+    width: 100%;
+    margin: 28px auto 0 auto;
+    padding: 13px;
+    font-size: 1.05em;
+    font-weight: 600;
+    background-color: #2c3e50;
+    border-radius: 10px;
+}
+
+#submit-btn:hover {
+    background-color: #007bff;
 }
 
 #pegawai-list, #pengikut-list {
-    margin-left: 190px;
-    margin-top: 10px;
+    margin-top: 8px;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background-color: #f4f8fb;
+    border: 1px solid #e0e0e0;
+    border-radius: 7px;
+    min-height: 36px;
 }
 
 #pegawai-list div, #pengikut-list div {
-    margin: 5px 0;
+    margin: 4px 0;
+    font-size: 0.98em;
+    color: #555;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 2px;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
-    label {
-        width: 100%;
-        margin-bottom: 5px;
-    }
+#pegawai-list div:last-child, #pengikut-list div:last-child {
+    border-bottom: none;
+}
 
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type="date"] {
+    width: 100%;
+}
+
+#naskah {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .container {
+        padding: 10px 2vw;
+    }
+    h1 {
+        font-size: 1.1em;
+    }
+    h2 {
+        font-size: 0.98em;
+    }
     input[type="text"],
     input[type="date"],
     select {
-        width: 100%;
+        font-size: 0.95em;
+        padding: 8px 7px;
     }
-
-    #pegawai-list, #pengikut-list {
-        margin-left: 0;
+    button {
+        font-size: 0.96em;
+        padding: 9px 12px;
     }
 }

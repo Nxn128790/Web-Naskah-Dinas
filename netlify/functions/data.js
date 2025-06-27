@@ -6,8 +6,8 @@ const data = {
         { nama: "Cahyo Pratama", pangkat: "Pengatur/IIc", nip: "199003032010041003", jabatan: "Staf" }
     ],
     pejabat: [
-        { nama: "Dr. H. Ahmad Zainuddin, M.Si", pangkat: "Pembina Utama Madya/IVd", nip: "196504041990031001", jabatan: "Inspektur", tingkat_biaya: "A", tanggal_lahir: "1965-04-04" },
-        { nama: "Dra. Bayana M.Si, CGCAE", pangkat: "Pembina/IVa", nip: "19690401 199003 2 004", jabatan: "Sekretaris", tingkat_biaya: "A", tanggal_lahir: "1969-04-01" }
+        { nama: "Dr. H. Ahmad Zainuddin, M.Si", pangkat: "Pembina Utama Madya/IVd", nip: "196504041990031001", jabatan: "Inspektur" },
+        { nama: "Dra. Bayana M.Si, CGCAE", pangkat: "Pembina/IVa", nip: "19690401 199003 2 004", jabatan: "Sekretaris" }
     ],
     opd: [
         { nama: "Sekretariat Daerah", value: "Sekretariat Daerah" },

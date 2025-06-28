@@ -237,6 +237,9 @@ $(document).ready(function() {
             });
         }
 
+        // Pastikan form SPT dan SPPD disembunyikan di awal
+        $('#form-spt').hide();
+        $('#form-sppd').hide();
         // TAMPILKAN FORM SESUAI PILIHAN JENIS NASKAH DINAS
         $('#naskah').on('change', function() {
             var val = $(this).val();
@@ -252,7 +255,7 @@ $(document).ready(function() {
             }
         });
         // Trigger sekali saat load agar form sesuai default
-        $('#naskah').trigger('change');
+        setTimeout(function() { $('#naskah').trigger('change'); }, 100);
 
         const submitBtn = document.querySelector("#submit-btn");
         if (submitBtn) {

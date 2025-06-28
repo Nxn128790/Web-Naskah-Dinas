@@ -462,7 +462,6 @@ exports.handler = async (event, context) => {
         if (!pegawaiUtama) {
             throw new Error(`Pegawai utama dengan indeks ${pegawai_utama_index} tidak ditemukan`);
         }
-        // Ambil data pengikut SESUAI URUTAN PILIHAN USER (jangan diurutkan ulang)
         const pengikutList = pengikut_indices.map(index => {
             const pegawai = data.pegawai[parseInt(index)];
             if (!pegawai) {

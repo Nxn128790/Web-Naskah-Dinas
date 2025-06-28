@@ -445,7 +445,7 @@ exports.handler = async (event, context) => {
             return { statusCode: 400, body: JSON.stringify({ message: "Pilih pejabat" }), headers: { "Access-Control-Allow-Origin": "*" } };
         }
 
-        // Ambil data pegawai dan pejabat SESUAI URUTAN PILIHAN USER (jangan diurutkan ulang)
+        // Ambil data pegawai dan pejabat
         const pegawaiList = selected_pegawai_indices.map(index => {
             const pegawai = data.pegawai[parseInt(index)];
             if (!pegawai) {

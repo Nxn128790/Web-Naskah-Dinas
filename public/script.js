@@ -14,7 +14,7 @@ $(document).ready(function() {
     let pengikutList = [];
 
     $('.modern-dropdown').select2({
-        placeholder: 'Pilih...',
+        placeholder: 'Pilih Jenis Naskah Dinas...',
         allowClear: false,
         width: '100%',
         dropdownAutoWidth: false,
@@ -89,6 +89,11 @@ $(document).ready(function() {
                 `<option value="${index}">${pejabat.nama}</option>`
             );
         });
+        // Set default penandatangan SPT ke Bayana jika ada
+        const defaultPejabatIndex = data.pejabat.findIndex(p => p.nama.toLowerCase().includes('bayana'));
+        if (defaultPejabatIndex !== -1) {
+            $('#pejabat').val(defaultPejabatIndex).trigger('change');
+        }
 
         data.alatAngkut.forEach(alat => {
             $('#alat-angkut').append(

@@ -7,19 +7,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
+    <style>
+        .logo-lampung {
+            display: block;
+            margin: 0 auto 12px auto;
+            max-width: 64px;
+            max-height: 64px;
+            width: auto;
+            height: auto;
+        }
+        .app-header h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header class="app-header">
-            <h1>Generator Naskah Dinas</h1>
-            <p class="tagline">Buat surat dinas dengan cepat dan mudah</p>
+            <img src="logo-lampung.png" alt="Logo Provinsi Lampung" class="logo-lampung">
+            <h1>INSPEKTORAT</h1>
         </header>
 
         <div class="main-content">
             <div class="form-section">
-                <label for="naskah" class="section-label">Pilih Jenis Naskah:</label>
                 <select id="naskah" class="modern-dropdown">
-                    <option value="">Pilih Jenis Naskah</option>
+                    <option value="">Pilih Jenis Naskah Dinas...</option>
                     <option value="SPT">Surat Perintah Tugas (SPT)</option>
                     <option value="SPPD">Surat Perintah Perjalanan Dinas (SPPD)</option>
                 </select>
@@ -142,7 +157,7 @@
             </div>
         </div>
 
-        <button id="submit-btn" class="primary-button">Buat dan Unduh Surat (.docx)</button>
+        <button id="submit-btn" class="primary-button">BUAT DAN UNDUH SURAT (DOCX)</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>

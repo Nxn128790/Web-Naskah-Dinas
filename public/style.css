@@ -108,8 +108,8 @@ body {
 }
 
 .form-title {
-    font-size: 1.6em;
-    color: var(--text-dark);
+    font-size: 1.1em;
+    color: var(--primary-color); /* Sama seperti INSPEKTORAT */
     margin-bottom: 25px;
     font-weight: 700;
     border-bottom: 2px solid var(--border-color);
@@ -195,10 +195,12 @@ button {
     background-color: var(--primary-color);
     color: #fff;
     width: 100%;
-    padding: 15px 25px;
-    font-size: 1.1em;
-    margin-top: 40px;
-    border-radius: var(--radius-medium);
+    padding: 0 24px;
+    height: 40px;
+    min-height: 40px;
+    font-size: 1rem;
+    margin-top: 18px; /* Lebih kecil, agar jarak ke form tidak terlalu jauh */
+    border-radius: 4px; /* Border radius tombol jadi 4px */
     box-shadow: 0 5px 15px rgba(74, 144, 226, 0.2);
 }
 
@@ -272,7 +274,7 @@ button {
 
 .flex-row button {
     flex-shrink: 0;
-    height: 39px; /* Samakan tinggi tombol dengan dropdown/input */
+    height: 40px; /* Samakan tinggi tombol dengan dropdown/input */
     align-self: stretch;
     display: flex;
     align-items: center;
@@ -446,8 +448,10 @@ button {
         font-size: 0.95em;
     }
     .primary-button {
-        padding: 14px 20px;
-        font-size: 1em;
+        padding: 0 24px;
+        height: 40px;
+        min-height: 40px;
+        font-size: 1rem;
         margin-top: 30px;
     }
     .item-list div {
@@ -508,7 +512,9 @@ button {
         font-size: 0.9em;
     }
     .primary-button {
-        padding: 12px 18px;
+        padding: 0 24px;
+        height: 40px;
+        min-height: 40px;
         font-size: 0.95em;
     }
 }

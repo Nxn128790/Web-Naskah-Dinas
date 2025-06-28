@@ -456,6 +456,14 @@ exports.handler = async (event, context) => {
         if (!pegawai_utama_nip || !pptk_index) {
             return { statusCode: 400, body: JSON.stringify({ message: "Pilih pegawai utama dan PPTK" }), headers: { "Access-Control-Allow-Origin": "*" } };
         }
+        // Validasi pengikut (jika memang wajib, tambahkan ini)
+        // if (!pengikut_nips || pengikut_nips.length === 0) {
+        //     return { statusCode: 400, body: JSON.stringify({ message: "Pilih setidaknya satu pengikut" }), headers: { "Access-Control-Allow-Origin": "*" } };
+        // }
+        // Validasi pegawai utama (tambahkan pesan error yang lebih jelas)
+        if (!pegawai_utama_nip) {
+            return { statusCode: 400, body: JSON.stringify({ message: "Pilih pegawai utama" }), headers: { "Access-Control-Allow-Origin": "*" } };
+        }
 
         // Ambil data pegawai utama, pengikut, dan PPTK
         const pegawaiUtama = data.pegawai.find(p => p.nip === pegawai_utama_nip);

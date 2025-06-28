@@ -426,19 +426,20 @@ exports.handler = async (event, context) => {
     }
 
     try {
+        // Ambil data dari frontend
         const {
             jenis_pengawasan,
             opd,
             tahun,
             tglmulai,
             tglberakhir,
-            selected_pegawai_indices = [],
+            selected_pegawai_nips = [],
             pejabat_index,
             bulanttd
         } = JSON.parse(event.body); // Parse body dari event
 
         // Validasi data
-        if (!selected_pegawai_indices.length) {
+        if (!selected_pegawai_nips.length) {
             return { statusCode: 400, body: JSON.stringify({ message: "Pilih setidaknya satu pegawai" }), headers: { "Access-Control-Allow-Origin": "*" } };
         }
         if (!pejabat_index) {
@@ -446,7 +447,7 @@ exports.handler = async (event, context) => {
         }
 
         // Ambil data pegawai dan pejabat
-        const pegawaiList = selected_pegawai_indices.map(nip => {
+        const pegawaiList = selected_pegawai_nips.map(nip => {
             const pegawai = data.pegawai.find(p => p.nip === nip);
             if (!pegawai) {
                 throw new Error(`Pegawai dengan NIP ${nip} tidak ditemukan`);

@@ -102,13 +102,22 @@ $(document).ready(function() {
                 );
             });
         }
-        // Pegawai, Pengikut, Pegawai Utama, Pejabat
+        // Pegawai, Pengikut, Pegawai Utama
         const sortedPegawai = data.pegawai.slice().sort((a, b) => a.nama.localeCompare(b.nama));
         sortedPegawai.forEach(pegawai => {
-            $('#pegawai, #pegawai-utama, #pengikut, #pejabat').append(
+            $('#pegawai, #pegawai-utama, #pengikut').append(
                 `<option value="${pegawai.nip}">${pegawai.nama}</option>`
             );
         });
+        // Pejabat Penandatangan (khusus pejabat)
+        if (data.pejabat && Array.isArray(data.pejabat)) {
+            const sortedPejabat = data.pejabat.slice().sort((a, b) => a.nama.localeCompare(b.nama));
+            sortedPejabat.forEach(pejabat => {
+                $('#pejabat').append(
+                    `<option value="${pejabat.nip}">${pejabat.nama}</option>`
+                );
+            });
+        }
     });
 
     ["A", "B", "C"].forEach(tb => {

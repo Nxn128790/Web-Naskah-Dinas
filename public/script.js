@@ -85,67 +85,28 @@ $(document).ready(function() {
     $.getJSON(`${backendUrl}/data`, function(data) {
         window.dataPegawai = data.pegawai;
 
-        // Isi dropdown jenis pengawasan
+        // --- SORT DROPDOWN SECARA ALFABETIS UNTUK SEMUA DROPDOWN YANG DITAMPILKAN ---
+        // OPD
+        const sortedOpd = data.opd.slice().sort((a, b) => a.nama.localeCompare(b.nama));
+        sortedOpd.forEach(opd => {
+            $('#spt-opd, #sppd-opd').append(
+                `<option value="${opd.value}">${opd.nama}</option>`
+            );
+        });
+        // Jenis Pengawasan
         if (data.jenis_pengawasan) {
-            data.jenis_pengawasan.forEach(jp => {
+            const sortedPengawasan = data.jenis_pengawasan.slice().sort((a, b) => a.nama.localeCompare(b.nama));
+            sortedPengawasan.forEach(jp => {
                 $('#spt-pengawasan, #sppd-pengawasan').append(
                     `<option value="${jp.value}">${jp.nama}</option>`
                 );
             });
         }
-
-        data.opd.forEach(opd => {
-            $('#spt-opd, #sppd-opd').append(
-                `<option value="${opd.value}">${opd.nama}</option>`
-            );
-        });
-
-        // Urutkan pegawai berdasarkan golongan/pangkat tertinggi ke terendah
-        const urutanGolongan = [
-            'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
-            'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
-            'Penata Tk. I/ III.d', 'Penata/ III.c', 'Penata Muda Tk. I/ III.b', 'Penata Muda/ III.a',
-            'Pengatur Tk. I/ II.d', 'Pengatur/ II.c', 'Pengatur Muda Tk. I/ II.b', 'Pengatur Muda/ II.a',
-            'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a',
-            'P3K'
-        ];
-        data.pegawai.sort((a, b) => {
-            // Ambil substring golongan (IV.e, IV.d, dst) dari pangkat
-            const getGol = s => {
-                if (!s) return 100;
-                const match = s.match(/([IVX]+\.[a-e])/i);
-                if (match) return urutanGolongan.indexOf(match[0]);
-                // Jika tidak match, cek seluruh string pangkat
-                return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
-            };
-            let idxA = getGol(a.pangkat);
-            let idxB = getGol(b.pangkat);
-            // Jika sama, urutkan alfabet nama
-            if (idxA === idxB) return a.nama.localeCompare(b.nama);
-            return idxA - idxB;
-        });
-
-        // Setelah diurutkan, isi dropdown
-        data.pegawai.forEach((pegawai) => {
-            $('#pegawai, #pegawai-utama, #pengikut').append(
+        // Pegawai, Pengikut, Pegawai Utama, Pejabat
+        const sortedPegawai = data.pegawai.slice().sort((a, b) => a.nama.localeCompare(b.nama));
+        sortedPegawai.forEach(pegawai => {
+            $('#pegawai, #pegawai-utama, #pengikut, #pejabat').append(
                 `<option value="${pegawai.nip}">${pegawai.nama}</option>`
-            );
-        });
-
-        data.pejabat.forEach((pejabat, index) => {
-            $('#pejabat, #pptk').append(
-                `<option value="${index}">${pejabat.nama}</option>`
-            );
-        });
-        // Set default penandatangan SPT ke Bayana jika ada
-        const defaultPejabatIndex = data.pejabat.findIndex(p => p.nama.toLowerCase().includes('bayana'));
-        if (defaultPejabatIndex !== -1) {
-            $('#pejabat').val(defaultPejabatIndex).trigger('change');
-        }
-
-        data.alatAngkut.forEach(alat => {
-            $('#alat-angkut').append(
-                `<option value="${alat.value}">${alat.nama}</option>`
             );
         });
     });

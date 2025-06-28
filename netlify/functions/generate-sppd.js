@@ -462,6 +462,7 @@ exports.handler = async (event, context) => {
         if (!pegawaiUtama) {
             throw new Error(`Pegawai utama dengan indeks ${pegawai_utama_index} tidak ditemukan`);
         }
+        // Ambil data pengikut SESUAI URUTAN PILIHAN USER (jangan diurutkan ulang)
         const pengikutList = pengikut_indices.map(index => {
             const pegawai = data.pegawai[parseInt(index)];
             if (!pegawai) {
@@ -477,27 +478,6 @@ exports.handler = async (event, context) => {
                 tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
                 tanggal_lahir: formatTanggalIndonesia(tglLahir) || "Tidak Diketahui"
             };
-        });
-        // Urutkan pengikutList berdasarkan golongan/pangkat tertinggi ke terendah
-        const urutanGolongan = [
-            'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
-            'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
-            'Penata Tk. I/ III.d', 'Penata/ III.c', 'Penata Muda Tk. I/ III.b', 'Penata Muda/ III.a',
-            'Pengatur Tk. I/ II.d', 'Pengatur/ II.c', 'Pengatur Muda Tk. I/ II.b', 'Pengatur Muda/ II.a',
-            'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a',
-            'P3K'
-        ];
-        pengikutList.sort((a, b) => {
-            const getGol = s => {
-                if (!s) return 100;
-                const match = s.match(/([IVX]+\.[a-e])/i);
-                if (match) return urutanGolongan.indexOf(match[0]);
-                return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
-            };
-            let idxA = getGol(a.pangkat);
-            let idxB = getGol(b.pangkat);
-            if (idxA === idxB) return a.nama.localeCompare(b.nama);
-            return idxA - idxB;
         });
         const pptk = data.pejabat[parseInt(pptk_index)];
         if (!pptk) {

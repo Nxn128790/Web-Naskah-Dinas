@@ -126,9 +126,9 @@ $(document).ready(function() {
         });
 
         // Setelah diurutkan, isi dropdown
-        data.pegawai.forEach((pegawai, index) => {
+        data.pegawai.forEach((pegawai) => {
             $('#pegawai, #pegawai-utama, #pengikut').append(
-                `<option value="${index}">${pegawai.nama}</option>`
+                `<option value="${pegawai.nip}">${pegawai.nama}</option>`
             );
         });
 
@@ -181,7 +181,7 @@ $(document).ready(function() {
             const pegawaiSelect = document.querySelector("#pegawai");
             const selectedPegawai = pegawaiSelect.options[pegawaiSelect.selectedIndex];
             if (selectedPegawai && selectedPegawai.value && !pegawaiList.includes(selectedPegawai.value)) {
-                pegawaiList.push(selectedPegawai.value);
+                pegawaiList.push(selectedPegawai.value); // value = NIP
                 const pegawaiListDiv = document.querySelector("#pegawai-list");
                 const pegawaiItem = document.createElement("div");
                 const pegawaiNameSpan = document.createElement("span");
@@ -209,7 +209,7 @@ $(document).ready(function() {
             const pengikutSelect = document.querySelector("#pengikut");
             const selectedPengikut = pengikutSelect.options[pengikutSelect.selectedIndex];
             if (selectedPengikut && selectedPengikut.value && !pengikutList.includes(selectedPengikut.value)) {
-                pengikutList.push(selectedPengikut.value);
+                pengikutList.push(selectedPengikut.value); // value = NIP
                 const pengikutListDiv = document.querySelector("#pengikut-list");
                 const pengikutItem = document.createElement("div");
                 const pengikutNameSpan = document.createElement("span");
@@ -251,7 +251,7 @@ $(document).ready(function() {
                 formData.tahun = $("#spt-tahun").val() || "";
                 formData.tglmulai = $("#spt-mulai").val() || "";
                 formData.tglberakhir = $("#spt-berakhir").val() || "";
-                formData.selected_pegawai_indices = pegawaiList;
+                formData.selected_pegawai_nips = pegawaiList;
                 formData.pejabat_index = $("#pejabat").val() || "";
                 formData.bulanttd = $("#bulanttd").val() || "";
             } else if (naskah === "SPPD") {
@@ -260,16 +260,16 @@ $(document).ready(function() {
                 formData.tahun = $("#sppd-tahun").val() || "";
                 formData.tglmulai = $("#sppd-mulai").val() || "";
                 formData.tglberakhir = $("#sppd-berakhir").val() || "";
-                formData.pegawai_utama_index = $("#pegawai-utama").val() || "";
-                formData.pengikut_indices = pengikutList;
+                formData.pegawai_utama_nip = $("#pegawai-utama").val() || "";
+                formData.pengikut_nips = pengikutList;
                 formData.alat_angkut = $("#alat-angkut").val() || "";
                 formData.tingkat_biaya = $("#tingkat-biaya").val() || "";
                 formData.pptk_index = $("#pptk").val() || "";
 
                 // AMBIL TANGGAL LAHIR LANGSUNG DARI NIP
-                const index = $("#pegawai-utama").val();
-                if (index !== "") {
-                    const selectedPegawai = window.dataPegawai?.[index];
+                const nip = $("#pegawai-utama").val();
+                if (nip !== "") {
+                    const selectedPegawai = window.dataPegawai?.find(p => p.nip === nip);
                     if (selectedPegawai) {
                         const tglLahir = ambilTanggalLahirDariNip(selectedPegawai.nip);
                         formData.tanggal_lahir = tglLahir;

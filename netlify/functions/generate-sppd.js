@@ -443,8 +443,8 @@ exports.handler = async (event, context) => {
             tahun,
             tglmulai,
             tglberakhir,
-            pegawai_utama_index,
-            pengikut_indices = [],
+            pegawai_utama_nip,
+            pengikut_nips = [],
             alat_angkut,
             pptk_index,
             tingkat_biaya,
@@ -453,19 +453,19 @@ exports.handler = async (event, context) => {
 
 
         // Validasi data
-        if (!pegawai_utama_index || !pptk_index) {
+        if (!pegawai_utama_nip || !pptk_index) {
             return { statusCode: 400, body: JSON.stringify({ message: "Pilih pegawai utama dan PPTK" }), headers: { "Access-Control-Allow-Origin": "*" } };
         }
 
         // Ambil data pegawai utama, pengikut, dan PPTK
-        const pegawaiUtama = data.pegawai[parseInt(pegawai_utama_index)];
+        const pegawaiUtama = data.pegawai.find(p => p.nip === pegawai_utama_nip);
         if (!pegawaiUtama) {
-            throw new Error(`Pegawai utama dengan indeks ${pegawai_utama_index} tidak ditemukan`);
+            throw new Error(`Pegawai utama dengan NIP ${pegawai_utama_nip} tidak ditemukan`);
         }
-        const pengikutList = pengikut_indices.map(index => {
-            const pegawai = data.pegawai[parseInt(index)];
+        const pengikutList = pengikut_nips.map(nip => {
+            const pegawai = data.pegawai.find(p => p.nip === nip);
             if (!pegawai) {
-                throw new Error(`Pengikut dengan indeks ${index} tidak ditemukan`);
+                throw new Error(`Pengikut dengan NIP ${nip} tidak ditemukan`);
             }
             // Ambil tanggal lahir dari field atau dari NIP
             const tglLahir = pegawai.tanggal_lahir || ambilTanggalLahirDariNip(pegawai.nip);

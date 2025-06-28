@@ -446,10 +446,10 @@ exports.handler = async (event, context) => {
         }
 
         // Ambil data pegawai dan pejabat
-        const pegawaiList = selected_pegawai_indices.map(index => {
-            const pegawai = data.pegawai[parseInt(index)];
+        const pegawaiList = selected_pegawai_indices.map(nip => {
+            const pegawai = data.pegawai.find(p => p.nip === nip);
             if (!pegawai) {
-                throw new Error(`Pegawai dengan indeks ${index} tidak ditemukan`);
+                throw new Error(`Pegawai dengan NIP ${nip} tidak ditemukan`);
             }
             return {
                 nama: pegawai.nama || "Tidak Diketahui",

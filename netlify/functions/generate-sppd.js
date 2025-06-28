@@ -501,7 +501,7 @@ exports.handler = async (event, context) => {
         // Data untuk template
         const templateData = {
             jenis_pengawasan: jenis_pengawasan || "Tidak Diketahui",
-            opd: opd || "Tidak Diketahui",
+            opd: opd ? `${opd} Provinsi Lampung` : "Tidak Diketahui",
             tahun: tahun || "Tidak Diketahui",
             tglmulai: formatTanggalIndonesia(tglmulai) || "Tidak Diketahui",
             tglberakhir: formatTanggalIndonesia(tglberakhir) || "Tidak Diketahui",
@@ -525,6 +525,11 @@ exports.handler = async (event, context) => {
                 jabatan: p.jabatan
             }))
         };
+
+        // Pastikan seluruh value OPD di templateData dan output surat selalu diakhiri dengan "Provinsi Lampung"
+        if (templateData.opd && !/Provinsi Lampung$/i.test(templateData.opd)) {
+          templateData.opd = templateData.opd.replace(/\s*Provinsi Lampung$/i, '').trim() + ' Provinsi Lampung';
+        }
 
         // Load template
         // PERHATIKAN PATH INI: "../" berarti naik satu level (dari netlify/functions ke netlify), lalu "../" lagi (dari netlify ke root proyek), baru ke "templates/".

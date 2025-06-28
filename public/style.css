@@ -183,6 +183,7 @@ button {
 .add-button {
     background-color: var(--secondary-color);
     color: #fff;
+    border-radius: 4px !important;
 }
 
 .add-button:hover {
@@ -246,7 +247,7 @@ button {
     background-color: #FF6B6B; /* Merah untuk hapus */
     color: #fff;
     padding: 6px 12px;
-    border-radius: var(--radius-small);
+    border-radius: 4px !important;
     font-size: 0.85em;
     font-weight: 600;
     transition: background-color 0.3s ease;

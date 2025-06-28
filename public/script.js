@@ -13,7 +13,8 @@ $(document).ready(function() {
     let pegawaiList = [];
     let pengikutList = [];
 
-    $('.modern-dropdown').select2({
+    // Inisialisasi Select2 dengan placeholder spesifik per dropdown
+    $('#naskah').select2({
         placeholder: 'Pilih Jenis Naskah Dinas...',
         allowClear: false,
         width: '100%',
@@ -27,6 +28,27 @@ $(document).ready(function() {
             if (!data.id) return data.text;
             return $('<span>' + data.text + '</span>');
         }
+    });
+
+    // Untuk dropdown lain, ambil placeholder dari option pertama
+    $('.modern-dropdown').not('#naskah').each(function() {
+        var $select = $(this);
+        var placeholder = $select.find('option[value=""]').text() || '';
+        $select.select2({
+            placeholder: placeholder,
+            allowClear: false,
+            width: '100%',
+            dropdownAutoWidth: false,
+            dropdownParent: $('body'),
+            templateResult: function(data) {
+                if (!data.id) return data.text;
+                return $('<span>' + data.text + '</span>');
+            },
+            templateSelection: function(data) {
+                if (!data.id) return data.text;
+                return $('<span>' + data.text + '</span>');
+            }
+        });
     });
 
     const today = new Date();
@@ -78,6 +100,32 @@ $(document).ready(function() {
             );
         });
 
+        // Urutkan pegawai berdasarkan golongan/pangkat tertinggi ke terendah
+        const urutanGolongan = [
+            'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
+            'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
+            'Penata Tk. I/ III.d', 'Penata/ III.c', 'Penata Muda Tk. I/ III.b', 'Penata Muda/ III.a',
+            'Pengatur Tk. I/ II.d', 'Pengatur/ II.c', 'Pengatur Muda Tk. I/ II.b', 'Pengatur Muda/ II.a',
+            'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a',
+            'P3K'
+        ];
+        data.pegawai.sort((a, b) => {
+            // Ambil substring golongan (IV.e, IV.d, dst) dari pangkat
+            const getGol = s => {
+                if (!s) return 100;
+                const match = s.match(/([IVX]+\.[a-e])/i);
+                if (match) return urutanGolongan.indexOf(match[0]);
+                // Jika tidak match, cek seluruh string pangkat
+                return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
+            };
+            let idxA = getGol(a.pangkat);
+            let idxB = getGol(b.pangkat);
+            // Jika sama, urutkan alfabet nama
+            if (idxA === idxB) return a.nama.localeCompare(b.nama);
+            return idxA - idxB;
+        });
+
+        // Setelah diurutkan, isi dropdown
         data.pegawai.forEach((pegawai, index) => {
             $('#pegawai, #pegawai-utama, #pengikut').append(
                 `<option value="${index}">${pegawai.nama}</option>`

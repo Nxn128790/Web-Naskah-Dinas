@@ -260,7 +260,7 @@ $(document).ready(function() {
                 formData.tglmulai = $("#spt-mulai").val() || "";
                 formData.tglberakhir = $("#spt-berakhir").val() || "";
                 formData.selected_pegawai_nips = pegawaiList;
-                formData.pejabat_index = $("#pejabat").val() || "";
+                formData.pejabat_nip = $("#pejabat").val() || "";
                 formData.bulanttd = $("#bulanttd").val() || "";
             } else if (naskah === "SPPD") {
                 formData.jenis_pengawasan = $("#sppd-pengawasan").val() || "";

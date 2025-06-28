@@ -237,6 +237,23 @@ $(document).ready(function() {
             });
         }
 
+        // TAMPILKAN FORM SESUAI PILIHAN JENIS NASKAH DINAS
+        $('#naskah').on('change', function() {
+            var val = $(this).val();
+            if (val === 'SPT') {
+                $('#form-spt').show();
+                $('#form-sppd').hide();
+            } else if (val === 'SPPD') {
+                $('#form-spt').hide();
+                $('#form-sppd').show();
+            } else {
+                $('#form-spt').hide();
+                $('#form-sppd').hide();
+            }
+        });
+        // Trigger sekali saat load agar form sesuai default
+        $('#naskah').trigger('change');
+
         const submitBtn = document.querySelector("#submit-btn");
         if (submitBtn) {
             submitBtn.addEventListener("click", async () => {

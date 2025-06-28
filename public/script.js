@@ -194,6 +194,100 @@ $(document).ready(function() {
                     removeBtn.onclick = function() {
                         pegawaiList = pegawaiList.filter(val => val !== nip);
                         pegawaiItem.remove();
+                        // Resortir dan render ulang setelah hapus
+                        pegawaiList = sortByPangkat(pegawaiList, window.dataPegawai);
+                        pegawaiListDiv.innerHTML = '';
+                        pegawaiList.forEach(nip2 => {
+                            const peg2 = window.dataPegawai.find(p => p.nip === nip2);
+                            const pegawaiItem = document.createElement("div");
+                            const pegawaiNameSpan = document.createElement("span");
+                            pegawaiNameSpan.textContent = peg2?.nama || nip2;
+                            pegawaiItem.appendChild(pegawaiNameSpan);
+                            const removeBtn = document.createElement("button");
+                            removeBtn.textContent = "HAPUS";
+                            removeBtn.className = "list-remove-btn";
+                            removeBtn.onclick = function() {
+                                pegawaiList = pegawaiList.filter(val => val !== nip2);
+                                pegawaiItem.remove();
+                                pegawaiList = sortByPangkat(pegawaiList, window.dataPegawai);
+                                pegawaiListDiv.innerHTML = '';
+                                pegawaiList.forEach(nip3 => {
+                                    const peg3 = window.dataPegawai.find(p => p.nip === nip3);
+                                    const pegawaiItem = document.createElement("div");
+                                    const pegawaiNameSpan = document.createElement("span");
+                                    pegawaiNameSpan.textContent = peg3?.nama || nip3;
+                                    pegawaiItem.appendChild(pegawaiNameSpan);
+                                    const removeBtn = document.createElement("button");
+                                    removeBtn.textContent = "HAPUS";
+                                    removeBtn.className = "list-remove-btn";
+                                    removeBtn.onclick = function() {
+                                        pegawaiList = pegawaiList.filter(val => val !== nip3);
+                                        pegawaiItem.remove();
+                                        pegawaiList = sortByPangkat(pegawaiList, window.dataPegawai);
+                                        pegawaiListDiv.innerHTML = '';
+                                        pegawaiList.forEach(nip4 => {
+                                            const peg4 = window.dataPegawai.find(p => p.nip === nip4);
+                                            const pegawaiItem = document.createElement("div");
+                                            const pegawaiNameSpan = document.createElement("span");
+                                            pegawaiNameSpan.textContent = peg4?.nama || nip4;
+                                            pegawaiItem.appendChild(pegawaiNameSpan);
+                                            const removeBtn = document.createElement("button");
+                                            removeBtn.textContent = "HAPUS";
+                                            removeBtn.className = "list-remove-btn";
+                                            removeBtn.onclick = function() {
+                                                pegawaiList = pegawaiList.filter(val => val !== nip4);
+                                                pegawaiItem.remove();
+                                                pegawaiList = sortByPangkat(pegawaiList, window.dataPegawai);
+                                                pegawaiListDiv.innerHTML = '';
+                                                pegawaiList.forEach(nip5 => {
+                                                    const peg5 = window.dataPegawai.find(p => p.nip === nip5);
+                                                    const pegawaiItem = document.createElement("div");
+                                                    const pegawaiNameSpan = document.createElement("span");
+                                                    pegawaiNameSpan.textContent = peg5?.nama || nip5;
+                                                    pegawaiItem.appendChild(pegawaiNameSpan);
+                                                    const removeBtn = document.createElement("button");
+                                                    removeBtn.textContent = "HAPUS";
+                                                    removeBtn.className = "list-remove-btn";
+                                                    removeBtn.onclick = function() {
+                                                        pegawaiList = pegawaiList.filter(val => val !== nip5);
+                                                        pegawaiItem.remove();
+                                                        pegawaiList = sortByPangkat(pegawaiList, window.dataPegawai);
+                                                        pegawaiListDiv.innerHTML = '';
+                                                        pegawaiList.forEach(nip6 => {
+                                                            const peg6 = window.dataPegawai.find(p => p.nip === nip6);
+                                                            const pegawaiItem = document.createElement("div");
+                                                            const pegawaiNameSpan = document.createElement("span");
+                                                            pegawaiNameSpan.textContent = peg6?.nama || nip6;
+                                                            pegawaiItem.appendChild(pegawaiNameSpan);
+                                                            const removeBtn = document.createElement("button");
+                                                            removeBtn.textContent = "HAPUS";
+                                                            removeBtn.className = "list-remove-btn";
+                                                            removeBtn.onclick = function() {
+                                                                pegawaiList = pegawaiList.filter(val => val !== nip6);
+                                                                pegawaiItem.remove();
+                                                                pegawaiList = sortByPangkat(pegawaiList, window.dataPegawai);
+                                                                pegawaiListDiv.innerHTML = '';
+                                                                // dst, tidak perlu lebih dalam
+                                                            };
+                                                            pegawaiItem.appendChild(removeBtn);
+                                                            pegawaiListDiv.appendChild(pegawaiItem);
+                                                        });
+                                                    };
+                                                    pegawaiItem.appendChild(removeBtn);
+                                                    pegawaiListDiv.appendChild(pegawaiItem);
+                                                });
+                                            };
+                                            pegawaiItem.appendChild(removeBtn);
+                                            pegawaiListDiv.appendChild(pegawaiItem);
+                                        });
+                                    };
+                                    pegawaiItem.appendChild(removeBtn);
+                                    pegawaiListDiv.appendChild(pegawaiItem);
+                                });
+                            };
+                            pegawaiItem.appendChild(removeBtn);
+                            pegawaiListDiv.appendChild(pegawaiItem);
+                        });
                     };
                     pegawaiItem.appendChild(removeBtn);
                     pegawaiListDiv.appendChild(pegawaiItem);
@@ -228,6 +322,100 @@ $(document).ready(function() {
                     removeBtn.onclick = function() {
                         pengikutList = pengikutList.filter(val => val !== nip);
                         pengikutItem.remove();
+                        // Resortir dan render ulang setelah hapus
+                        pengikutList = sortByPangkat(pengikutList, window.dataPegawai);
+                        pengikutListDiv.innerHTML = '';
+                        pengikutList.forEach(nip2 => {
+                            const peg2 = window.dataPegawai.find(p => p.nip === nip2);
+                            const pengikutItem = document.createElement("div");
+                            const pengikutNameSpan = document.createElement("span");
+                            pengikutNameSpan.textContent = peg2?.nama || nip2;
+                            pengikutItem.appendChild(pengikutNameSpan);
+                            const removeBtn = document.createElement("button");
+                            removeBtn.textContent = "HAPUS";
+                            removeBtn.className = "list-remove-btn";
+                            removeBtn.onclick = function() {
+                                pengikutList = pengikutList.filter(val => val !== nip2);
+                                pengikutItem.remove();
+                                pengikutList = sortByPangkat(pengikutList, window.dataPegawai);
+                                pengikutListDiv.innerHTML = '';
+                                pengikutList.forEach(nip3 => {
+                                    const peg3 = window.dataPegawai.find(p => p.nip === nip3);
+                                    const pengikutItem = document.createElement("div");
+                                    const pengikutNameSpan = document.createElement("span");
+                                    pengikutNameSpan.textContent = peg3?.nama || nip3;
+                                    pengikutItem.appendChild(pengikutNameSpan);
+                                    const removeBtn = document.createElement("button");
+                                    removeBtn.textContent = "HAPUS";
+                                    removeBtn.className = "list-remove-btn";
+                                    removeBtn.onclick = function() {
+                                        pengikutList = pengikutList.filter(val => val !== nip3);
+                                        pengikutItem.remove();
+                                        pengikutList = sortByPangkat(pengikutList, window.dataPegawai);
+                                        pengikutListDiv.innerHTML = '';
+                                        pengikutList.forEach(nip4 => {
+                                            const peg4 = window.dataPegawai.find(p => p.nip === nip4);
+                                            const pengikutItem = document.createElement("div");
+                                            const pengikutNameSpan = document.createElement("span");
+                                            pengikutNameSpan.textContent = peg4?.nama || nip4;
+                                            pengikutItem.appendChild(pengikutNameSpan);
+                                            const removeBtn = document.createElement("button");
+                                            removeBtn.textContent = "HAPUS";
+                                            removeBtn.className = "list-remove-btn";
+                                            removeBtn.onclick = function() {
+                                                pengikutList = pengikutList.filter(val => val !== nip4);
+                                                pengikutItem.remove();
+                                                pengikutList = sortByPangkat(pengikutList, window.dataPegawai);
+                                                pengikutListDiv.innerHTML = '';
+                                                pengikutList.forEach(nip5 => {
+                                                    const peg5 = window.dataPegawai.find(p => p.nip === nip5);
+                                                    const pengikutItem = document.createElement("div");
+                                                    const pengikutNameSpan = document.createElement("span");
+                                                    pengikutNameSpan.textContent = peg5?.nama || nip5;
+                                                    pengikutItem.appendChild(pengikutNameSpan);
+                                                    const removeBtn = document.createElement("button");
+                                                    removeBtn.textContent = "HAPUS";
+                                                    removeBtn.className = "list-remove-btn";
+                                                    removeBtn.onclick = function() {
+                                                        pengikutList = pengikutList.filter(val => val !== nip5);
+                                                        pengikutItem.remove();
+                                                        pengikutList = sortByPangkat(pengikutList, window.dataPegawai);
+                                                        pengikutListDiv.innerHTML = '';
+                                                        pengikutList.forEach(nip6 => {
+                                                            const peg6 = window.dataPegawai.find(p => p.nip === nip6);
+                                                            const pengikutItem = document.createElement("div");
+                                                            const pengikutNameSpan = document.createElement("span");
+                                                            pengikutNameSpan.textContent = peg6?.nama || nip6;
+                                                            pengikutItem.appendChild(pengikutNameSpan);
+                                                            const removeBtn = document.createElement("button");
+                                                            removeBtn.textContent = "HAPUS";
+                                                            removeBtn.className = "list-remove-btn";
+                                                            removeBtn.onclick = function() {
+                                                                pengikutList = pengikutList.filter(val => val !== nip6);
+                                                                pengikutItem.remove();
+                                                                pengikutList = sortByPangkat(pengikutList, window.dataPegawai);
+                                                                pengikutListDiv.innerHTML = '';
+                                                                // dst, tidak perlu lebih dalam
+                                                            };
+                                                            pengikutItem.appendChild(removeBtn);
+                                                            pengikutListDiv.appendChild(pengikutItem);
+                                                        });
+                                                    };
+                                                    pengikutItem.appendChild(removeBtn);
+                                                    pengikutListDiv.appendChild(pengikutItem);
+                                                });
+                                            };
+                                            pengikutItem.appendChild(removeBtn);
+                                            pengikutListDiv.appendChild(pengikutItem);
+                                        });
+                                    };
+                                    pengikutItem.appendChild(removeBtn);
+                                    pengikutListDiv.appendChild(pengikutItem);
+                                });
+                            };
+                            pengikutItem.appendChild(removeBtn);
+                            pengikutListDiv.appendChild(pengikutItem);
+                        });
                     };
                     pengikutItem.appendChild(removeBtn);
                     pengikutListDiv.appendChild(pengikutItem);
@@ -254,13 +442,19 @@ $(document).ready(function() {
                 : `${backendUrl}/generate-sppd`;
 
             if (naskah === "SPT") {
+                // Validasi: pastikan value #pejabat tidak kosong dan bukan string kosong
+                var pejabatVal = $("#pejabat").val();
+                if (!pejabatVal || pejabatVal === "") {
+                    alert("Pilih pejabat penandatangan!");
+                    return;
+                }
                 formData.jenis_pengawasan = $("#spt-pengawasan").val() || "";
                 formData.opd = $("#spt-opd").val() || "";
                 formData.tahun = $("#spt-tahun").val() || "";
                 formData.tglmulai = $("#spt-mulai").val() || "";
                 formData.tglberakhir = $("#spt-berakhir").val() || "";
                 formData.selected_pegawai_nips = pegawaiList;
-                formData.pejabat_nip = $("#pejabat").val() || "";
+                formData.pejabat_nip = pejabatVal;
                 formData.bulanttd = $("#bulanttd").val() || "";
             } else if (naskah === "SPPD") {
                 formData.jenis_pengawasan = $("#sppd-pengawasan").val() || "";

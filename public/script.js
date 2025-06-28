@@ -63,6 +63,15 @@ $(document).ready(function() {
     $.getJSON(`${backendUrl}/data`, function(data) {
         window.dataPegawai = data.pegawai;
 
+        // Isi dropdown jenis pengawasan
+        if (data.jenis_pengawasan) {
+            data.jenis_pengawasan.forEach(jp => {
+                $('#spt-pengawasan, #sppd-pengawasan').append(
+                    `<option value="${jp.value}">${jp.nama}</option>`
+                );
+            });
+        }
+
         data.opd.forEach(opd => {
             $('#spt-opd, #sppd-opd').append(
                 `<option value="${opd.value}">${opd.nama}</option>`

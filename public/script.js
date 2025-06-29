@@ -223,7 +223,7 @@ $(document).ready(function() {
             if (!pegawai) return;
             const pegawaiItem = document.createElement("div");
             const pegawaiNameSpan = document.createElement("span");
-            pegawaiNameSpan.textContent = pegawai.nama;
+            pegawaiNameSpan.textContent = `${pegawai.nama} (${pegawai.pangkat})`;
             pegawaiItem.appendChild(pegawaiNameSpan);
             const removeBtn = document.createElement("button");
             removeBtn.textContent = "HAPUS";

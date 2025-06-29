@@ -114,11 +114,12 @@ $(document).ready(function() {
             'P3K'
         ];
         const getGol = s => {
-            if (!s) return 100;
-            const match = s.match(/([IVX]+\.[a-e])/i);
-            if (match) return urutanGolongan.indexOf(match[0]);
-            return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
-        };
+    if (!s) return 100;
+    const trimmed = s.trim();
+    const idx = urutanGolongan.findIndex(g => trimmed.includes(g));
+    return idx !== -1 ? idx : 100;
+};
+
         data.pegawai
             .sort((a, b) => {
                 let idxA = getGol(a.pangkat);

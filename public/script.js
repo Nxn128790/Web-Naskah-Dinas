@@ -139,6 +139,10 @@ $(document).ready(function() {
                     $('#pejabat').append(
                         `<option value="${pejabat.nip}">${pejabat.nama}</option>`
                     );
+                    // Tambahkan juga ke dropdown PPTK
+                    $('#pptk').append(
+                        `<option value="${pejabat.nip}">${pejabat.nama}</option>`
+                    );
                 });
         }
         // Set default penandatangan SPT ke Bayana jika ada
@@ -270,7 +274,7 @@ $(document).ready(function() {
                 formData.pengikut_nips = pengikutList;
                 formData.alat_angkut = $("#alat-angkut").val() || "";
                 formData.tingkat_biaya = $("#tingkat-biaya").val() || "";
-                formData.pptk_index = $("#pptk").val() || "";
+                formData.pptk_nip = $("#pptk").val() || "";
 
                 // AMBIL TANGGAL LAHIR LANGSUNG DARI NIP
                 const nip = $("#pegawai-utama").val();

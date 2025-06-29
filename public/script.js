@@ -85,6 +85,8 @@ $(document).ready(function() {
     $.getJSON(`${backendUrl}/data`, function(data) {
         window.dataPegawai = data.pegawai;
 
+        // Perbaiki urutan dan logika pengisian dropdown serta pengiriman data pejabat
+        // Jenis Pengawasan
         if (data.jenis_pengawasan) {
             data.jenis_pengawasan
                 .sort((a, b) => a.nama.localeCompare(b.nama))
@@ -94,6 +96,7 @@ $(document).ready(function() {
                     );
                 });
         }
+        // OPD
         data.opd
             .sort((a, b) => a.nama.localeCompare(b.nama))
             .forEach(opd => {
@@ -101,6 +104,7 @@ $(document).ready(function() {
                     `<option value="${opd.value}">${opd.nama}</option>`
                 );
             });
+        // Pegawai, Pengikut, Pegawai Utama
         const urutanGolongan = [
             'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
             'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
@@ -127,19 +131,26 @@ $(document).ready(function() {
                     `<option value="${pegawai.nip}">${pegawai.nama}</option>`
                 );
             });
+        // Pejabat Penandatangan (urut abjad, value = NIP)
         if (data.pejabat && Array.isArray(data.pejabat)) {
             data.pejabat
                 .sort((a, b) => a.nama.localeCompare(b.nama))
                 .forEach(pejabat => {
-                    $('#pejabat, #pptk').append(
+                    $('#pejabat').append(
+                        `<option value="${pejabat.nip}">${pejabat.nama}</option>`
+                    );
+                    // Tambahkan juga ke dropdown PPTK
+                    $('#pptk').append(
                         `<option value="${pejabat.nip}">${pejabat.nama}</option>`
                     );
                 });
         }
+        // Set default penandatangan SPT ke Bayana jika ada
         const defaultPejabat = data.pejabat && data.pejabat.find(p => p.nama.toLowerCase().includes('bayana'));
         if (defaultPejabat) {
             $('#pejabat').val(defaultPejabat.nip).trigger('change');
         }
+        // Alat Angkut
         if (data.alatAngkut) {
             data.alatAngkut.forEach(alat => {
                 $('#alat-angkut').append(
@@ -158,18 +169,23 @@ $(document).ready(function() {
     $('#naskah').on('change', function() {
         const sptForm = document.querySelector('#spt-form');
         const sppdForm = document.querySelector('#sppd-form');
+
         if (this.value === 'SPT') {
             sptForm.style.display = 'block';
             sppdForm.style.display = 'none';
+            $('#sppd-form .modern-dropdown').val('').trigger('change');
         } else if (this.value === 'SPPD') {
             sptForm.style.display = 'none';
             sppdForm.style.display = 'block';
+            $('#spt-form .modern-dropdown').val('').trigger('change');
         } else {
             sptForm.style.display = 'none';
             sppdForm.style.display = 'none';
+            $('.modern-dropdown').val('').trigger('change');
         }
     });
 
+    // Helper untuk urutkan array NIP pegawai berdasarkan pangkat tertinggi ke terendah
     function sortPegawaiListByPangkat(nipList) {
         if (!window.dataPegawai) return nipList;
         const urutanGolongan = [
@@ -196,122 +212,164 @@ $(document).ready(function() {
         });
     }
 
+    // Render ulang daftar pegawai/pengikut yang sudah ditambah, urutkan berdasarkan pangkat
     function renderPegawaiList() {
         const pegawaiListDiv = document.querySelector("#pegawai-list");
         pegawaiListDiv.innerHTML = "";
+        // Urutkan berdasarkan pangkat setiap kali render
         const sorted = sortPegawaiListByPangkat(pegawaiList);
         sorted.forEach(nip => {
             const pegawai = window.dataPegawai.find(p => p.nip === nip);
             if (!pegawai) return;
-            const item = document.createElement("div");
-            item.innerHTML = `<span>${pegawai.nama}</span><button class="list-remove-btn">HAPUS</button>`;
-            item.querySelector('.list-remove-btn').onclick = function() {
+            const pegawaiItem = document.createElement("div");
+            const pegawaiNameSpan = document.createElement("span");
+            pegawaiNameSpan.textContent = pegawai.nama;
+            pegawaiItem.appendChild(pegawaiNameSpan);
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "HAPUS";
+            removeBtn.className = "list-remove-btn";
+            removeBtn.onclick = function() {
                 pegawaiList = pegawaiList.filter(val => val !== nip);
                 renderPegawaiList();
             };
-            pegawaiListDiv.appendChild(item);
+            pegawaiItem.appendChild(removeBtn);
+            pegawaiListDiv.appendChild(pegawaiItem);
         });
     }
     function renderPengikutList() {
         const pengikutListDiv = document.querySelector("#pengikut-list");
         pengikutListDiv.innerHTML = "";
+        // Urutkan berdasarkan pangkat setiap kali render
         const sorted = sortPegawaiListByPangkat(pengikutList);
         sorted.forEach(nip => {
             const pegawai = window.dataPegawai.find(p => p.nip === nip);
             if (!pegawai) return;
-            const item = document.createElement("div");
-            item.innerHTML = `<span>${pegawai.nama}</span><button class="list-remove-btn">HAPUS</button>`;
-            item.querySelector('.list-remove-btn').onclick = function() {
+            const pengikutItem = document.createElement("div");
+            const pengikutNameSpan = document.createElement("span");
+            pengikutNameSpan.textContent = pegawai.nama;
+            pengikutItem.appendChild(pengikutNameSpan);
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "HAPUS";
+            removeBtn.className = "list-remove-btn";
+            removeBtn.onclick = function() {
                 pengikutList = pengikutList.filter(val => val !== nip);
                 renderPengikutList();
             };
-            pengikutListDiv.appendChild(item);
+            pengikutItem.appendChild(removeBtn);
+            pengikutListDiv.appendChild(pengikutItem);
         });
     }
 
-    $("#add-pegawai").on("click", () => {
-        const selectedNip = $("#pegawai").val();
-        if (selectedNip && !pegawaiList.includes(selectedNip)) {
-            pegawaiList.push(selectedNip);
-            renderPegawaiList();
-        }
-    });
+    const addPegawaiBtn = document.querySelector("#add-pegawai");
+    if (addPegawaiBtn) {
+        addPegawaiBtn.addEventListener("click", () => {
+            const pegawaiSelect = document.querySelector("#pegawai");
+            const selectedPegawai = pegawaiSelect.options[pegawaiSelect.selectedIndex];
+            if (selectedPegawai && selectedPegawai.value && !pegawaiList.includes(selectedPegawai.value)) {
+                pegawaiList.push(selectedPegawai.value); // value = NIP
+                renderPegawaiList(); // render ulang, urutan diatur di renderPegawaiList
+                console.log("Pegawai ditambahkan:", pegawaiList);
+            } else {
+                console.warn("Pegawai tidak valid atau sudah ditambahkan");
+            }
+        });
+    }
 
-    $("#add-pengikut").on("click", () => {
-        const selectedNip = $("#pengikut").val();
-        if (selectedNip && !pengikutList.includes(selectedNip)) {
-            pengikutList.push(selectedNip);
-            renderPengikutList();
-        }
-    });
+    const addPengikutBtn = document.querySelector("#add-pengikut");
+    if (addPengikutBtn) {
+        addPengikutBtn.addEventListener("click", () => {
+            const pengikutSelect = document.querySelector("#pengikut");
+            const selectedPengikut = pengikutSelect.options[pengikutSelect.selectedIndex];
+            if (selectedPengikut && selectedPengikut.value && !pengikutList.includes(selectedPengikut.value)) {
+                pengikutList.push(selectedPengikut.value); // value = NIP
+                renderPengikutList(); // render ulang, urutan diatur di renderPengikutList
+                console.log("Pengikut ditambahkan:", pengikutList);
+            } else {
+                console.warn("Pengikut tidak valid atau sudah ditambahkan");
+            }
+        });
+    }
 
-    $("#submit-btn").on("click", async () => {
-        const naskah = $("#naskah").val();
-        if (!naskah) return alert("Pilih jenis naskah terlebih dahulu");
+    const submitBtn = document.querySelector("#submit-btn");
+    if (submitBtn) {
+        submitBtn.addEventListener("click", async () => {
+            const naskah = $("#naskah").val() || "";
+            if (!naskah) {
+                alert("Pilih jenis naskah terlebih dahulu");
+                return;
+            }
 
-        const endpoint = naskah === "SPT" ? `${backendUrl}/generate-spt` : `${backendUrl}/generate-sppd`;
-        let formData = {};
+            const formData = {};
+            const endpoint = naskah === "SPT"
+                ? `${backendUrl}/generate-spt`
+                : `${backendUrl}/generate-sppd`;
 
-        if (naskah === "SPT") {
-            formData = {
-                jenis_pengawasan: $("#spt-pengawasan").val(),
-                opd: $("#spt-opd").val(),
-                tahun: $("#spt-tahun").val(),
-                tglmulai: $("#spt-mulai").val(),
-                tglberakhir: $("#spt-berakhir").val(),
-                selected_pegawai_nips: pegawaiList,
-                pejabat_nip: $("#pejabat").val(),
-                bulanttd: $("#bulanttd").val(),
-            };
-        } else {
-            const utamaNip = $("#pegawai-utama").val();
-            formData = {
-                jenis_pengawasan: $("#sppd-pengawasan").val(),
-                opd: $("#sppd-opd").val(),
-                tahun: $("#sppd-tahun").val(),
-                tglmulai: $("#sppd-mulai").val(),
-                tglberakhir: $("#sppd-berakhir").val(),
-                pegawai_utama_nip: utamaNip,
-                pengikut_nips: pengikutList,
-                alat_angkut: $("#alat-angkut").val(),
-                tingkat_biaya: $("#tingkat-biaya").val(),
-                pptk_nip: $("#pptk").val(),
-                tanggal_lahir: ambilTanggalLahirDariNip(utamaNip),
-            };
-        }
+            if (naskah === "SPT") {
+                formData.jenis_pengawasan = $("#spt-pengawasan").val() || "";
+                formData.opd = $("#spt-opd").val() || "";
+                formData.tahun = $("#spt-tahun").val() || "";
+                formData.tglmulai = $("#spt-mulai").val() || "";
+                formData.tglberakhir = $("#spt-berakhir").val() || "";
+                formData.selected_pegawai_nips = pegawaiList;
+                formData.pejabat_nip = $("#pejabat").val() || "";
+                formData.bulanttd = $("#bulanttd").val() || "";
+            } else if (naskah === "SPPD") {
+                formData.jenis_pengawasan = $("#sppd-pengawasan").val() || "";
+                formData.opd = $("#sppd-opd").val() || "";
+                formData.tahun = $("#sppd-tahun").val() || "";
+                formData.tglmulai = $("#sppd-mulai").val() || "";
+                formData.tglberakhir = $("#sppd-berakhir").val() || "";
+                formData.pegawai_utama_nip = $("#pegawai-utama").val() || "";
+                formData.pengikut_nips = pengikutList;
+                formData.alat_angkut = $("#alat-angkut").val() || "";
+                formData.tingkat_biaya = $("#tingkat-biaya").val() || "";
+                formData.pptk_nip = $("#pptk").val() || "";
 
-        try {
-            const response = await fetch(endpoint, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-            if (!response.ok) throw new Error((await response.json()).message || "Gagal menghasilkan dokumen");
+                // AMBIL TANGGAL LAHIR LANGSUNG DARI NIP
+                const nip = $("#pegawai-utama").val();
+                if (nip !== "") {
+                    const selectedPegawai = window.dataPegawai?.find(p => p.nip === nip);
+                    if (selectedPegawai) {
+                        const tglLahir = ambilTanggalLahirDariNip(selectedPegawai.nip);
+                        formData.tanggal_lahir = tglLahir;
+                        console.log("Tanggal lahir pegawai utama diambil langsung:", tglLahir);
+                    } else {
+                        formData.tanggal_lahir = "";
+                    }
+                } else {
+                    formData.tanggal_lahir = "";
+                }
+            }
 
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${naskah}_Generated.docx`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            alert("Terjadi kesalahan: " + error.message);
-        }
-    });
-    
-    // --- KODE PENCEGAH ZOOM DITEMPATKAN DI SINI ---
-    document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
-    document.addEventListener('keydown', function (e) {
-        if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-    window.addEventListener('wheel', function (e) {
-        if (e.ctrlKey) {
-            e.preventDefault();
-        }
-    }, { passive: false });
+            console.log("Mengirim data ke", endpoint, formData);
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || "Gagal menghasilkan dokumen");
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = naskah === "SPT"
+                    ? "SPT_Generated.docx"
+                    : "SPPD_Generated.docx";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan: " + error.message);
+            }
+        });
+    }
 });

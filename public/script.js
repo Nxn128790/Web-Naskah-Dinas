@@ -115,11 +115,10 @@ $(document).ready(function() {
         ];
         const getGol = s => {
             if (!s) return 100;
-            const trimmed = s.trim();
-            const idx = urutanGolongan.findIndex(g => trimmed.includes(g));  // Perbaikan di sini
-            return idx !== -1 ? idx : 100; // Jika tidak ditemukan, set ke urutan terakhir
+            const match = s.match(/([IVX]+\.[a-e])/i);
+            if (match) return urutanGolongan.indexOf(match[0]);
+            return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
         };
-
         data.pegawai
             .sort((a, b) => {
                 let idxA = getGol(a.pangkat);
@@ -214,70 +213,67 @@ $(document).ready(function() {
     }
 
     // Render ulang daftar pegawai/pengikut yang sudah ditambah, urutkan berdasarkan pangkat
-function renderPegawaiList() {
-    const pegawaiListDiv = document.querySelector("#pegawai-list");
-    pegawaiListDiv.innerHTML = "";
-    // Urutkan berdasarkan pangkat setiap kali render
-    const sorted = sortPegawaiListByPangkat(pegawaiList);
-    sorted.forEach(nip => {
-        const pegawai = window.dataPegawai.find(p => p.nip === nip);
-        if (!pegawai) return;
-        const pegawaiItem = document.createElement("div");
-        const pegawaiNameSpan = document.createElement("span");
-        pegawaiNameSpan.textContent = `${pegawai.nama} (${pegawai.pangkat})`;
-        pegawaiItem.appendChild(pegawaiNameSpan);
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "HAPUS";
-        removeBtn.className = "list-remove-btn";
-        removeBtn.onclick = function() {
-            pegawaiList = pegawaiList.filter(val => val !== nip);
-            renderPegawaiList();
-        };
-        pegawaiItem.appendChild(removeBtn);
-        pegawaiListDiv.appendChild(pegawaiItem);
-    });
-}
-
-function renderPengikutList() {
-    const pengikutListDiv = document.querySelector("#pengikut-list");
-    pengikutListDiv.innerHTML = "";
-    // Urutkan berdasarkan pangkat setiap kali render
-    const sorted = sortPegawaiListByPangkat(pengikutList);
-    sorted.forEach(nip => {
-        const pegawai = window.dataPegawai.find(p => p.nip === nip);
-        if (!pegawai) return;
-        const pengikutItem = document.createElement("div");
-        const pengikutNameSpan = document.createElement("span");
-        pengikutNameSpan.textContent = `${pegawai.nama} (${pegawai.pangkat})`;
-        pengikutItem.appendChild(pengikutNameSpan);
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "HAPUS";
-        removeBtn.className = "list-remove-btn";
-        removeBtn.onclick = function() {
-            pengikutList = pengikutList.filter(val => val !== nip);
-            renderPengikutList();
-        };
-        pengikutItem.appendChild(removeBtn);
-        pengikutListDiv.appendChild(pengikutItem);
-    });
-}
-
+    function renderPegawaiList() {
+        const pegawaiListDiv = document.querySelector("#pegawai-list");
+        pegawaiListDiv.innerHTML = "";
+        // Urutkan berdasarkan pangkat setiap kali render
+        const sorted = sortPegawaiListByPangkat(pegawaiList);
+        sorted.forEach(nip => {
+            const pegawai = window.dataPegawai.find(p => p.nip === nip);
+            if (!pegawai) return;
+            const pegawaiItem = document.createElement("div");
+            const pegawaiNameSpan = document.createElement("span");
+            pegawaiNameSpan.textContent = pegawai.nama;
+            pegawaiItem.appendChild(pegawaiNameSpan);
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "HAPUS";
+            removeBtn.className = "list-remove-btn";
+            removeBtn.onclick = function() {
+                pegawaiList = pegawaiList.filter(val => val !== nip);
+                renderPegawaiList();
+            };
+            pegawaiItem.appendChild(removeBtn);
+            pegawaiListDiv.appendChild(pegawaiItem);
+        });
+    }
+    function renderPengikutList() {
+        const pengikutListDiv = document.querySelector("#pengikut-list");
+        pengikutListDiv.innerHTML = "";
+        // Urutkan berdasarkan pangkat setiap kali render
+        const sorted = sortPegawaiListByPangkat(pengikutList);
+        sorted.forEach(nip => {
+            const pegawai = window.dataPegawai.find(p => p.nip === nip);
+            if (!pegawai) return;
+            const pengikutItem = document.createElement("div");
+            const pengikutNameSpan = document.createElement("span");
+            pengikutNameSpan.textContent = pegawai.nama;
+            pengikutItem.appendChild(pengikutNameSpan);
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "HAPUS";
+            removeBtn.className = "list-remove-btn";
+            removeBtn.onclick = function() {
+                pengikutList = pengikutList.filter(val => val !== nip);
+                renderPengikutList();
+            };
+            pengikutItem.appendChild(removeBtn);
+            pengikutListDiv.appendChild(pengikutItem);
+        });
+    }
 
     const addPegawaiBtn = document.querySelector("#add-pegawai");
-if (addPegawaiBtn) {
-    addPegawaiBtn.addEventListener("click", () => {
-        const pegawaiSelect = document.querySelector("#pegawai");
-        const selectedPegawai = pegawaiSelect.options[pegawaiSelect.selectedIndex];
-        if (selectedPegawai && selectedPegawai.value && !pegawaiList.includes(selectedPegawai.value)) {
-            pegawaiList.push(selectedPegawai.value); // value = NIP
-            renderPegawaiList(); // render ulang, urutan diatur di renderPegawaiList
-            console.log("Pegawai ditambahkan:", pegawaiList);
-        } else {
-            console.warn("Pegawai tidak valid atau sudah ditambahkan");
-        }
-    });
-}
-
+    if (addPegawaiBtn) {
+        addPegawaiBtn.addEventListener("click", () => {
+            const pegawaiSelect = document.querySelector("#pegawai");
+            const selectedPegawai = pegawaiSelect.options[pegawaiSelect.selectedIndex];
+            if (selectedPegawai && selectedPegawai.value && !pegawaiList.includes(selectedPegawai.value)) {
+                pegawaiList.push(selectedPegawai.value); // value = NIP
+                renderPegawaiList(); // render ulang, urutan diatur di renderPegawaiList
+                console.log("Pegawai ditambahkan:", pegawaiList);
+            } else {
+                console.warn("Pegawai tidak valid atau sudah ditambahkan");
+            }
+        });
+    }
 
     const addPengikutBtn = document.querySelector("#add-pengikut");
     if (addPengikutBtn) {

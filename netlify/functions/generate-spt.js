@@ -107,6 +107,20 @@ function angkaKeTeks(angka) {
     }
     return angka.toString();
 }
+const urutanGolongan = [
+    'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
+    'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
+    'Penata Tk. I/ III.d', 'Penata/ III.c', 'Penata Muda Tk. I/ III.b', 'Penata Muda/ III.a',
+    'Pengatur Tk. I/ II.d', 'Pengatur/ II.c', 'Pengatur Muda Tk. I/ II.b', 'Pengatur Muda/ II.a',
+    'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a', 'P3K'
+];
+
+const getGol = s => {
+    if (!s) return 100;
+    const trimmed = s.trim();
+    const idx = urutanGolongan.findIndex(g => trimmed.includes(g));
+    return idx !== -1 ? idx : 100;
+};
 
 exports.handler = async (event, context) => {
     if (event.httpMethod !== "POST") {
@@ -153,6 +167,13 @@ exports.handler = async (event, context) => {
                 tanggal_lahir: formatTanggalIndonesia(pegawai.tanggal_lahir) || "Tidak Diketahui"
             };
         });
+
+        pegawaiList.sort((a, b) => {
+    const idxA = getGol(a.pangkat);
+    const idxB = getGol(b.pangkat);
+    if (idxA === idxB) return a.nama.localeCompare(b.nama);
+    return idxA - idxB;
+});
 
         // Cari pejabat berdasarkan NIP
         const pejabat = data.pejabat.find(p => p.nip === pejabat_nip);

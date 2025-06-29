@@ -474,13 +474,15 @@ exports.handler = async (event, context) => {
         };
     });
 
-    // Urutkan berdasarkan pangkat
-    pegawaiList.sort((a, b) => {
-        const idxA = getGol(a.pangkat);
-        const idxB = getGol(b.pangkat);
-        if (idxA === idxB) return a.nama.localeCompare(b.nama);
-        return idxB - idxA;  // Karena index kecil = lebih tinggi
-    });
+    // Urutkan berdasarkan pangkat dari tertinggi ke terendah
+pegawaiList.sort((a, b) => {
+    const idxA = getGol(a.pangkat);
+    const idxB = getGol(b.pangkat);
+    if (idxA === idxB) {
+        return a.nama.localeCompare(b.nama); // Jika pangkat sama, urutkan berdasarkan nama
+    }
+    return idxA - idxB; // Urutan menaik berdasarkan indeks (pangkat tertinggi dulu)
+});
 
     // Cari pejabat berdasarkan NIP
     const pejabat = data.pejabat.find(p => p.nip === pejabat_nip);

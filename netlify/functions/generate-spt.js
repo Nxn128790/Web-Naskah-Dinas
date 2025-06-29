@@ -171,8 +171,9 @@ pegawaiList.sort((a, b) => {
     const idxA = getGol(a.pangkat);
     const idxB = getGol(b.pangkat);
     if (idxA === idxB) return a.nama.localeCompare(b.nama);
-    return idxA - idxB;
+    return idxB - idxA;  // Karena index kecil = lebih tinggi
 });
+
 
 
         // Cari pejabat berdasarkan NIP

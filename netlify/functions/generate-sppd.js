@@ -119,6 +119,22 @@ function ambilTanggalLahirDariNip(nip) {
     return `${thn}-${bln}-${tgl}`;
 }
 
+const urutanGolongan = [
+    'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
+    'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
+    'Penata Tk. I/ III.d', 'Penata/ III.c', 'Penata Muda Tk. I/ III.b', 'Penata Muda/ III.a',
+    'Pengatur Tk. I/ II.d', 'Pengatur/ II.c', 'Pengatur Muda Tk. I/ II.b', 'Pengatur Muda/ II.a',
+    'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a', 'P3K'
+];
+
+const getGol = s => {
+    if (!s) return 100;
+    const trimmed = s.trim();
+    const idx = urutanGolongan.findIndex(g => trimmed.includes(g));
+    return idx !== -1 ? idx : 100;
+};
+
+
 exports.handler = async (event, context) => {
     if (event.httpMethod !== "POST") {
         return {
@@ -162,22 +178,30 @@ exports.handler = async (event, context) => {
         if (!pegawaiUtama) {
             throw new Error(`Pegawai utama dengan NIP ${pegawai_utama_nip} tidak ditemukan`);
         }
-        const pengikutList = pengikut_nips.map(nip => {
-            const pegawai = data.pegawai.find(p => p.nip === nip);
-            if (!pegawai) {
-                throw new Error(`Pengikut dengan NIP ${nip} tidak ditemukan`);
-            }
-            // Ambil tanggal lahir dari field atau dari NIP
-            const tglLahir = pegawai.tanggal_lahir || ambilTanggalLahirDariNip(pegawai.nip);
-            return {
-                nama: pegawai.nama || "Tidak Diketahui",
-                pangkat: pegawai.pangkat || "Tidak Diketahui",
-                nip: pegawai.nip || "Tidak Diketahui",
-                jabatan: pegawai.jabatan || "Tidak Diketahui",
-                tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
-                tanggal_lahir: formatTanggalIndonesia(tglLahir) || "Tidak Diketahui"
-            };
-        });
+        let pengikutList = pengikut_nips.map(nip => {
+    const pegawai = data.pegawai.find(p => p.nip === nip);
+    if (!pegawai) {
+        throw new Error(`Pengikut dengan NIP ${nip} tidak ditemukan`);
+    }
+    const tglLahir = pegawai.tanggal_lahir || ambilTanggalLahirDariNip(pegawai.nip);
+    return {
+        nama: pegawai.nama || "Tidak Diketahui",
+        pangkat: pegawai.pangkat || "Tidak Diketahui",
+        nip: pegawai.nip || "Tidak Diketahui",
+        jabatan: pegawai.jabatan || "Tidak Diketahui",
+        tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
+        tanggal_lahir: formatTanggalIndonesia(tglLahir) || "Tidak Diketahui"
+    };
+});
+
+// ⬇️ Urutkan berdasarkan pangkat tertinggi ke bawah
+pengikutList.sort((a, b) => {
+    const idxA = getGol(a.pangkat);
+    const idxB = getGol(b.pangkat);
+    if (idxA === idxB) return a.nama.localeCompare(b.nama);
+    return idxB - idxA;
+});
+
         // Cari PPTK berdasarkan NIP
         const pptk = data.pejabat.find(p => p.nip === pptk_nip);
         if (!pptk) {

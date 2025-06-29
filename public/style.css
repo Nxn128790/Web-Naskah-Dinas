@@ -23,6 +23,8 @@
 
     --button-height: 2.5rem; /* 40px */
     --input-height: 2.8125rem; /* 45px, sesuai Select2 */
+
+    --radius-button: 0.25rem; /* Menambahkan variabel untuk radius tombol */
 }
 
 /* Mengatur font-size dasar pada html untuk penggunaan unit rem */
@@ -34,63 +36,52 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Komentar ini dipertahankan untuk menunjukkan bahwa properti ini tidak digunakan */
-    /* -webkit-user-select: none; */
-    /* -moz-user-select: none; */
-    /* -ms-user-select: none; */
-    /* user-select: none; */
-    /* -webkit-user-drag: none; */
-    /* -webkit-touch-callout: none; */
 }
 
 html, body {
-    overflow-x: hidden; /* Paksa sembunyikan scrollbar horizontal */
-    overflow-y: auto;   /* Biarkan scrollbar vertikal muncul jika diperlukan */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-dark);
-    line-height: 1.6; /* Pastikan line-height konsisten */
+    line-height: 1.6;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    /* Mobile-First: Padding dan Font-size default untuk layar kecil */
-    padding: var(--spacing-lg) var(--spacing-md); /* 20px 15px */
-    font-size: 0.9375rem; /* 15px */
-    touch-action: manipulation; /* Mencegah zoom pada website (khususnya mobile) */
+    padding: var(--spacing-lg) var(--spacing-md);
+    font-size: 0.9375rem;
+    touch-action: manipulation;
 }
 
 .container {
-    max-width: 800px; /* Tetap dalam px karena ini adalah batas maksimum */
+    max-width: 800px;
     width: 100%;
     background-color: #fff;
     border-radius: var(--radius-large);
-    /* Menggunakan variabel spasi */
-    box-shadow: 0 var(--spacing-sm) var(--spacing-xl) var(--shadow-medium); /* 10px 30px */
-    padding: var(--spacing-xl) var(--spacing-lg); /* 30px 20px */
+    box-shadow: 0 var(--spacing-sm) var(--spacing-xl) var(--shadow-medium);
+    padding: var(--spacing-xl) var(--spacing-lg);
     margin: 0 auto;
 }
 
 /* Header */
 .app-header {
     text-align: center;
-    margin-bottom: var(--spacing-xxl); /* 40px */
+    margin-bottom: var(--spacing-xxl);
 }
 
 .app-header h1 {
-    /* Mobile-First: Font-size default untuk layar kecil */
     font-size: 1.8rem;
     color: var(--primary-color);
-    margin-bottom: var(--spacing-sm); /* 10px */
+    margin-bottom: var(--spacing-sm);
     font-weight: 700;
     letter-spacing: -0.03125rem;
 }
 
 .app-header .tagline {
-    /* Mobile-First: Font-size default untuk layar kecil */
     font-size: 0.9rem;
     color: var(--text-light);
     margin-top: -0.3125rem;
@@ -100,18 +91,18 @@ body {
 .main-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xl); /* 30px */
+    gap: var(--spacing-xl);
 }
 
 .form-section {
-    margin-bottom: var(--spacing-lg); /* 20px */
+    margin-bottom: var(--spacing-lg);
 }
 
 .section-label {
-    font-size: 1.1rem; /* Menggunakan rem */
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: var(--spacing-sm); /* 10px */
+    margin-bottom: var(--spacing-sm);
     display: block;
 }
 
@@ -119,48 +110,45 @@ body {
     background-color: #fff;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-medium);
-    /* Menggunakan variabel spasi */
-    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-light); /* 5px 15px */
-    padding: var(--spacing-xl); /* 30px */
+    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-light);
+    padding: var(--spacing-xl);
 }
 
 .form-title {
-    /* Mobile-First: Font-size default untuk layar kecil */
     font-size: 1.2rem;
     color: var(--primary-color);
-    margin-bottom: 1.5625rem; /* 25px */
+    margin-bottom: 1.5625rem;
     font-weight: 700;
     border-bottom: 2px solid var(--border-color);
-    padding-bottom: var(--spacing-md); /* 15px */
+    padding-bottom: var(--spacing-md);
 }
 
 .form-group {
-    margin-bottom: var(--spacing-lg); /* 20px */
+    margin-bottom: var(--spacing-lg);
 }
 
 label {
     display: block;
-    margin-bottom: 0.5rem; /* 8px */
+    margin-bottom: 0.5rem;
     font-weight: 600;
     color: var(--text-dark);
-    font-size: 0.95rem; /* Menggunakan rem */
+    font-size: 0.95rem;
 }
 
 input[type="text"],
 input[type="date"],
 select {
     width: 100%;
-    /* Mobile-First: Padding dan Font-size default untuk layar kecil */
-    padding: 0.5625rem 0.625rem; /* 9px 10px */
+    padding: 0.5625rem 0.625rem;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-small);
-    font-size: 0.9rem; /* 14.4px */
+    font-size: 0.9rem;
     color: var(--text-dark);
     background-color: #fff;
     transition: all 0.3s ease;
     line-height: 1.6;
     vertical-align: middle;
-    height: var(--button-height); /* 40px, untuk konsistensi tinggi */
+    height: var(--input-height);
 }
 
 input[type="text"]::placeholder,
@@ -173,16 +161,15 @@ input[type="text"]:focus,
 input[type="date"]:focus,
 select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.1875rem rgba(74, 144, 226, 0.2); /* 3px */
+    box-shadow: 0 0 0 0.1875rem rgba(74, 144, 226, 0.2);
     outline: none;
 }
 
 /* Date Range Group */
 .date-range {
     display: flex;
-    /* Mobile-First: Flex-direction default untuk layar kecil */
     flex-direction: column;
-    gap: var(--spacing-md); /* 15px */
+    gap: var(--spacing-md);
 }
 
 .date-input-group {
@@ -192,67 +179,68 @@ select:focus {
 /* Buttons */
 button {
     border: none;
-    /* Mobile-First: Padding dan Font-size default untuk layar kecil */
-    padding: 0.5625rem 0.9375rem; /* 9px 15px */
-    border-radius: var(--radius-small);
+    padding: 0.5625rem 0.9375rem;
+    border-radius: var(--radius-button);
     cursor: pointer;
-    font-size: 0.9rem; /* 14.4px */
+    font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 0.125rem 0.5rem var(--shadow-light); /* 2px 8px */
-    line-height: 1.6;
+    box-shadow: 0 0.125rem 0.5rem var(--shadow-light);
+    line-height: 1.2;
+    height: var(--button-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .add-button {
     background-color: var(--secondary-color);
     color: #fff;
-    border-radius: 0.25rem !important; /* 4px */
+    border-radius: var(--radius-button);
 }
 
 .add-button:hover {
     background-color: #42C8A8;
-    transform: translateY(-0.125rem); /* -2px */
-    box-shadow: 0 0.25rem 0.75rem rgba(80, 227, 194, 0.3); /* 4px 12px */
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.25rem 0.75rem rgba(80, 227, 194, 0.3);
 }
 
 .primary-button {
     background-color: var(--primary-color);
     color: #fff;
     width: 100%;
-    padding: 0 var(--spacing-xl); /* 30px */
-    height: var(--button-height); /* 40px */
-    min-height: var(--button-height); /* 40px */
-    /* Mobile-First: Font-size dan margin-top default untuk layar kecil */
-    font-size: 0.95rem; /* 15.2px */
-    margin-top: var(--spacing-xl); /* 30px */
-    border-radius: 0.25rem; /* 4px */
-    box-shadow: 0 var(--spacing-xs) var(--spacing-md) rgba(74, 144, 226, 0.2); /* 5px 15px */
+    padding: 0 var(--spacing-xl);
+    height: var(--button-height);
+    min-height: var(--button-height);
+    font-size: 0.95rem;
+    margin-top: var(--spacing-xl);
+    border-radius: var(--radius-button);
+    box-shadow: 0 var(--spacing-xs) var(--spacing-md) rgba(74, 144, 226, 0.2);
 }
 
 .primary-button:hover {
     background-color: #3A7BD5;
-    transform: translateY(-0.125rem); /* -2px */
-    box-shadow: 0 0.4375rem 1.25rem rgba(74, 144, 226, 0.3); /* 7px 20px */
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.4375rem 1.25rem rgba(74, 144, 226, 0.3);
 }
 
 /* Item List (Pegawai/Pengikut) */
 .item-list {
-    margin-top: var(--spacing-md); /* 15px */
-    padding: var(--spacing-sm) 0; /* 10px */
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
     border-top: 1px dashed var(--border-color);
 }
 
 .item-list div {
     display: flex;
     align-items: center;
-    padding: var(--spacing-sm) 0; /* 10px */
-    padding-left: var(--spacing-md); /* 15px */
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-md);
     border-bottom: 1px dashed var(--border-color);
-    /* Mobile-First: Font-size default untuk layar kecil */
-    font-size: 0.9rem; /* 14.4px */
+    font-size: 0.9rem;
     color: var(--text-dark);
     line-height: 1.6;
-    gap: var(--spacing-md); /* 15px */
+    gap: var(--spacing-md);
 }
 
 .item-list div:last-child {
@@ -269,28 +257,27 @@ button {
 .list-remove-btn {
     background-color: #FF6B6B;
     color: #fff;
-    padding: 0.375rem 0.75rem; /* 6px 12px */
-    border-radius: 0.25rem !important; /* 4px */
-    /* Mobile-First: Font-size default untuk layar kecil */
-    font-size: 0.8rem; /* 12.8px */
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-button);
+    font-size: 0.8rem;
     font-weight: 600;
     transition: background-color 0.3s ease;
     box-shadow: none;
-    line-height: 1.6;
+    line-height: 1.2;
+    height: auto;
     flex-shrink: 0;
 }
 
 .list-remove-btn:hover {
     background-color: #E04F4F;
-    transform: translateY(-0.0625rem); /* -1px */
+    transform: translateY(-0.0625rem);
 }
 
 /* Flex Row for Add Button */
 .flex-row {
     display: flex;
-    /* Mobile-First: Flex-direction default untuk layar kecil */
     flex-direction: column;
-    gap: var(--spacing-sm); /* 10px */
+    gap: var(--spacing-sm);
     align-items: stretch;
 }
 
@@ -301,9 +288,8 @@ button {
 
 .flex-row button {
     flex-shrink: 0;
-    /* Mobile-First: Lebar dan tinggi default untuk layar kecil */
     width: 100%;
-    height: auto;
+    height: var(--button-height);
     align-self: stretch;
     display: flex;
     align-items: center;
@@ -314,8 +300,8 @@ button {
 
 /* Select2 Customization */
 .select2-container--default .select2-selection--single {
-    height: var(--input-height); /* 45px */
-    min-height: var(--input-height); /* 45px */
+    height: var(--input-height);
+    min-height: var(--input-height);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-small);
     background-color: #fff;
@@ -327,10 +313,9 @@ button {
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 1.6 !important;
     color: var(--text-dark);
-    /* Mobile-First: Padding dan Font-size default untuk layar kecil */
-    padding-left: var(--spacing-sm); /* 10px */
-    padding-right: 2.1875rem; /* 35px */
-    font-size: 0.9rem; /* 14.4px */
+    padding-left: var(--spacing-sm);
+    padding-right: 2.1875rem;
+    font-size: 0.9rem;
     text-align: left;
     text-indent: 0;
     margin-right: 0;
@@ -344,10 +329,9 @@ button {
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    /* Mobile-First: Tinggi dan posisi default untuk layar kecil */
-    height: 2.375rem; /* 38px */
-    right: 0.375rem; /* 6px */
-    top: 0.0625rem; /* 1px */
+    height: 2.375rem;
+    right: 0.375rem;
+    top: 0.0625rem;
     left: auto;
     margin: 0;
     position: absolute;
@@ -373,24 +357,86 @@ button {
     padding-right: 0;
     border: 1px solid var(--primary-color);
     border-radius: var(--radius-small);
-    /* Menggunakan variabel spasi */
-    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-medium); /* 5px 15px */
-    font-size: 0.93rem; /* Menggunakan rem */
-    max-height: 16.25rem; /* 260px */
+    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-medium);
+    font-size: 0.93rem;
+    max-height: 16.25rem;
     overflow-y: auto;
-    margin-top: 0.375rem; /* 6px */
+    margin-top: 0.375rem;
+    background-color: #fff;
+}
+
+/* --- PERUBAHAN: Membuat input pencarian menyatu dengan dropdown --- */
+.select2-search--dropdown {
+    /* Hilangkan semua padding */
+    padding: 0;
+    /* Hilangkan background yang berbeda */
+    background-color: transparent;
+    /* Hilangkan border bawah */
+    border-bottom: none;
+    /* Hilangkan margin */
+    margin: 0;
+}
+
+.select2-search--dropdown .select2-search__field {
+    width: 100%;
+    /* Samakan padding dengan opsi dropdown */
+    padding: 0.75rem 0.9375rem;
+    /* Hilangkan semua border dan radius */
+    border: none;
+    border-radius: 0;
+    /* Samakan font dengan opsi */
+    font-size: 0.93rem;
+    color: var(--text-dark);
+    /* Background transparan */
+    background-color: transparent;
+    box-sizing: border-box;
+    /* Tambahkan border bawah tipis sebagai pemisah */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.select2-search--dropdown .select2-search__field::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
+    font-style: italic; /* Membedakan placeholder dengan teks biasa */
+}
+
+.select2-search--dropdown .select2-search__field:focus {
+    /* Hilangkan semua efek focus default */
+    border: none;
+    border-bottom: 1px solid var(--primary-color); /* Hanya ganti warna border bawah */
+    box-shadow: none;
+    outline: none;
+    /* Hilangkan background saat focus */
+    background-color: transparent;
+}
+
+/* Pastikan daftar hasil pencarian dimulai dengan rapi setelah input */
+.select2-results {
+    padding-top: 0;
 }
 
 .select2-results__option {
-    padding: 0.75rem 0.9375rem; /* 12px 15px */
-    font-size: 0.93rem; /* Menggunakan rem */
+    padding: 0.75rem 0.9375rem;
+    font-size: 0.93rem;
     line-height: 1.6;
     vertical-align: middle;
+    color: var(--text-dark);
+}
+
+.select2-results__option--highlighted {
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
+    cursor: pointer;
+}
+
+.select2-results__option[aria-selected="true"] {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-weight: 600;
 }
 
 .select2-container--open .select2-dropdown {
-    /* Menggunakan variabel spasi */
-    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-medium); /* 5px 15px */
+    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-medium);
     border-width: 1px;
     border-radius: var(--radius-small);
     outline: none;
@@ -401,8 +447,27 @@ button {
 .select2-container--default .select2-selection--single {
     border-width: 1px;
     border-radius: var(--radius-small);
-    font-size: 1rem; /* Menggunakan rem */
+    font-size: 1rem;
     box-sizing: border-box;
+}
+
+/* Styling untuk scrollbar (Webkit browsers) */
+.select2-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.select2-dropdown::-webkit-scrollbar-track {
+    background: var(--bg-light);
+    border-radius: 10px;
+}
+
+.select2-dropdown::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+.select2-dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light);
 }
 
 
@@ -411,7 +476,7 @@ button {
 /* Small Tablet / Large Phone (e.g., 500px and up) */
 @media (min-width: 500px) {
     .container {
-        padding: var(--spacing-xl) var(--spacing-xl); /* 30px 30px */
+        padding: var(--spacing-xl) var(--spacing-xl);
     }
     .app-header h1 {
         font-size: 2rem;
@@ -423,45 +488,57 @@ button {
         font-size: 1.3rem;
     }
     .flex-row {
-        flex-direction: row; /* Mengubah ke baris */
-        gap: var(--spacing-sm); /* 10px */
+        flex-direction: row;
+        gap: var(--spacing-sm);
     }
     .flex-row button {
-        width: auto; /* Lebar otomatis */
-        height: var(--button-height); /* 40px */
+        width: auto;
+        height: var(--button-height);
     }
     input[type="text"],
     input[type="date"],
     select {
-        padding: 0.625rem 0.75rem; /* 10px 12px */
-        font-size: 0.95rem; /* 15.2px */
+        padding: 0.625rem 0.75rem;
+        font-size: 0.95rem;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        padding-left: 0.75rem; /* 12px */
-        padding-right: 2.5rem; /* 40px */
-        font-size: 0.95rem; /* 15.2px */
+        padding-left: 0.75rem;
+        padding-right: 2.5rem;
+        font-size: 0.95rem;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 2.5rem; /* 40px */
-        right: 0.5rem; /* 8px */
+        height: 2.5rem;
+        right: 0.5rem;
     }
     button {
-        padding: 0.625rem 1.25rem; /* 10px 20px */
-        font-size: 0.95rem; /* 15.2px */
+        padding: 0.625rem 1.25rem;
+        font-size: 0.95rem;
+        line-height: 1.2;
     }
     .primary-button {
-        margin-top: var(--spacing-xxl); /* 40px */
+        margin-top: var(--spacing-xxl);
+    }
+    .list-remove-btn {
+        line-height: 1.2;
+    }
+    .select2-results__option {
+        font-size: 0.95rem;
+    }
+    .select2-search--dropdown .select2-search__field {
+        font-size: 0.95rem;
+        /* Tetap gunakan padding yang sama dengan opsi */
+        padding: 0.75rem 0.9375rem;
     }
 }
 
 /* Medium Tablet / Laptop (e.g., 768px and up) */
 @media (min-width: 768px) {
     body {
-        font-size: 1rem; /* 16px */
-        padding: var(--spacing-xxl) var(--spacing-lg); /* 40px 20px */
+        font-size: 1rem;
+        padding: var(--spacing-xxl) var(--spacing-lg);
     }
     .container {
-        padding: var(--spacing-xxl); /* 40px */
+        padding: var(--spacing-xxl);
     }
     .app-header h1 {
         font-size: 2.5rem;
@@ -470,47 +547,59 @@ button {
         font-size: 1.1rem;
     }
     .form-title {
-        font-size: 1.4rem; /* Kembali ke ukuran asli atau sedikit lebih besar */
-        margin-bottom: 1.5625rem; /* 25px */
-        padding-bottom: 0.9375rem; /* 15px */
+        font-size: 1.4rem;
+        margin-bottom: 1.5625rem;
+        padding-bottom: 0.9375rem;
     }
     .date-range {
-        flex-direction: row; /* Mengubah ke baris */
-        gap: var(--spacing-lg); /* 20px */
+        flex-direction: row;
+        gap: var(--spacing-lg);
     }
     input[type="text"],
     input[type="date"],
     select {
-        padding: 0.75rem 0.9375rem; /* 12px 15px */
-        font-size: 1rem; /* 16px */
+        padding: 0.75rem 0.9375rem;
+        font-size: 1rem;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        padding-left: 0.9375rem; /* 15px */
-        padding-right: 2.8125rem; /* 45px */
-        font-size: 1rem; /* 16px */
+        padding-left: 0.9375rem;
+        padding-right: 2.8125rem;
+        font-size: 1rem;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 2.6875rem; /* 43px */
-        right: 0.625rem; /* 10px */
+        height: 2.6875rem;
+        right: 0.625rem;
     }
     button {
-        padding: 0.75rem 1.5625rem; /* 12px 25px */
-        font-size: 1rem; /* 16px */
+        padding: 0.75rem 1.5625rem;
+        font-size: 1rem;
+        line-height: 1.2;
     }
     .primary-button {
-        margin-top: var(--spacing-xxl); /* 40px */
+        margin-top: var(--spacing-xxl);
+    }
+    .list-remove-btn {
+        line-height: 1.2;
+    }
+    .select2-results__option {
+        font-size: 1rem;
+    }
+    .select2-search--dropdown .select2-search__field {
+        font-size: 1rem;
+        /* Tetap gunakan padding yang sama dengan opsi */
+        padding: 0.75rem 0.9375rem;
     }
 }
 
 /* Large Desktop (e.g., 992px and up) */
 @media (min-width: 992px) {
     .container {
-        padding: 2.5rem; /* 40px */
+        padding: 2.5rem;
     }
     .app-header h1 {
-        font-size: 2.5rem; /* Ukuran asli */
+        font-size: 2.5rem;
     }
     .form-title {
-        font-size: 1.5rem; /* Ukuran asli */
+        font-size: 1.5rem;
     }
 }

@@ -185,6 +185,79 @@ $(document).ready(function() {
         }
     });
 
+    // Helper untuk urutkan array NIP pegawai berdasarkan pangkat tertinggi ke terendah
+    function sortPegawaiListByPangkat(nipList) {
+        if (!window.dataPegawai) return nipList;
+        const urutanGolongan = [
+            'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
+            'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
+            'Penata Tk. I/ III.d', 'Penata/ III.c', 'Penata Muda Tk. I/ III.b', 'Penata Muda/ III.a',
+            'Pengatur Tk. I/ II.d', 'Pengatur/ II.c', 'Pengatur Muda Tk. I/ II.b', 'Pengatur Muda/ II.a',
+            'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a',
+            'P3K'
+        ];
+        const getGol = s => {
+            if (!s) return 100;
+            const match = s.match(/([IVX]+\.[a-e])/i);
+            if (match) return urutanGolongan.indexOf(match[0]);
+            return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
+        };
+        return nipList.slice().sort((nipA, nipB) => {
+            const pA = window.dataPegawai.find(p => p.nip === nipA);
+            const pB = window.dataPegawai.find(p => p.nip === nipB);
+            const idxA = getGol(pA?.pangkat);
+            const idxB = getGol(pB?.pangkat);
+            if (idxA === idxB) return (pA?.nama || '').localeCompare(pB?.nama || '');
+            return idxA - idxB;
+        });
+    }
+
+    // Render ulang daftar pegawai/pengikut yang sudah ditambah, urutkan berdasarkan pangkat
+    function renderPegawaiList() {
+        const pegawaiListDiv = document.querySelector("#pegawai-list");
+        pegawaiListDiv.innerHTML = "";
+        const sorted = sortPegawaiListByPangkat(pegawaiList);
+        sorted.forEach(nip => {
+            const pegawai = window.dataPegawai.find(p => p.nip === nip);
+            if (!pegawai) return;
+            const pegawaiItem = document.createElement("div");
+            const pegawaiNameSpan = document.createElement("span");
+            pegawaiNameSpan.textContent = pegawai.nama;
+            pegawaiItem.appendChild(pegawaiNameSpan);
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "HAPUS";
+            removeBtn.className = "list-remove-btn";
+            removeBtn.onclick = function() {
+                pegawaiList = pegawaiList.filter(val => val !== nip);
+                renderPegawaiList();
+            };
+            pegawaiItem.appendChild(removeBtn);
+            pegawaiListDiv.appendChild(pegawaiItem);
+        });
+    }
+    function renderPengikutList() {
+        const pengikutListDiv = document.querySelector("#pengikut-list");
+        pengikutListDiv.innerHTML = "";
+        const sorted = sortPegawaiListByPangkat(pengikutList);
+        sorted.forEach(nip => {
+            const pegawai = window.dataPegawai.find(p => p.nip === nip);
+            if (!pegawai) return;
+            const pengikutItem = document.createElement("div");
+            const pengikutNameSpan = document.createElement("span");
+            pengikutNameSpan.textContent = pegawai.nama;
+            pengikutItem.appendChild(pengikutNameSpan);
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "HAPUS";
+            removeBtn.className = "list-remove-btn";
+            removeBtn.onclick = function() {
+                pengikutList = pengikutList.filter(val => val !== nip);
+                renderPengikutList();
+            };
+            pengikutItem.appendChild(removeBtn);
+            pengikutListDiv.appendChild(pengikutItem);
+        });
+    }
+
     const addPegawaiBtn = document.querySelector("#add-pegawai");
     if (addPegawaiBtn) {
         addPegawaiBtn.addEventListener("click", () => {
@@ -192,20 +265,8 @@ $(document).ready(function() {
             const selectedPegawai = pegawaiSelect.options[pegawaiSelect.selectedIndex];
             if (selectedPegawai && selectedPegawai.value && !pegawaiList.includes(selectedPegawai.value)) {
                 pegawaiList.push(selectedPegawai.value); // value = NIP
-                const pegawaiListDiv = document.querySelector("#pegawai-list");
-                const pegawaiItem = document.createElement("div");
-                const pegawaiNameSpan = document.createElement("span");
-                pegawaiNameSpan.textContent = selectedPegawai.textContent;
-                pegawaiItem.appendChild(pegawaiNameSpan);
-                const removeBtn = document.createElement("button");
-                removeBtn.textContent = "HAPUS";
-                removeBtn.className = "list-remove-btn";
-                removeBtn.onclick = function() {
-                    pegawaiList = pegawaiList.filter(val => val !== selectedPegawai.value);
-                    pegawaiItem.remove();
-                };
-                pegawaiItem.appendChild(removeBtn);
-                pegawaiListDiv.appendChild(pegawaiItem);
+                pegawaiList = sortPegawaiListByPangkat(pegawaiList);
+                renderPegawaiList();
                 console.log("Pegawai ditambahkan:", pegawaiList);
             } else {
                 console.warn("Pegawai tidak valid atau sudah ditambahkan");
@@ -220,20 +281,8 @@ $(document).ready(function() {
             const selectedPengikut = pengikutSelect.options[pengikutSelect.selectedIndex];
             if (selectedPengikut && selectedPengikut.value && !pengikutList.includes(selectedPengikut.value)) {
                 pengikutList.push(selectedPengikut.value); // value = NIP
-                const pengikutListDiv = document.querySelector("#pengikut-list");
-                const pengikutItem = document.createElement("div");
-                const pengikutNameSpan = document.createElement("span");
-                pengikutNameSpan.textContent = selectedPengikut.textContent;
-                pengikutItem.appendChild(pengikutNameSpan);
-                const removeBtn = document.createElement("button");
-                removeBtn.textContent = "HAPUS";
-                removeBtn.className = "list-remove-btn";
-                removeBtn.onclick = function() {
-                    pengikutList = pengikutList.filter(val => val !== selectedPengikut.value);
-                    pengikutItem.remove();
-                };
-                pengikutItem.appendChild(removeBtn);
-                pengikutListDiv.appendChild(pengikutItem);
+                pengikutList = sortPegawaiListByPangkat(pengikutList);
+                renderPengikutList();
                 console.log("Pengikut ditambahkan:", pengikutList);
             } else {
                 console.warn("Pengikut tidak valid atau sudah ditambahkan");

@@ -85,22 +85,26 @@ $(document).ready(function() {
     $.getJSON(`${backendUrl}/data`, function(data) {
         window.dataPegawai = data.pegawai;
 
-        // Isi dropdown jenis pengawasan
+        // Perbaiki urutan dan logika pengisian dropdown serta pengiriman data pejabat
+        // Jenis Pengawasan
         if (data.jenis_pengawasan) {
-            data.jenis_pengawasan.forEach(jp => {
-                $('#spt-pengawasan, #sppd-pengawasan').append(
-                    `<option value="${jp.value}">${jp.nama}</option>`
+            data.jenis_pengawasan
+                .sort((a, b) => a.nama.localeCompare(b.nama))
+                .forEach(jp => {
+                    $('#spt-pengawasan, #sppd-pengawasan').append(
+                        `<option value="${jp.value}">${jp.nama}</option>`
+                    );
+                });
+        }
+        // OPD
+        data.opd
+            .sort((a, b) => a.nama.localeCompare(b.nama))
+            .forEach(opd => {
+                $('#spt-opd, #sppd-opd').append(
+                    `<option value="${opd.value}">${opd.nama}</option>`
                 );
             });
-        }
-
-        data.opd.forEach(opd => {
-            $('#spt-opd, #sppd-opd').append(
-                `<option value="${opd.value}">${opd.nama}</option>`
-            );
-        });
-
-        // Urutkan pegawai berdasarkan golongan/pangkat tertinggi ke terendah
+        // Pegawai, Pengikut, Pegawai Utama
         const urutanGolongan = [
             'Pembina Utama/ IV.e', 'Pembina Utama Madya/ IV.d', 'Pembina Utama Muda/ IV.c',
             'Pembina Tingkat I/ IV.b', 'Pembina/ IV.a',
@@ -109,45 +113,47 @@ $(document).ready(function() {
             'Juru Tk. I/ I.d', 'Juru/ I.c', 'Juru Muda Tk. I/ I.b', 'Juru Muda/ I.a',
             'P3K'
         ];
-        data.pegawai.sort((a, b) => {
-            // Ambil substring golongan (IV.e, IV.d, dst) dari pangkat
-            const getGol = s => {
-                if (!s) return 100;
-                const match = s.match(/([IVX]+\.[a-e])/i);
-                if (match) return urutanGolongan.indexOf(match[0]);
-                // Jika tidak match, cek seluruh string pangkat
-                return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
-            };
-            let idxA = getGol(a.pangkat);
-            let idxB = getGol(b.pangkat);
-            // Jika sama, urutkan alfabet nama
-            if (idxA === idxB) return a.nama.localeCompare(b.nama);
-            return idxA - idxB;
-        });
-
-        // Setelah diurutkan, isi dropdown
-        data.pegawai.forEach((pegawai) => {
-            $('#pegawai, #pegawai-utama, #pengikut').append(
-                `<option value="${pegawai.nip}">${pegawai.nama}</option>`
-            );
-        });
-
-        data.pejabat.forEach((pejabat, index) => {
-            $('#pejabat, #pptk').append(
-                `<option value="${index}">${pejabat.nama}</option>`
-            );
-        });
-        // Set default penandatangan SPT ke Bayana jika ada
-        const defaultPejabatIndex = data.pejabat.findIndex(p => p.nama.toLowerCase().includes('bayana'));
-        if (defaultPejabatIndex !== -1) {
-            $('#pejabat').val(defaultPejabatIndex).trigger('change');
+        const getGol = s => {
+            if (!s) return 100;
+            const match = s.match(/([IVX]+\.[a-e])/i);
+            if (match) return urutanGolongan.indexOf(match[0]);
+            return urutanGolongan.indexOf(s.trim()) !== -1 ? urutanGolongan.indexOf(s.trim()) : 100;
+        };
+        data.pegawai
+            .sort((a, b) => {
+                let idxA = getGol(a.pangkat);
+                let idxB = getGol(b.pangkat);
+                if (idxA === idxB) return a.nama.localeCompare(b.nama);
+                return idxA - idxB;
+            })
+            .forEach(pegawai => {
+                $('#pegawai, #pegawai-utama, #pengikut').append(
+                    `<option value="${pegawai.nip}">${pegawai.nama}</option>`
+                );
+            });
+        // Pejabat Penandatangan (urut abjad, value = NIP)
+        if (data.pejabat && Array.isArray(data.pejabat)) {
+            data.pejabat
+                .sort((a, b) => a.nama.localeCompare(b.nama))
+                .forEach(pejabat => {
+                    $('#pejabat').append(
+                        `<option value="${pejabat.nip}">${pejabat.nama}</option>`
+                    );
+                });
         }
-
-        data.alatAngkut.forEach(alat => {
-            $('#alat-angkut').append(
-                `<option value="${alat.value}">${alat.nama}</option>`
-            );
-        });
+        // Set default penandatangan SPT ke Bayana jika ada
+        const defaultPejabat = data.pejabat && data.pejabat.find(p => p.nama.toLowerCase().includes('bayana'));
+        if (defaultPejabat) {
+            $('#pejabat').val(defaultPejabat.nip).trigger('change');
+        }
+        // Alat Angkut
+        if (data.alatAngkut) {
+            data.alatAngkut.forEach(alat => {
+                $('#alat-angkut').append(
+                    `<option value="${alat.value}">${alat.nama}</option>`
+                );
+            });
+        }
     });
 
     ["A", "B", "C"].forEach(tb => {
@@ -252,7 +258,7 @@ $(document).ready(function() {
                 formData.tglmulai = $("#spt-mulai").val() || "";
                 formData.tglberakhir = $("#spt-berakhir").val() || "";
                 formData.selected_pegawai_nips = pegawaiList;
-                formData.pejabat_index = $("#pejabat").val() || "";
+                formData.pejabat_nip = $("#pejabat").val() || "";
                 formData.bulanttd = $("#bulanttd").val() || "";
             } else if (naskah === "SPPD") {
                 formData.jenis_pengawasan = $("#sppd-pengawasan").val() || "";
@@ -305,7 +311,7 @@ $(document).ready(function() {
                     : "SPPD_Generated.docx";
                 document.body.appendChild(a);
                 a.click();
-                a.remove();
+                document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
             } catch (error) {
                 console.error("Error:", error);

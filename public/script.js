@@ -299,6 +299,12 @@ $(document).ready(function() {
                 return;
             }
 
+            // --- START: Penambahan Indikator Loading ---
+            const originalButtonText = submitBtn.textContent; // Simpan teks asli tombol
+            submitBtn.disabled = true; // Nonaktifkan tombol
+            submitBtn.textContent = "Memproses..."; // Ubah teks tombol
+            // --- END: Penambahan Indikator Loading ---
+
             const formData = {};
             const endpoint = naskah === "SPT"
                 ? `${backendUrl}/generate-spt`
@@ -369,6 +375,11 @@ $(document).ready(function() {
             } catch (error) {
                 console.error("Error:", error);
                 alert("Terjadi kesalahan: " + error.message);
+            } finally {
+                // --- START: Mengembalikan Kondisi Tombol ---
+                submitBtn.disabled = false; // Aktifkan kembali tombol
+                submitBtn.textContent = originalButtonText; // Kembalikan teks tombol asli
+                // --- END: Mengembalikan Kondisi Tombol ---
             }
         });
     }

@@ -179,28 +179,28 @@ exports.handler = async (event, context) => {
             throw new Error(`Pegawai utama dengan NIP ${pegawai_utama_nip} tidak ditemukan`);
         }
         let pengikutList = pengikut_nips.map(nip => {
-    const pegawai = data.pegawai.find(p => p.nip === nip);
-    if (!pegawai) {
-        throw new Error(`Pengikut dengan NIP ${nip} tidak ditemukan`);
-    }
-    const tglLahir = pegawai.tanggal_lahir || ambilTanggalLahirDariNip(pegawai.nip);
-    return {
-        nama: pegawai.nama || "Tidak Diketahui",
-        pangkat: pegawai.pangkat || "Tidak Diketahui",
-        nip: pegawai.nip || "Tidak Diketahui",
-        jabatan: pegawai.jabatan || "Tidak Diketahui",
-        tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
-        tanggal_lahir: formatTanggalIndonesia(tglLahir) || "Tidak Diketahui"
-    };
-});
+        const pegawai = data.pegawai.find(p => p.nip === nip);
+        if (!pegawai) {
+            throw new Error(`Pengikut dengan NIP ${nip} tidak ditemukan`);
+        }
+        const tglLahir = pegawai.tanggal_lahir || ambilTanggalLahirDariNip(pegawai.nip);
+        return {
+            nama: pegawai.nama || "Tidak Diketahui",
+            pangkat: pegawai.pangkat || "Tidak Diketahui",
+            nip: pegawai.nip || "Tidak Diketahui",
+            jabatan: pegawai.jabatan || "Tidak Diketahui",
+            tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
+            tanggal_lahir: formatTanggalIndonesia(tglLahir) || "Tidak Diketahui"
+        };
+    });
 
-// ⬇️ Urutkan berdasarkan pangkat tertinggi ke bawah
-pengikutList.sort((a, b) => {
-    const idxA = getGol(a.pangkat);
-    const idxB = getGol(b.pangkat);
-    if (idxA === idxB) return a.nama.localeCompare(b.nama);
-    return idxB - idxA;
-});
+    // ⬇️ Urutkan berdasarkan pangkat tertinggi ke bawah
+    pengikutList.sort((a, b) => {
+        const idxA = getGol(a.pangkat);
+        const idxB = getGol(b.pangkat);
+        if (idxA === idxB) return a.nama.localeCompare(b.nama);
+        return idxB - idxA;
+    });
 
         // Cari PPTK berdasarkan NIP
         const pptk = data.pejabat.find(p => p.nip === pptk_nip);

@@ -153,27 +153,27 @@ exports.handler = async (event, context) => {
         }
 
         // Ambil data pegawai dan pejabat
-        const pegawaiList = selected_pegawai_nips.map(nip => {
-            const pegawai = data.pegawai.find(p => p.nip === nip);
-            if (!pegawai) {
-                throw new Error(`Pegawai dengan NIP ${nip} tidak ditemukan`);
-            }
-            return {
-                nama: pegawai.nama || "Tidak Diketahui",
-                pangkat: pegawai.pangkat || "Tidak Diketahui",
-                nip: pegawai.nip || "Tidak Diketahui",
-                jabatan: pegawai.jabatan || "Tidak Diketahui",
-                tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
-                tanggal_lahir: formatTanggalIndonesia(pegawai.tanggal_lahir) || "Tidak Diketahui"
-            };
-        });
+        let pegawaiList = selected_pegawai_nips.map(nip => {
+    const pegawai = data.pegawai.find(p => p.nip === nip);
+    if (!pegawai) throw new Error(`Pegawai dengan NIP ${nip} tidak ditemukan`);
+    return {
+        nama: pegawai.nama || "Tidak Diketahui",
+        pangkat: pegawai.pangkat || "Tidak Diketahui",
+        nip: pegawai.nip || "Tidak Diketahui",
+        jabatan: pegawai.jabatan || "Tidak Diketahui",
+        tingkat_biaya: pegawai.tingkat_biaya || "Tidak Diketahui",
+        tanggal_lahir: formatTanggalIndonesia(pegawai.tanggal_lahir) || "Tidak Diketahui"
+    };
+});
 
-        pegawaiList.sort((a, b) => {
+// Urutkan berdasarkan pangkat
+pegawaiList.sort((a, b) => {
     const idxA = getGol(a.pangkat);
     const idxB = getGol(b.pangkat);
     if (idxA === idxB) return a.nama.localeCompare(b.nama);
     return idxA - idxB;
 });
+
 
         // Cari pejabat berdasarkan NIP
         const pejabat = data.pejabat.find(p => p.nip === pejabat_nip);

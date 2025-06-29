@@ -392,12 +392,14 @@ button {
     box-sizing: border-box;
     /* Tambahkan border bawah tipis sebagai pemisah */
     border-bottom: 1px solid var(--border-color);
+    /* Tambahkan placeholder default */
 }
 
 .select2-search--dropdown .select2-search__field::placeholder {
     color: var(--text-light);
     opacity: 0.7;
-    font-style: italic; /* Membedakan placeholder dengan teks biasa */
+    font-style: italic;
+    content: 'Search...';
 }
 
 .select2-search--dropdown .select2-search__field:focus {

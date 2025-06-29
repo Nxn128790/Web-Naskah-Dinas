@@ -372,4 +372,21 @@ $(document).ready(function() {
             }
         });
     }
+
+    // Tambahkan JS untuk set placeholder pencarian Select2 ke 'Search...'
+    // Set placeholder pencarian Select2 ke 'Search...'
+    $.fn.select2.defaults.set('language', {
+        searching: function() { return "Mencari..."; },
+        inputTooShort: function() { return "Ketik untuk mencari"; },
+        noResults: function() { return "Tidak ada hasil"; },
+        errorLoading: function() { return "Gagal memuat hasil"; },
+        loadingMore: function() { return "Memuat lebih banyak..."; },
+        maximumSelected: function() { return "Batas pilihan tercapai"; }
+    });
+    // Patch placeholder pencarian
+    $(document).on('select2:open', function() {
+        setTimeout(function() {
+            $(document).find('.select2-search__field').attr('placeholder', 'Search...');
+        }, 0);
+    });
 });

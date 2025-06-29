@@ -216,6 +216,7 @@ $(document).ready(function() {
     function renderPegawaiList() {
         const pegawaiListDiv = document.querySelector("#pegawai-list");
         pegawaiListDiv.innerHTML = "";
+        // Urutkan berdasarkan pangkat setiap kali render
         const sorted = sortPegawaiListByPangkat(pegawaiList);
         sorted.forEach(nip => {
             const pegawai = window.dataPegawai.find(p => p.nip === nip);
@@ -238,6 +239,7 @@ $(document).ready(function() {
     function renderPengikutList() {
         const pengikutListDiv = document.querySelector("#pengikut-list");
         pengikutListDiv.innerHTML = "";
+        // Urutkan berdasarkan pangkat setiap kali render
         const sorted = sortPegawaiListByPangkat(pengikutList);
         sorted.forEach(nip => {
             const pegawai = window.dataPegawai.find(p => p.nip === nip);
@@ -265,8 +267,7 @@ $(document).ready(function() {
             const selectedPegawai = pegawaiSelect.options[pegawaiSelect.selectedIndex];
             if (selectedPegawai && selectedPegawai.value && !pegawaiList.includes(selectedPegawai.value)) {
                 pegawaiList.push(selectedPegawai.value); // value = NIP
-                pegawaiList = sortPegawaiListByPangkat(pegawaiList);
-                renderPegawaiList();
+                renderPegawaiList(); // render ulang, urutan diatur di renderPegawaiList
                 console.log("Pegawai ditambahkan:", pegawaiList);
             } else {
                 console.warn("Pegawai tidak valid atau sudah ditambahkan");
@@ -281,8 +282,7 @@ $(document).ready(function() {
             const selectedPengikut = pengikutSelect.options[pengikutSelect.selectedIndex];
             if (selectedPengikut && selectedPengikut.value && !pengikutList.includes(selectedPengikut.value)) {
                 pengikutList.push(selectedPengikut.value); // value = NIP
-                pengikutList = sortPegawaiListByPangkat(pengikutList);
-                renderPengikutList();
+                renderPengikutList(); // render ulang, urutan diatur di renderPengikutList
                 console.log("Pengikut ditambahkan:", pengikutList);
             } else {
                 console.warn("Pengikut tidak valid atau sudah ditambahkan");

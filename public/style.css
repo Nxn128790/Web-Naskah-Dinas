@@ -443,6 +443,10 @@ button {
     border-radius: var(--radius-small);
     outline: none;
     z-index: 9999;
+    top: 100% !important;
+    bottom: auto !important;
+    /* Paksa dropdown selalu ke bawah */
+    position: absolute !important;
 }
 
 .select2-dropdown,

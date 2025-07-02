@@ -175,6 +175,21 @@ select {
     box-shadow: 0 1px 2px var(--shadow-light);
 }
 
+/* Perbaiki border input tanggal di Safari/iOS */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #f9fbff;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-medium);
+    color: var(--text-dark);
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 1px 2px var(--shadow-light);
+    position: relative;
+    z-index: 1;
+}
+
 input[type="text"]::placeholder,
 input[type="date"]::placeholder {
     color: var(--text-light);
@@ -186,6 +201,7 @@ input[type="date"]:focus,
 select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(74,144,226,0.10);
+    outline: none;
 }
 
 /* Date Range Group */
@@ -323,28 +339,39 @@ button {
 /* Flex Row for Add Button */
 .flex-row {
     display: flex;
-    /* Mobile-First: Flex-direction default untuk layar kecil */
-    flex-direction: column;
-    gap: var(--spacing-sm); /* 10px */
-    align-items: stretch;
+    flex-direction: row;
+    gap: var(--spacing-xs);
+    align-items: center;
 }
 
 .flex-row .modern-dropdown {
-    flex: 1;
+    flex: 1 1 0;
     min-width: 0;
 }
 
 .flex-row button {
-    flex-shrink: 0;
-    /* Mobile-First: Lebar dan tinggi default untuk layar kecil */
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: var(--button-height);
     align-self: stretch;
+    margin-left: var(--spacing-xs);
+    padding-top: 0;
+    padding-bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 0;
-    padding-bottom: 0;
+}
+
+@media (max-width: 500px) {
+    .flex-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .flex-row button {
+        width: 100%;
+        margin-left: 0;
+        margin-top: var(--spacing-xs);
+        height: auto;
+    }
 }
 
 /* Select2 Customization */

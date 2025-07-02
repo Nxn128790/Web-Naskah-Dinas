@@ -39,13 +39,13 @@
             <div class="form-section">
                 <select id="naskah" class="modern-dropdown">
                     <option value="">Pilih Jenis Naskah Dinas...</option>
-                    <option value="SPT">Surat Perintah Tugas (SPT)</option>
+                    <option value="SPT" selected>Surat Perintah Tugas (SPT)</option>
                     <option value="SPPD">Surat Perintah Perjalanan Dinas (SPPD)</option>
                 </select>
             </div>
 
             <!-- FORM SPT -->
-            <div id="spt-form" class="form-card" style="display: none;">
+            <div id="spt-form" class="form-card" style="display: block;">
                 <h2 class="form-title">Formulir Surat Perintah Tugas (SPT)</h2>
                 <div class="form-group">
                     <label for="spt-pengawasan">Jenis Pengawasan:</label>
@@ -161,7 +161,7 @@
             </div>
         </div>
 
-        <button id="submit-btn" class="primary-button">BUAT DAN UNDUH SURAT (DOCX)</button>
+        <button id="submit-btn" class="primary-button">BUAT DAN UNDUH SURAT</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>

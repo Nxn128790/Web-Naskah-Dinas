@@ -77,16 +77,16 @@ body {
 /* Header */
 .app-header {
     text-align: center;
-    margin-bottom: var(--spacing-xxl); /* 40px */
+    margin-bottom: var(--spacing-md); /* Lebih dekat ke dropdown SPT */
 }
 
 .app-header h1 {
     /* Mobile-First: Font-size default untuk layar kecil */
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     color: var(--primary-color);
-    margin-bottom: var(--spacing-sm); /* 10px */
+    margin-bottom: var(--spacing-xs);
     font-weight: 700;
-    letter-spacing: -0.03125rem;
+    letter-spacing: 1px;
 }
 
 .app-header .tagline {
@@ -94,6 +94,13 @@ body {
     font-size: 0.9rem;
     color: var(--text-light);
     margin-top: -0.3125rem;
+}
+
+/* Perkecil logo dan kurangi jarak antara dropdown SPT dengan tulisan INSPEKTORAT */
+.logo-lampung {
+    max-width: 30px;
+    max-height: 30px;
+    margin-bottom: var(--spacing-xs);
 }
 
 /* Form Sections */
@@ -104,7 +111,7 @@ body {
 }
 
 .form-section {
-    margin-bottom: var(--spacing-lg); /* 20px */
+    margin-bottom: var(--spacing-xs); /* Jarak lebih kecil ke form SPT */
 }
 
 .section-label {
@@ -117,50 +124,55 @@ body {
 
 .form-card {
     background-color: #fff;
-    border: 1px solid var(--border-color);
+    border: 1.5px solid var(--primary-color);
     border-radius: var(--radius-medium);
     /* Menggunakan variabel spasi */
-    box-shadow: 0 var(--spacing-xs) var(--spacing-md) var(--shadow-light); /* 5px 15px */
-    padding: var(--spacing-xl); /* 30px */
+    box-shadow: 0 8px 32px 0 rgba(74,144,226,0.10), 0 1.5px 6px 0 var(--shadow-light); /* 5px 15px */
+    padding: var(--spacing-xxl) var(--spacing-xl); /* 30px */
+    margin-bottom: var(--spacing-md); /* Lebih dekat ke tombol utama */
+    transition: box-shadow 0.3s;
+}
+
+.form-card:hover {
+    box-shadow: 0 16px 40px 0 rgba(74,144,226,0.13), 0 2px 8px 0 var(--shadow-medium);
 }
 
 .form-title {
     /* Mobile-First: Font-size default untuk layar kecil */
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: var(--primary-color);
-    margin-bottom: 1.5625rem; /* 25px */
-    font-weight: 700;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: var(--spacing-md); /* 15px */
+    margin-bottom: var(--spacing-xl);
+    font-weight: 800;
+    letter-spacing: 1px;
+    border-bottom: 2.5px solid var(--primary-color);
+    padding-bottom: var(--spacing-sm);
+    text-align: left;
 }
 
 .form-group {
-    margin-bottom: var(--spacing-lg); /* 20px */
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 label {
-    display: block;
-    margin-bottom: 0.5rem; /* 8px */
-    font-weight: 600;
-    color: var(--text-dark);
-    font-size: 0.95rem; /* Menggunakan rem */
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
 }
 
 input[type="text"],
 input[type="date"],
 select {
-    width: 100%;
-    /* Mobile-First: Padding dan Font-size default untuk layar kecil */
-    padding: 0.5625rem 0.625rem; /* 9px 10px */
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-small);
-    font-size: 0.9rem; /* 14.4px */
-    color: var(--text-dark);
-    background-color: #fff;
-    transition: all 0.3s ease;
-    line-height: 1.6;
-    vertical-align: middle;
-    height: var(--button-height); /* 40px, untuk konsistensi tinggi */
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-medium);
+    background: #f9fbff;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px var(--shadow-light);
 }
 
 input[type="text"]::placeholder,
@@ -173,20 +185,41 @@ input[type="text"]:focus,
 input[type="date"]:focus,
 select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.1875rem rgba(74, 144, 226, 0.2); /* 3px */
-    outline: none;
+    box-shadow: 0 0 0 2px rgba(74,144,226,0.10);
 }
 
 /* Date Range Group */
 .date-range {
     display: flex;
-    /* Mobile-First: Flex-direction default untuk layar kecil */
     flex-direction: column;
     gap: var(--spacing-md); /* 15px */
+    width: 100%;
 }
 
 .date-input-group {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Date Range: sejajar dan proporsional */
+@media (min-width: 600px) {
+    .date-range {
+        flex-direction: row;
+        gap: var(--spacing-lg);
+        align-items: flex-end;
+    }
+    .date-input-group {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+}
+
+/* Pastikan label dan input rata kiri */
+.date-input-group label {
+    margin-bottom: 0.25rem;
+    text-align: left;
 }
 
 /* Buttons */
@@ -223,16 +256,18 @@ button {
     height: var(--button-height); /* 40px */
     min-height: var(--button-height); /* 40px */
     /* Mobile-First: Font-size dan margin-top default untuk layar kecil */
-    font-size: 0.95rem; /* 15.2px */
-    margin-top: var(--spacing-xl); /* 30px */
-    border-radius: 0.25rem; /* 4px */
-    box-shadow: 0 var(--spacing-xs) var(--spacing-md) rgba(74, 144, 226, 0.2); /* 5px 15px */
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(74,144,226,0.10);
+    letter-spacing: 1px;
+    margin-top: var(--spacing-md); /* Lebih dekat ke form */
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
 .primary-button:hover {
-    background-color: #3A7BD5;
-    transform: translateY(-0.125rem); /* -2px */
-    box-shadow: 0 0.4375rem 1.25rem rgba(74, 144, 226, 0.3); /* 7px 20px */
+    background: linear-gradient(90deg, var(--primary-color) 80%, var(--secondary-color) 100%);
+    box-shadow: 0 8px 32px rgba(74,144,226,0.13);
 }
 
 /* Item List (Pegawai/Pengikut) */
@@ -405,6 +440,16 @@ button {
     box-sizing: border-box;
 }
 
+/* Tinggi dan ketebalan border pada input pencarian di dropdown Select2 */
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    min-height: 2.5rem; /* 40px */
+    border-width: 2px;
+    border-color: var(--primary-color);
+    border-radius: var(--radius-small);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+}
 
 /* Responsive Adjustments (Menggunakan min-width untuk Mobile-First) */
 
@@ -414,7 +459,7 @@ button {
         padding: var(--spacing-xl) var(--spacing-xl); /* 30px 30px */
     }
     .app-header h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     .app-header .tagline {
         font-size: 1rem;
@@ -450,7 +495,7 @@ button {
         font-size: 0.95rem; /* 15.2px */
     }
     .primary-button {
-        margin-top: var(--spacing-xxl); /* 40px */
+        margin-top: var(--spacing-lg); /* Jarak tetap proporsional di layar besar */
     }
 }
 
@@ -498,7 +543,7 @@ button {
         font-size: 1rem; /* 16px */
     }
     .primary-button {
-        margin-top: var(--spacing-xxl); /* 40px */
+        margin-top: var(--spacing-lg); /* Jarak tetap proporsional di layar besar */
     }
 }
 
@@ -513,4 +558,63 @@ button {
     .form-title {
         font-size: 1.5rem; /* Ukuran asli */
     }
+}
+
+/* Responsive improvements for form layout */
+@media (max-width: 500px) {
+    .container {
+        padding: var(--spacing-md) var(--spacing-xs);
+        max-width: 100vw;
+    }
+    .main-content {
+        gap: var(--spacing-lg);
+    }
+    .form-card {
+        padding: var(--spacing-md) var(--spacing-xs);
+        margin-bottom: var(--spacing-lg);
+    }
+    .form-title {
+        font-size: 1.1rem;
+        padding-bottom: var(--spacing-xs);
+        margin-bottom: var(--spacing-md);
+    }
+    .form-group {
+        margin-bottom: var(--spacing-md);
+    }
+    label {
+        font-size: 0.95rem;
+        word-break: break-word;
+    }
+    input[type="text"],
+    input[type="date"],
+    select {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .date-range {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    .flex-row {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+}
+
+@media (min-width: 1000px) {
+    .container {
+        max-width: 700px;
+    }
+    .main-content {
+        gap: var(--spacing-xxl);
+    }
+    .form-card {
+        padding: var(--spacing-xxl) var(--spacing-xxl);
+    }
+}
+
+/* Ensure no horizontal scroll on any device */
+body, html {
+    max-width: 100vw;
+    overflow-x: hidden;
 }
